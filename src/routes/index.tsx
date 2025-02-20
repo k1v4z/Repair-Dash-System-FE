@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import Order from "../features/order";
-import Login from "../features/auth/components/login";
-import Home from "../features/home/components/home";
+import Order from "../pages/order";
+import Login from "../pages/auth/login";
+import Home from "../pages/home";
 
 const router = createBrowserRouter([
   {
