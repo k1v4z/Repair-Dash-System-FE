@@ -1,8 +1,25 @@
-import { RouterProvider } from "react-router-dom";
-import router from "./routes";
+import { Fragment } from "react/jsx-runtime";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import listRoute from "./routes";
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <Router>
+      <Routes>
+        {listRoute.map((item, index) => {
+          const Page = item.component;
+          const Layout = item.layout ?? Fragment;
+          return (
+            <Route
+              key={index}
+              path={item.path}
+              element={<Layout>{Page}</Layout>}
+            />
+          );
+        })}
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

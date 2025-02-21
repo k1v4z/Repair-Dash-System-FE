@@ -1,7 +1,11 @@
-const AdminLayout = () => {
+import { ReactElement } from "react";
+import Sidebar from "../components/common/sidebar";
+
+const AdminLayout = ({ children }: { children: ReactElement }) => {
   return (
-    <div>
-      <h1>Admin layout</h1>
+    <div className="flex">
+      <Sidebar />
+      <div>{children}</div>
     </div>
   );
 };
