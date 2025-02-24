@@ -1,3 +1,14 @@
 @import url("./color.css");
 @import url("./component.css");
 @import url("./utilities.css");
+
+@layer base {}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
