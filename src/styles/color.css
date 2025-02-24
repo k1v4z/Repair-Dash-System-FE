@@ -26,6 +26,10 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    --primary-midnight-charcoal: 240 13% 13%;
+    --primary-deep-charcoal: 240 13% 19%;
+    --primary-steel-charcoal: 240 13% 22%;
+    --primary-electric-violet: 253 100% 69%;
     --radius: 0.5rem;
   }
   .dark {

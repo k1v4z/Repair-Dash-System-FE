@@ -18,11 +18,6 @@ const config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      screens: {
-        tablet: "640px",
-        laptop: "1024px",
-        desktop: "1280px",
-      },
     },
   },
   plugins: [tailwindcssAnimate],

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
+import routePath from "@/config/route";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -28,7 +30,7 @@ const Login = () => {
           <Input
             type="text"
             placeholder="example@gmail.com"
-            className="text-white px-4 py-3 rounded-lg border-none bg-[#2a2a36]"
+            className="text-white px-4 py-3 rounded-lg border-none bg-primary-steelCharcoal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -42,7 +44,7 @@ const Login = () => {
           <Input
             type="password"
             placeholder="*******"
-            className="text-white pl-4 pr-10 py-3 rounded-lg border-none bg-[#2a2a36]"
+            className="text-white pl-4 pr-10 py-3 rounded-lg border-none bg-primary-steelCharcoal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -50,7 +52,7 @@ const Login = () => {
 
         <Button
           size="lg"
-          className="bg-[#7c5cff] hover:bg-[#7c5cff]/80 mt-3 h-11"
+          className="bg-primary-electricViolet hover:bg-primary-electricViolet/80 mt-3 h-11"
         >
           Đăng nhập
         </Button>
@@ -58,7 +60,7 @@ const Login = () => {
 
       <p className="text-center mt-4 text-white">
         Bạn chưa có tài khoản?{" "}
-        <Link to="" className="underline">
+        <Link to={routePath.signup} className="underline">
           Đăng ký tại đây
         </Link>
       </p>
