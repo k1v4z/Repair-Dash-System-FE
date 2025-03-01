@@ -5,6 +5,10 @@ const colors = {
   primary: {
     DEFAULT: "hsl(var(--primary))",
     foreground: "hsl(var(--primary-foreground))",
+    midnightCharcoal: "hsl(var(--primary-midnight-charcoal))",
+    deepCharcoal: "hsl(var(--primary-deep-charcoal))",
+    steelCharcoal: "hsl(var(--primary-steel-charcoal))",
+    electricViolet: "hsl(var(--primary-electric-violet))",
   },
   card: {
     DEFAULT: "hsl(var(--card))",
