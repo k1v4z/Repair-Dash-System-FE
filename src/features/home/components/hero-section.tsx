@@ -14,7 +14,7 @@ export default function Hero() {
           modules={[EffectFade, Autoplay]}
           effect="fade"
           fadeEffect={{ crossFade: true }}
-          autoplay={{ delay: 5000 }}
+          autoplay={{ delay: 3000 }}
           loop={true}
           className="h-full"
         >
@@ -34,7 +34,7 @@ export default function Hero() {
       </div>
 
       <div className="relative h-full flex items-center justify-center">
-        <div className="text-center px-4 sm:px-6 lg:px-8 max-w-5xl">
+        <div className="text-center px-4 sm:px-6 lg:px-8 max-w-5xl z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -68,7 +68,7 @@ export default function Hero() {
           </motion.div>
 
           <motion.div
-            className="absolute -left-4 top-1/4"
+            className="absolute -left-4 top-1/4 z-10"
             animate={{
               y: [0, -20, 0],
               rotate: [0, 45, 0],

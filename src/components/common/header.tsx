@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UserCircleIcon } from "@heroicons/react/24/outline";
+import Icon from "../icons";
 
 const NAVIGATION_LINKS = [
   { name: "Home", href: "#" },
@@ -17,16 +17,20 @@ const NAVIGATION_LINKS = [
 ];
 
 export default function Header() {
-  const [isLoggedIn] = useState(false);
+  const [isLoggedIn] = useState(true);
 
   return (
     <header className="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <div className="flex-shrink-0">
-            <span className="text-2xl font-bold text-blue-600">
-              Repair Dash
-            </span>
+            <div className="flex-shrink-0">
+              <div className="flex-shrink-0">
+                <span className="text-2xl font-bold text-blue-600 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-blue-600 hover:via-purple-500 hover:to-sky-400 transition-all duration-300">
+                  Repair Dash
+                </span>
+              </div>
+            </div>
           </div>
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
@@ -34,7 +38,7 @@ export default function Header() {
                 <Button key={item.name} asChild variant="link">
                   <a
                     href={item.href}
-                    className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+                    className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
                   >
                     {item.name}
                   </a>
@@ -46,7 +50,10 @@ export default function Header() {
           <div className="ml-4 flex items-center">
             {isLoggedIn ? (
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+                <DropdownMenuTrigger
+                  className="focus-visible:ring-0 focus-visible:ring-transparent"
+                  asChild
+                >
                   <Button variant="ghost" className="rounded-full">
                     <img
                       className="h-8 w-8 rounded-full"
@@ -59,32 +66,35 @@ export default function Header() {
                   <DropdownMenuItem>
                     <a
                       href="#profile"
-                      className="block px-4 py-2 text-sm text-gray-700"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700"
                     >
-                      Your Profile
+                      <Icon glyph="profile" className="size-5" />
+                      <span>Profile</span>
                     </a>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <a
                       href="#settings"
-                      className="block px-4 py-2 text-sm text-gray-700"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700"
                     >
-                      Settings
+                      <Icon glyph="setting" className="size-5" />
+                      <span>Settings</span>
                     </a>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <a
                       href="#logout"
-                      className="block px-4 py-2 text-sm text-gray-700"
+                      className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700"
                     >
-                      Sign out
+                      <Icon glyph="logout" className="size-5" />
+                      <span>Sign out</span>
                     </a>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button variant="ghost" className="rounded-full">
-                <UserCircleIcon className="h-8 w-8 text-gray-400 group-hover:text-blue-600 transition-colors" />
+              <Button variant="ghost" className="[&_svg]:size-8">
+                <Icon glyph="profile" />
               </Button>
             )}
           </div>
