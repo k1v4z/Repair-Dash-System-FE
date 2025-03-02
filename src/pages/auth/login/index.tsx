@@ -18,19 +18,19 @@ const Login = () => {
   };
 
   return (
-    <div className="flex-1 p-12">
-      <h2 className="text-white text-3xl text-center font-bold">Đăng nhập</h2>
+    <div className="p-12">
+      <h2 className="text-black text-3xl text-center font-bold">Đăng nhập</h2>
       {/* form login */}
       <form className="mt-12 flex flex-col gap-7" onSubmit={handleSubmitLogin}>
         {/* Email */}
         <div className="flex flex-col gap-2">
-          <label htmlFor="" className="text-white text-[16px] font-semibold">
+          <label htmlFor="" className="text-black text-[16px] font-semibold">
             Email
           </label>
           <Input
             type="text"
             placeholder="example@gmail.com"
-            className="text-white px-4 py-3 rounded-lg border-none bg-primary-steelCharcoal"
+            className="text-black px-4 py-3 rounded-lg border border-[primary-grayLight] bg-white shadow-md"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -38,13 +38,13 @@ const Login = () => {
 
         {/* Password */}
         <div className="flex flex-col gap-2">
-          <label htmlFor="" className="text-white text-[16px] font-semibold">
+          <label htmlFor="" className="text-black text-[16px] font-semibold">
             Mật khẩu
           </label>
           <Input
             type="password"
             placeholder="*******"
-            className="text-white pl-4 pr-10 py-3 rounded-lg border-none bg-primary-steelCharcoal"
+            className="text-black px-4 py-3 rounded-lg border border-[primary-grayLight] bg-white shadow-md"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -52,15 +52,18 @@ const Login = () => {
 
         <Button
           size="lg"
-          className="bg-primary-electricViolet hover:bg-primary-electricViolet/80 mt-3 h-11"
+          className="bg-primary-royalBlue hover:bg-primary-royalBlue/90 mt-3 h-11"
         >
           Đăng nhập
         </Button>
       </form>
 
-      <p className="text-center mt-4 text-white">
+      <p className="text-center mt-4 text-primary-royalBlue">
         Bạn chưa có tài khoản?{" "}
-        <Link to={routePath.signup} className="underline">
+        <Link
+          to={routePath.signup}
+          className="underline hover:text-primary-goldenTainoi"
+        >
           Đăng ký tại đây
         </Link>
       </p>

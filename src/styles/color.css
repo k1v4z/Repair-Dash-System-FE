@@ -30,6 +30,10 @@
     --primary-deep-charcoal: 240 13% 19%;
     --primary-steel-charcoal: 240 13% 22%;
     --primary-electric-violet: 253 100% 69%;
+    --gray-light: 0 0% 85%;
+    --primary-light-blue: 213 77% 94%;
+    --primary-royal-blue: 221 85% 55%;
+    --primary-golden-tainoi: 45 86% 62%;
     --radius: 0.5rem;
   }
   .dark {
