@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -6,6 +5,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import Icon from "../icons";
 
 const NAVIGATION_LINKS = [
@@ -17,7 +17,7 @@ const NAVIGATION_LINKS = [
 ];
 
 export default function Header() {
-  const [isLoggedIn] = useState(true);
+  const { isAuthenticated } = useAuth();
 
   return (
     <header className="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
@@ -48,7 +48,7 @@ export default function Header() {
           </div>
 
           <div className="ml-4 flex items-center">
-            {isLoggedIn ? (
+            {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger
                   className="focus-visible:ring-0 focus-visible:ring-transparent"
@@ -93,9 +93,7 @@ export default function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button variant="ghost" className="[&_svg]:size-8">
-                <Icon glyph="profile" />
-              </Button>
+              <Button variant="ghost">Login</Button>
             )}
           </div>
         </div>

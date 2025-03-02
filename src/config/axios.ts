@@ -1,22 +1,20 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000/api";
+const baseURL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
 export const axiosInstance = axios.create({
   baseURL,
   timeout: 10000,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
+    "Accept": "application/json",
   },
 });
 
 // Request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
     return config;
   },
   (error) => {
@@ -28,17 +26,45 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => response,
   async (error: AxiosError) => {
-    // Handle 401 Unauthorized
-    if (error.response?.status === 401) {
-      // Handle token refresh or logout logic here
-      localStorage.removeItem("token");
-      window.location.href = "/login";
+    if (!error.response) {
+      // Network error or CORS issue
+      console.error("Network Error or CORS issue:", error.message);
+
+      // More detailed error information for debugging
+      if (error.request) {
+        console.error(
+          "Request was made but no response received",
+          error.request
+        );
+      } else {
+        console.error("Error setting up the request", error.message);
+      }
+
+      return Promise.reject(
+        new Error(
+          "Unable to connect to the server. Please check your connection or CORS configuration."
+        )
+      );
     }
 
-    // Handle 403 Forbidden
-    if (error.response?.status === 403) {
-      // Handle forbidden access
-      window.location.href = "/forbidden";
+    const status = error.response.status;
+
+    switch (status) {
+      case 401:
+        // Unauthorized - redirect to login
+        window.location.href = "/login";
+        break;
+      case 403:
+        // Forbidden - redirect to forbidden page
+        window.location.href = "/forbidden";
+        break;
+      case 0: // CORS error often results in status 0
+        console.error("CORS Error:", error.message);
+        return Promise.reject(
+          new Error(
+            "Cross-Origin Request Blocked. Please check CORS configuration."
+          )
+        );
     }
 
     return Promise.reject(error);
