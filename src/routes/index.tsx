@@ -16,7 +16,16 @@ import SignUp from "@/pages/auth/signup";
 const listRoute: Route[] = [
   { path: routePath.home, component: <Home />, layout: MainLayout },
   { path: routePath.login, component: <Login />, layout: AuthLayout },
-  { path: routePath.signup, component: <SignUp />, layout: AuthLayout },
+  {
+    path: routePath.signup.replace(":role", "customer"),
+    component: <SignUp />,
+    layout: AuthLayout,
+  },
+  {
+    path: routePath.signup.replace(":role", "store"),
+    component: <SignUp />,
+    layout: AuthLayout,
+  },
   {
     path: routePath.order,
     component: <Order />,

@@ -61,7 +61,7 @@ const Login = () => {
       <p className="text-center mt-4 text-primary-royalBlue">
         Bạn chưa có tài khoản?{" "}
         <Link
-          to={routePath.signup}
+          to={routePath.signup.replace(":role", "customer")}
           className="underline hover:text-primary-goldenTainoi"
         >
           Đăng ký tại đây
