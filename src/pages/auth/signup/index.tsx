@@ -98,13 +98,13 @@ const SignUp = () => {
             />
           </div>
 
-          {/* Role*/}
+          {/* Role */}
           <div className="flex flex-1 flex-col gap-2">
             <label htmlFor="" className="text-black text-[16px] font-semibold">
               Đối tượng
             </label>
             <Select>
-              <SelectTrigger className="w-full h-[45.33px] rounded-lg border border-[primary-grayLight] bg-white shadow-md ">
+              <SelectTrigger className="w-full h-[45.33px] rounded-lg border bg-white shadow-md focus:ring-0 ">
                 <SelectValue placeholder="Vai trò" />
               </SelectTrigger>
               <SelectContent>
