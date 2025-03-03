@@ -1,20 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
-import { Button } from "../../../components/ui/button";
-import { Input } from "../../../components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import routePath from "@/config/route";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login, isLoading, error, clearError } = useAuth();
 
-  const handleSubmitLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({
-      email,
-      password,
-    });
+    clearError();
+    await login(email, password);
   };
 
   return (
@@ -50,11 +49,19 @@ const Login = () => {
           />
         </div>
 
+        {error && (
+          <div className="rounded-md bg-red-500/15 p-3 text-sm text-red-500">
+            Email hoặc mật khẩu không đúng. Vui lòng thử lại!
+          </div>
+        )}
+
         <Button
           size="lg"
           className="bg-primary-electricViolet hover:bg-primary-electricViolet/80 mt-3 h-11"
+          disabled={isLoading}
+          type="submit"
         >
-          Đăng nhập
+          {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
         </Button>
       </form>
 
