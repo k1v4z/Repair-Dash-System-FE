@@ -9,6 +9,10 @@ const colors = {
     deepCharcoal: "hsl(var(--primary-deep-charcoal))",
     steelCharcoal: "hsl(var(--primary-steel-charcoal))",
     electricViolet: "hsl(var(--primary-electric-violet))",
+    grayLight: "hsl(var(--gray-light))",
+    lightBlue: "hsl(var(--primary-light-blue))",
+    royalBlue: "hsl(var(--primary-royal-blue))",
+    goldenTainoi: "hsl(var(--primary-golden-tainoi))",
   },
   card: {
     DEFAULT: "hsl(var(--card))",
