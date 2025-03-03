@@ -1,5 +1,9 @@
 import Cookies from "js-cookie";
-import { LoginResponse } from "../types/auth-store.type";
+import {
+  LoginResponse,
+  AuthStatus,
+  RegisterInput,
+} from "../types/auth-store.type";
 import { authApi } from "../api";
 
 const ACCESS_TOKEN_KEY = "accessToken";
@@ -21,23 +25,25 @@ export const authService = {
     }
   },
 
+  async checkAuthStatus(): Promise<AuthStatus> {
+    const response = await authApi.checkAuthStatus();
+    return {
+      auth_status: response.auth_status,
+      user_id: response.user_id,
+    };
+  },
+
+  async register(data: RegisterInput): Promise<LoginResponse> {
+    const response = await authApi.register(data);
+    return response;
+  },
+
   async refreshToken(): Promise<LoginResponse> {
     const response = await authApi.refreshToken();
     if (response.status === 200) {
+      // The server will automatically set new cookies
       console.log("Token refreshed successfully");
     }
     return response;
   },
-
-  isAuthenticated(): boolean {
-    return !!Cookies.get(ACCESS_TOKEN_KEY);
-  },
-
-  getAccessToken(): string | undefined {
-    return Cookies.get(ACCESS_TOKEN_KEY);
-  },
-
-  getRefreshToken(): string | undefined {
-    return Cookies.get(REFRESH_TOKEN_KEY);
-  }
 };

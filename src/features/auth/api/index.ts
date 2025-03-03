@@ -1,10 +1,15 @@
 import { axiosInstance } from "@/config/axios";
-import { LoginResponse } from "../types/auth-store.type";
+import {
+  LoginResponse,
+  RegisterInput,
+  AuthStatus,
+} from "../types/auth-store.type";
 
 const AUTH_ENDPOINTS = {
   LOGIN: "/auth/login",
   LOGOUT: "/auth/logout",
   REGISTER: "/auth/register",
+  STATUS: "/auth/status",
   REFRESH: "/auth/refresh",
 };
 
@@ -18,7 +23,8 @@ export const authApi = {
 
       return { status: response.status };
     } catch (error) {
-      console.error("Login API error:", error);
+      (error as Error).message = "Failed to login";
+      console.error("Error: ", (error as Error).message);
       throw error;
     }
   },
@@ -27,7 +33,18 @@ export const authApi = {
     try {
       await axiosInstance.post(AUTH_ENDPOINTS.LOGOUT);
     } catch (error) {
-      console.error("Logout API error:", error);
+      (error as Error).message = "Failed to logout";
+      console.error("Error: ", error);
+      throw error;
+    }
+  },
+
+  checkAuthStatus: async (): Promise<AuthStatus> => {
+    try {
+      const response = await axiosInstance.get(AUTH_ENDPOINTS.STATUS);
+      return response.data;
+    } catch (error) {
+      console.error("Check auth status error:", error);
       throw error;
     }
   },
@@ -37,7 +54,21 @@ export const authApi = {
       const response = await axiosInstance.post(AUTH_ENDPOINTS.REFRESH);
       return response.data;
     } catch (error) {
-      console.error("Token refresh error:", error);
+      if (error instanceof Error) {
+        error.message = "Failed to refresh token";
+      }
+      throw error;
+    }
+  },
+
+  register: async (data: RegisterInput): Promise<LoginResponse> => {
+    try {
+      const response = await axiosInstance.post(AUTH_ENDPOINTS.REGISTER, data);
+      return { status: response.status };
+    } catch (error) {
+      if (error instanceof Error) {
+        error.message = "Failed to register";
+      }
       throw error;
     }
   },

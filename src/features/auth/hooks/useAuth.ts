@@ -15,7 +15,6 @@ export const useAuth = () => {
     setError,
   } = useAuthStore();
 
-  // Check authentication status when the hook is first used
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
@@ -37,7 +36,7 @@ export const useAuth = () => {
   const handleLogout = useCallback(async () => {
     try {
       await logout();
-      navigate("/login");
+      navigate("/");
     } catch {
       // Error is already handled in the store
     }

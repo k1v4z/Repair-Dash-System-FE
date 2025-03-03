@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import Icon from "../icons";
+import { Link } from "react-router-dom";
 
 const NAVIGATION_LINKS = [
   { name: "Home", href: "#" },
@@ -17,7 +18,16 @@ const NAVIGATION_LINKS = [
 ];
 
 export default function Header() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      (error as Error).message = "Failed to logout";
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <header className="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
@@ -82,18 +92,20 @@ export default function Header() {
                     </a>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <a
-                      href="#logout"
+                    <button
+                      onClick={handleLogout}
                       className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700"
                     >
                       <Icon glyph="logout" className="size-5" />
                       <span>Sign out</span>
-                    </a>
+                    </button>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button variant="ghost">Login</Button>
+              <Button className="bg-blue-500 hover:bg-blue-400">
+                <Link to="/login">Login</Link>
+              </Button>
             )}
           </div>
         </div>

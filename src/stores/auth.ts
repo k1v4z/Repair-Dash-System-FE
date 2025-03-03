@@ -8,8 +8,8 @@ import type {
 
 const initialState: AuthState = {
   user: null,
-  accessToken: null,
-  refreshToken: null,
+  //accessToken: null,
+  //refreshToken: null,
   isAuthenticated: false,
   isLoading: true,
   error: null,
@@ -25,12 +25,9 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     try {
       set({ isLoading: true, error: null });
       await authService.login(email, password);
+      set({ isAuthenticated: true });
     } catch (err) {
-      const message =
-        err instanceof Error
-          ? err.message
-          : "Login failed. Please check your credentials.";
-      set({ error: message });
+      set({ error: "Login failed. Please check your credentials." });
       throw err;
     } finally {
       set({ isLoading: false });
@@ -43,30 +40,32 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       await authService.logout();
       get().reset();
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Logout failed.";
-      set({ error: message });
+      set({ error: "Logout failed." });
       throw err;
     } finally {
       set({ isLoading: false });
     }
   },
 
-  checkAuth: () => {
+  checkAuth: async () => {
     set({ isLoading: true, error: null });
 
+    //Temporarily logic to check if user is authenticated, improve later
     try {
-      const isAuthenticated = authService.isAuthenticated();
-      const accessToken = authService.getAccessToken();
+      const status = await authService.checkAuthStatus();
 
-      if (isAuthenticated && accessToken) {
-        set({ isAuthenticated: true, accessToken });
+      if (!status.auth_status) {
+        try {
+          await authService.refreshToken();
+          set({ isAuthenticated: true });
+        } catch {
+          get().reset();
+        }
       } else {
-        get().reset();
+        set({ isAuthenticated: true });
       }
-    } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Authentication check failed.";
-      set({ error: message });
+    } catch {
+      set({ error: "Authentication check failed." });
       get().reset();
     } finally {
       set({ isLoading: false });
@@ -77,9 +76,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     try {
       await authService.refreshToken();
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Token refresh failed.";
-      set({ error: message });
+      set({ error: "Token refresh failed." });
       get().reset();
       throw err;
     }

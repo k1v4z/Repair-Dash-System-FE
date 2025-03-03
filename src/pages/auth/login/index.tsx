@@ -51,7 +51,7 @@ const Login = () => {
 
         {error && (
           <div className="rounded-md bg-red-500/15 p-3 text-sm text-red-500">
-            {error}
+            Email hoặc mật khẩu không đúng. Vui lòng thử lại!
           </div>
         )}
 
