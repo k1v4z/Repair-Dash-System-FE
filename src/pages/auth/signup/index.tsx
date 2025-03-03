@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "../../../components/ui/button";
-import { Input } from "../../../components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -9,70 +9,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import SelectForm from "./components/selectForm";
+import RoleSelect from "@/features/auth/components/role-select";
 import routePath from "@/config/route";
-
-type Option = {
-  value: string;
-  label: string;
-};
+import {
+  PROVINCES,
+  DISTRICT_BY_PROVINCES,
+  WARDS_BY_DISTRICT,
+} from "@/constants/vi-locations";
+import type { Option } from "@/types/globals.type";
 
 const SignUp = () => {
-  const provinces: Option[] = [
-    { value: "hanoi", label: "Hà Nội" },
-    { value: "hochiminh", label: "Hồ Chí Minh" },
-    { value: "danang", label: "Đà Nẵng" },
-    { value: "cantho", label: "Cần Thơ" },
-  ];
-
-  const districtsByProvince: Record<string, Option[]> = {
-    hanoi: [
-      { value: "hoankiem", label: "Hoàn Kiếm" },
-      { value: "badinh", label: "Ba Đình" },
-      { value: "dongda", label: "Đống Đa" },
-      { value: "caugiay", label: "Cầu Giấy" },
-    ],
-    hochiminh: [
-      { value: "district1", label: "Quận 1" },
-      { value: "district3", label: "Quận 3" },
-      { value: "binhthanh", label: "Bình Thạnh" },
-      { value: "phunhuan", label: "Phú Nhuận" },
-    ],
-    danang: [
-      { value: "haichau", label: "Hải Châu" },
-      { value: "sontra", label: "Sơn Trà" },
-      { value: "thanhkhe", label: "Thanh Khê" },
-    ],
-    cantho: [
-      { value: "ninhkieu", label: "Ninh Kiều" },
-      { value: "binhthuy", label: "Bình Thủy" },
-      { value: "cairang", label: "Cái Răng" },
-    ],
-  };
-
-  const wardsByDistrict: Record<string, Option[]> = {
-    hoankiem: [
-      { value: "phuc_tan", label: "Phúc Tân" },
-      { value: "dong_xuan", label: "Đồng Xuân" },
-      { value: "hang_bac", label: "Hàng Bạc" },
-    ],
-    badinh: [
-      { value: "cong_vi", label: "Cống Vị" },
-      { value: "dien_bien", label: "Điện Biên" },
-      { value: "kim_ma", label: "Kim Mã" },
-    ],
-    district1: [
-      { value: "ben_nghe", label: "Bến Nghé" },
-      { value: "ben_thanh", label: "Bến Thành" },
-      { value: "pham_ngu_lao", label: "Phạm Ngũ Lão" },
-    ],
-    district3: [
-      { value: "vo_thi_sau", label: "Võ Thị Sáu" },
-      { value: "ward_10", label: "Phường 10" },
-      { value: "ward_11", label: "Phường 11" },
-    ],
-  };
-
   const [selectedProvince, setSelectedProvince] = useState<string>("");
   const [selectedDistrict, setSelectedDistrict] = useState<string>("");
 
@@ -85,13 +31,16 @@ const SignUp = () => {
     setSelectedDistrict(value);
   };
 
+  const onChangeRole = (role: string) => {
+    console.log(role);
+  };
+
   return (
     <div className="p-12">
       <h2 className="text-black text-3xl text-center font-bold">Đăng ký</h2>
-      <SelectForm />
+      <RoleSelect onChangeRole={onChangeRole} />
       <form className="mt-12 flex flex-col gap-7">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
-          {/* Email */}
           <div className="flex flex-1 flex-col gap-2">
             <label
               htmlFor="email"
@@ -103,11 +52,9 @@ const SignUp = () => {
               type="text"
               name="email"
               placeholder="example@gmail.com"
-              className="text-black px-4 py-3 rounded-lg border border-[primary-grayLight] bg-white shadow-md"
+              className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
             />
           </div>
-
-          {/* Password */}
           <div className="flex flex-1 flex-col gap-2">
             <label
               htmlFor="password"
@@ -118,14 +65,12 @@ const SignUp = () => {
             <Input
               type="password"
               name="password"
-              placeholder="*******"
-              className="text-black px-4 py-3 rounded-lg border border-[primary-grayLight] bg-white shadow-md"
+              placeholder="Nhập mật khẩu"
+              className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
             />
           </div>
         </div>
-
         <div className="flex flex-col md:flex-row md:items-center gap-4">
-          {/* Name */}
           <div className="flex flex-1 flex-col gap-2">
             <label
               htmlFor="name"
@@ -137,11 +82,9 @@ const SignUp = () => {
               type="text"
               name="name"
               placeholder="Nguyễn Văn A"
-              className="text-black px-4 py-3 rounded-lg border border-[primary-grayLight] bg-white shadow-md"
+              className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
             />
           </div>
-
-          {/* Phone number */}
           <div className="flex flex-1 flex-col gap-2">
             <label
               htmlFor="phoneNumber"
@@ -153,13 +96,12 @@ const SignUp = () => {
               type="text"
               name="phoneNumber"
               placeholder="0904217812"
-              className="text-black px-4 py-3 rounded-lg border border-[primary-grayLight] bg-white shadow-md"
+              className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
             />
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row md:items-center gap-4">
-          {/* Address*/}
           <div className="flex flex-1 flex-col gap-2">
             <label
               htmlFor="address"
@@ -171,13 +113,12 @@ const SignUp = () => {
               type="text"
               name="address"
               placeholder="Số nhà, tên đường"
-              className="text-black px-4 py-3 rounded-lg border border-[primary-grayLight] bg-white shadow-md"
+              className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
             />
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row md:items-center gap-4">
-          {/* City */}
           <div className="flex flex-1 flex-col gap-2">
             <label htmlFor="" className="text-black text-[16px] font-semibold">
               Tỉnh / Thành
@@ -187,7 +128,7 @@ const SignUp = () => {
                 <SelectValue placeholder="Chọn tỉnh / thành" />
               </SelectTrigger>
               <SelectContent>
-                {provinces.map((province) => (
+                {PROVINCES.map((province: Option) => (
                   <SelectItem key={province.value} value={province.value}>
                     {province.label}
                   </SelectItem>
@@ -195,8 +136,6 @@ const SignUp = () => {
               </SelectContent>
             </Select>
           </div>
-
-          {/* District   */}
           <div className="flex flex-1 flex-col gap-2">
             <label htmlFor="" className="text-black text-[16px] font-semibold">
               Quận / Huyện
@@ -210,16 +149,16 @@ const SignUp = () => {
               </SelectTrigger>
               <SelectContent>
                 {selectedProvince &&
-                  districtsByProvince[selectedProvince]?.map((district) => (
-                    <SelectItem key={district.value} value={district.value}>
-                      {district.label}
-                    </SelectItem>
-                  ))}
+                  DISTRICT_BY_PROVINCES[selectedProvince]?.map(
+                    (district: Option) => (
+                      <SelectItem key={district.value} value={district.value}>
+                        {district.label}
+                      </SelectItem>
+                    )
+                  )}
               </SelectContent>
             </Select>
           </div>
-
-          {/* Ward */}
           <div className="flex flex-1 flex-col gap-2">
             <label htmlFor="" className="text-black text-[16px] font-semibold">
               Phường / Xã
@@ -230,7 +169,7 @@ const SignUp = () => {
               </SelectTrigger>
               <SelectContent>
                 {selectedDistrict &&
-                  wardsByDistrict[selectedDistrict]?.map((ward) => (
+                  WARDS_BY_DISTRICT[selectedDistrict]?.map((ward: Option) => (
                     <SelectItem key={ward.value} value={ward.value}>
                       {ward.label}
                     </SelectItem>

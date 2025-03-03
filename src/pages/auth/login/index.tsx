@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import routePath from "@/config/route";
+
 import { useAuth } from "@/features/auth/hooks/useAuth";
 
 const Login = () => {
@@ -42,8 +44,8 @@ const Login = () => {
           </label>
           <Input
             type="password"
-            placeholder="*******"
-            className="text-black px-4 py-3 rounded-lg border border-[primary-grayLight] bg-white shadow-md"
+            placeholder="Nhập mật khẩu"
+            className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

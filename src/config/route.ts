@@ -3,7 +3,7 @@ const routePath = {
   login: "/login",
   order: "/order",
   manage: "/manage",
-  signup: "/sign-up/:role",
+  signup: "/sign-up",
 };
 
 export default routePath;
