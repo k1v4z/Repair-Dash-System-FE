@@ -1,5 +1,7 @@
 import { Route } from "../types/routes.type";
 import routePath from "../config/route";
+import { PrivateRoute } from "./private-route";
+import { PublicRoute } from "./public-route";
 
 // Layout
 import MainLayout from "../layouts/main-layout";
@@ -27,11 +29,50 @@ const listRoute: Route[] = [
     layout: AuthLayout,
   },
   {
-    path: routePath.order,
-    component: <Order />,
+    path: routePath.home,
+    component: <Home />,
     layout: MainLayout,
   },
-  { path: routePath.manage, component: <Manage />, layout: AdminLayout },
+  {
+    path: routePath.login,
+    component: (
+      <PublicRoute>
+        <Login />
+      </PublicRoute>
+    ),
+    layout: AuthLayout,
+    isPublic: true,
+  },
+  {
+    path: routePath.signup,
+    component: (
+      <PublicRoute>
+        <SignUp />
+      </PublicRoute>
+    ),
+    layout: AuthLayout,
+    isPublic: true,
+  },
+  {
+    path: routePath.order,
+    component: (
+      <PrivateRoute>
+        <Order />
+      </PrivateRoute>
+    ),
+    layout: MainLayout,
+    isProtected: true,
+  },
+  {
+    path: routePath.manage,
+    component: (
+      <PrivateRoute>
+        <Manage />
+      </PrivateRoute>
+    ),
+    layout: AdminLayout,
+    isProtected: true,
+  },
 ];
 
 export default listRoute;
