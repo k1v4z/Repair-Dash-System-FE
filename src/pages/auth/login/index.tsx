@@ -21,9 +21,7 @@ const Login = () => {
   return (
     <div className="p-12">
       <h2 className="text-black text-3xl text-center font-bold">Đăng nhập</h2>
-      {/* form login */}
       <form className="mt-12 flex flex-col gap-7" onSubmit={handleSubmitLogin}>
-        {/* Email */}
         <div className="flex flex-col gap-2">
           <label htmlFor="" className="text-black text-[16px] font-semibold">
             Email
@@ -36,8 +34,6 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-
-        {/* Password */}
         <div className="flex flex-col gap-2">
           <label htmlFor="" className="text-black text-[16px] font-semibold">
             Mật khẩu
