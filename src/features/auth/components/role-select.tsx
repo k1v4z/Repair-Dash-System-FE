@@ -14,7 +14,7 @@ const RoleSelect = ({ onChangeRole }: RoleSelectProps) => {
 
   return (
     <div className="flex flex-col items-center mt-8">
-      <div className="flex gap-4">
+      <div className="flex gap-2">
         <div
           className={`px-4 py-2 rounded-lg border transition hover:cursor-pointer ${
             role === "customer" ? styles.matchRole : styles.withOutMatchRole
