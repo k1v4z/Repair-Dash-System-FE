@@ -1,14 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import SelectField from "@/components/common/select-field";
 import RoleSelect from "@/features/auth/components/role-select";
 import routePath from "@/config/route";
 import {
@@ -16,30 +12,88 @@ import {
   DISTRICT_BY_PROVINCES,
   WARDS_BY_DISTRICT,
 } from "@/constants/vi-locations";
-import type { Option } from "@/types/globals.type";
+import { signupSchema, type SignupFormSchema } from "@/schemas/auth";
+import { authService } from "@/features/auth/services/auth.service";
+import type { RegisterInput } from "@/features/auth/types/auth-store.type";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<SignupFormSchema>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      role: "customer",
+      province: "",
+      district: "",
+      ward: "",
+    },
+  });
+
   const [selectedProvince, setSelectedProvince] = useState<string>("");
   const [selectedDistrict, setSelectedDistrict] = useState<string>("");
+  const [selectedWard, setSelectedWard] = useState<string>("");
 
   const handleProvinceChange = (value: string) => {
     setSelectedProvince(value);
-    setSelectedDistrict(""); // Reset quận/huyện khi đổi tỉnh/thành
+    setSelectedDistrict("");
+    setSelectedWard("");
+    setValue("province", value, { shouldValidate: true });
+    setValue("district", "", { shouldValidate: true });
+    setValue("ward", "", { shouldValidate: true });
   };
 
   const handleDistrictChange = (value: string) => {
     setSelectedDistrict(value);
+    setSelectedWard("");
+    setValue("district", value, { shouldValidate: true });
+    setValue("ward", "", { shouldValidate: true });
+  };
+
+  const handleWardChange = (value: string) => {
+    setSelectedWard(value);
+    setValue("ward", value, { shouldValidate: true });
   };
 
   const onChangeRole = (role: string) => {
-    console.log(role);
+    setValue("role", role);
+  };
+
+  const onSubmit = async (data: SignupFormSchema) => {
+    setError(null);
+    try {
+      const registerData: RegisterInput = {
+        identifier_email: data.email,
+        password: data.password,
+        role: data.role.toUpperCase() as "STORE" | "CUSTOMER",
+        user_full_name: data.name,
+        user_phone_number: data.phoneNumber,
+        user_street: data.address,
+        user_ward: data.ward,
+        user_district: data.district,
+        user_city: data.province,
+      };
+      const response = await authService.register(registerData);
+      if (response.status === 201) {
+        navigate(routePath.login);
+      }
+    } catch {
+      setError("Đăng ký thất bại. Vui lòng thử lại.");
+    }
   };
 
   return (
     <div className="p-12">
       <h2 className="text-black text-3xl text-center font-bold">Đăng ký</h2>
       <RoleSelect onChangeRole={onChangeRole} />
-      <form className="mt-12 flex flex-col gap-7">
+      <form
+        className="mt-12 flex flex-col gap-5"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="flex flex-1 flex-col gap-2">
             <label
@@ -48,12 +102,15 @@ const SignUp = () => {
             >
               Email
             </label>
-            <Input
-              type="text"
-              name="email"
-              placeholder="example@gmail.com"
-              className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
-            />
+            <div>
+              <Input
+                type="text"
+                placeholder="example@gmail.com"
+                className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
+                {...register("email")}
+                helperText={errors.email?.message}
+              />
+            </div>
           </div>
           <div className="flex flex-1 flex-col gap-2">
             <label
@@ -62,12 +119,15 @@ const SignUp = () => {
             >
               Mật khẩu
             </label>
-            <Input
-              type="password"
-              name="password"
-              placeholder="Nhập mật khẩu"
-              className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
-            />
+            <div>
+              <Input
+                type="password"
+                placeholder="Nhập mật khẩu"
+                className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
+                {...register("password")}
+                helperText={errors.password?.message}
+              />
+            </div>
           </div>
         </div>
         <div className="flex flex-col md:flex-row md:items-center gap-4">
@@ -78,12 +138,15 @@ const SignUp = () => {
             >
               Họ và tên
             </label>
-            <Input
-              type="text"
-              name="name"
-              placeholder="Nguyễn Văn A"
-              className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
-            />
+            <div>
+              <Input
+                type="text"
+                placeholder="Nguyễn Văn A"
+                className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
+                {...register("name")}
+                helperText={errors.name?.message}
+              />
+            </div>
           </div>
           <div className="flex flex-1 flex-col gap-2">
             <label
@@ -92,12 +155,15 @@ const SignUp = () => {
             >
               Số điện thoại
             </label>
-            <Input
-              type="text"
-              name="phoneNumber"
-              placeholder="0904217812"
-              className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
-            />
+            <div>
+              <Input
+                type="text"
+                placeholder="0904217812"
+                className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
+                {...register("phoneNumber")}
+                helperText={errors.phoneNumber?.message}
+              />
+            </div>
           </div>
         </div>
 
@@ -109,84 +175,84 @@ const SignUp = () => {
             >
               Địa chỉ
             </label>
-            <Input
-              type="text"
-              name="address"
-              placeholder="Số nhà, tên đường"
-              className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
-            />
+            <div>
+              <Input
+                type="text"
+                placeholder="Số nhà, tên đường"
+                className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
+                {...register("address")}
+                helperText={errors.address?.message}
+              />
+            </div>
           </div>
         </div>
-
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="flex flex-1 flex-col gap-2">
             <label htmlFor="" className="text-black text-[16px] font-semibold">
               Tỉnh / Thành
             </label>
-            <Select onValueChange={handleProvinceChange}>
-              <SelectTrigger className="w-full h-[45.33px] rounded-lg border bg-white shadow-md focus:ring-0 ">
-                <SelectValue placeholder="Chọn tỉnh / thành" />
-              </SelectTrigger>
-              <SelectContent>
-                {PROVINCES.map((province: Option) => (
-                  <SelectItem key={province.value} value={province.value}>
-                    {province.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div>
+              <SelectField
+                placeholder="Chọn tỉnh / thành"
+                value={selectedProvince}
+                onValueChange={handleProvinceChange}
+                options={PROVINCES}
+                helperText={errors.province?.message}
+              />
+            </div>
           </div>
           <div className="flex flex-1 flex-col gap-2">
             <label htmlFor="" className="text-black text-[16px] font-semibold">
               Quận / Huyện
             </label>
-            <Select
-              disabled={!selectedProvince}
-              onValueChange={handleDistrictChange}
-            >
-              <SelectTrigger className="w-full h-[45.33px] rounded-lg border bg-white shadow-md focus:ring-0 ">
-                <SelectValue placeholder="Chọn quận / huyện" />
-              </SelectTrigger>
-              <SelectContent>
-                {selectedProvince &&
-                  DISTRICT_BY_PROVINCES[selectedProvince]?.map(
-                    (district: Option) => (
-                      <SelectItem key={district.value} value={district.value}>
-                        {district.label}
-                      </SelectItem>
-                    )
-                  )}
-              </SelectContent>
-            </Select>
+            <div>
+              <SelectField
+                placeholder="Chọn quận / huyện"
+                disabled={!selectedProvince}
+                value={selectedDistrict}
+                onValueChange={handleDistrictChange}
+                options={
+                  selectedProvince
+                    ? DISTRICT_BY_PROVINCES[selectedProvince] || []
+                    : []
+                }
+                helperText={errors.district?.message}
+              />
+            </div>
           </div>
           <div className="flex flex-1 flex-col gap-2">
             <label htmlFor="" className="text-black text-[16px] font-semibold">
               Phường / Xã
             </label>
-            <Select disabled={!selectedDistrict}>
-              <SelectTrigger className="w-full h-[45.33px] rounded-lg border bg-white shadow-md focus:ring-0 ">
-                <SelectValue placeholder="Chọn phường / xã" />
-              </SelectTrigger>
-              <SelectContent>
-                {selectedDistrict &&
-                  WARDS_BY_DISTRICT[selectedDistrict]?.map((ward: Option) => (
-                    <SelectItem key={ward.value} value={ward.value}>
-                      {ward.label}
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            </Select>
+            <div>
+              <SelectField
+                placeholder="Chọn phường / xã"
+                disabled={!selectedDistrict}
+                value={selectedWard}
+                onValueChange={handleWardChange}
+                options={
+                  selectedDistrict
+                    ? WARDS_BY_DISTRICT[selectedDistrict] || []
+                    : []
+                }
+                helperText={errors.ward?.message}
+              />
+            </div>
           </div>
         </div>
-
         <Button
           size="lg"
+          type="submit"
           className="bg-primary-royalBlue hover:bg-primary-royalBlue/80 mt-3 h-11"
         >
           Đăng ký
         </Button>
       </form>
-
+      {error && (
+        <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+          {error}
+        </div>
+      )}
       <p className="text-center mt-4 text-primary-royalBlue">
         Bạn đã có tài khoản?{" "}
         <Link
