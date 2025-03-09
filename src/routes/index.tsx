@@ -12,7 +12,7 @@ import Login from "../pages/auth/login";
 import Home from "../pages/home";
 import Manage from "../pages/manage";
 import SignUp from "../pages/auth/signup";
-
+import StorePage from "../pages/store/page";
 const listRoute: Route[] = [
   { path: routePath.home, component: <Home />, layout: MainLayout },
   {
@@ -59,6 +59,15 @@ const listRoute: Route[] = [
     ),
     layout: AdminLayout,
     isProtected: true,
+  },
+  {
+    path: routePath.store,
+    component: (
+      <PublicRoute>
+        <StorePage />
+      </PublicRoute>
+    ),
+    layout: MainLayout,
   },
 ];
 

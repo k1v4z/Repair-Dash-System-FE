@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 const NAVIGATION_LINKS = [
   { name: "Home", href: "#" },
   { name: "Services", href: "#services" },
-  { name: "How It Works", href: "#how-it-works" },
+  { name: "Store", href: "store" },
   { name: "Testimonials", href: "#testimonials" },
   { name: "Contact", href: "#contact" },
 ];

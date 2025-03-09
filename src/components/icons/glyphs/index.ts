@@ -5,6 +5,10 @@ import { TwitterIcon } from "./twitter";
 import { Profile } from "./profile";
 import { Logout } from "./logout";
 import { Setting } from "./setting";
+import { Search } from "./search";
+import { Arrow } from "./arrow";
+import { Heart } from "./heart";
+import { Chevron } from "./chevron";
 
 export const glyphs = {
   eye: Eye,
@@ -14,6 +18,10 @@ export const glyphs = {
   profile: Profile,
   logout: Logout,
   setting: Setting,
+  search: Search,
+  arrow: Arrow,
+  heart: Heart,
+  chevron: Chevron,
 };
 
 export type Glyph = {
