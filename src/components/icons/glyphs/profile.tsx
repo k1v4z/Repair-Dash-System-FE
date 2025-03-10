@@ -1,4 +1,4 @@
-import type { GlyphIcon } from "../../../types/glyphs.type";
+import type { GlyphIcon } from "@/types/glyphs.type";
 
 export const Profile = ({ className = "", ...props }: GlyphIcon) => {
   return (
@@ -29,7 +29,7 @@ export const Profile = ({ className = "", ...props }: GlyphIcon) => {
         clipPath="url(#avoid-antialiasing-bugs)"
       />
       <circle cx="300" cy="230" r="115" />
-      <circle cx="300" cy="550" r="205" clip-path="url(#circular-border)" />
+      <circle cx="300" cy="550" r="205" clipPath="url(#circular-border)" />
     </svg>
   );
 };

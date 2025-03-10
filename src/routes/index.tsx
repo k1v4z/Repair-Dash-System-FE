@@ -14,7 +14,6 @@ import Manage from "../pages/manage";
 import SignUp from "../pages/auth/signup";
 
 const listRoute: Route[] = [
-  { path: routePath.home, component: <Home />, layout: MainLayout },
   {
     path: routePath.home,
     component: <Home />,
@@ -42,11 +41,7 @@ const listRoute: Route[] = [
   },
   {
     path: routePath.order,
-    component: (
-      <PrivateRoute>
-        <Order />
-      </PrivateRoute>
-    ),
+    component: <Order />,
     layout: MainLayout,
     isProtected: true,
   },

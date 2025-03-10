@@ -7,11 +7,7 @@ import { Input } from "@/components/ui/input";
 import SelectField from "@/components/common/select-field";
 import RoleSelect from "@/features/auth/components/role-select";
 import routePath from "@/config/route";
-import {
-  PROVINCES,
-  DISTRICT_BY_PROVINCES,
-  WARDS_BY_DISTRICT,
-} from "@/constants/vi-locations";
+import { useSelectLocation } from "@/hooks/useSelectLocation";
 import { signupSchema, type SignupFormSchema } from "@/schemas/auth";
 import { authService } from "@/features/auth/services/auth.service";
 import type { RegisterInput } from "@/features/auth/types/auth-store.type";
@@ -34,28 +30,30 @@ const SignUp = () => {
     },
   });
 
-  const [selectedProvince, setSelectedProvince] = useState<string>("");
-  const [selectedDistrict, setSelectedDistrict] = useState<string>("");
-  const [selectedWard, setSelectedWard] = useState<string>("");
+  const {
+    selectedProvince,
+    selectedDistrict,
+    selectedWard,
+    handleProvinceChange: provinceChangeHandler,
+    handleDistrictChange: districtChangeHandler,
+    handleWardChange: wardChangeHandler,
+    provinces,
+    districts,
+    wards,
+  } = useSelectLocation();
 
   const handleProvinceChange = (value: string) => {
-    setSelectedProvince(value);
-    setSelectedDistrict("");
-    setSelectedWard("");
+    provinceChangeHandler(value);
     setValue("province", value, { shouldValidate: true });
-    setValue("district", "", { shouldValidate: true });
-    setValue("ward", "", { shouldValidate: true });
   };
 
   const handleDistrictChange = (value: string) => {
-    setSelectedDistrict(value);
-    setSelectedWard("");
+    districtChangeHandler(value);
     setValue("district", value, { shouldValidate: true });
-    setValue("ward", "", { shouldValidate: true });
   };
 
   const handleWardChange = (value: string) => {
-    setSelectedWard(value);
+    wardChangeHandler(value);
     setValue("ward", value, { shouldValidate: true });
   };
 
@@ -196,7 +194,7 @@ const SignUp = () => {
                 placeholder="Chọn tỉnh / thành"
                 value={selectedProvince}
                 onValueChange={handleProvinceChange}
-                options={PROVINCES}
+                options={provinces}
                 helperText={errors.province?.message}
               />
             </div>
@@ -211,11 +209,7 @@ const SignUp = () => {
                 disabled={!selectedProvince}
                 value={selectedDistrict}
                 onValueChange={handleDistrictChange}
-                options={
-                  selectedProvince
-                    ? DISTRICT_BY_PROVINCES[selectedProvince] || []
-                    : []
-                }
+                options={districts}
                 helperText={errors.district?.message}
               />
             </div>
@@ -230,11 +224,7 @@ const SignUp = () => {
                 disabled={!selectedDistrict}
                 value={selectedWard}
                 onValueChange={handleWardChange}
-                options={
-                  selectedDistrict
-                    ? WARDS_BY_DISTRICT[selectedDistrict] || []
-                    : []
-                }
+                options={wards}
                 helperText={errors.ward?.message}
               />
             </div>
