@@ -11,6 +11,13 @@ export const FILTER_OPTIONS = {
     { id: 'loc8', name: 'Đà Nẵng', type: 'location' },
     { id: 'loc9', name: 'Cần Thơ', type: 'location' },
     { id: 'loc10', name: 'Đà Lạt', type: 'location' },
+    { id: 'loc11', name: 'Hải Phòng', type: 'location' },
+    { id: 'loc12', name: 'Bình Dương', type: 'location' },
+    { id: 'loc13', name: 'Bình Phước', type: 'location' },
+    { id: 'loc14', name: 'Bình Thuận', type: 'location' },
+    { id: 'loc15', name: 'Bình Định', type: 'location' },
+    { id: 'loc16', name: 'Bình Dương', type: 'location' },
+    
     
   ],
   price: [

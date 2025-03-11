@@ -9,6 +9,11 @@ import { Search } from "./search";
 import { Arrow } from "./arrow";
 import { Heart } from "./heart";
 import { Chevron } from "./chevron";
+import { Store } from "./store";
+import { Wrench } from "./wrench";
+import { Location } from "./location";
+import { Upload } from "./upload";
+import { X } from "./x";
 
 export const glyphs = {
   eye: Eye,
@@ -22,6 +27,11 @@ export const glyphs = {
   arrow: Arrow,
   heart: Heart,
   chevron: Chevron,
+  store: Store,
+  wrench: Wrench,
+  location: Location,
+  upload: Upload,
+  x: X,
 };
 
 export type Glyph = {

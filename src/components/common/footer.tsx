@@ -23,7 +23,7 @@ const NAVIGATION_LINKS = {
       name: "Instagram",
       href: "#",
       icon: <Icons glyph="instagram" className="size-6" />,
-    },
+    },  
   ],
 };
 
