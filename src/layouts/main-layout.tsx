@@ -6,7 +6,7 @@ const MainLayout = ({ children }: { children: ReactElement }) => {
   return (
     <>
       <Header />
-      <div>{children}</div>
+      <div className="mt-[64px]">{children}</div>
       <Footer />
     </>
   );
