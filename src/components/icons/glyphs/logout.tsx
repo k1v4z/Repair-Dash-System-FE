@@ -1,4 +1,4 @@
-import type { GlyphIcon } from "../../../types/glyphs.type";
+import type { GlyphIcon } from "@/types/glyphs.type";
 
 export const Logout = ({ className = "", ...props }: GlyphIcon) => {
   return (
