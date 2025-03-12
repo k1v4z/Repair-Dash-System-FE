@@ -5,6 +5,10 @@ import { TwitterIcon } from "./twitter";
 import { Profile } from "./profile";
 import { Logout } from "./logout";
 import { Setting } from "./setting";
+import { Search } from "./search";
+import { Arrow } from "./arrow";
+import { Heart } from "./heart";
+import { Chevron } from "./chevron";
 import { Store } from "./store";
 import { Wrench } from "./wrench";
 import { Location } from "./location";
@@ -19,6 +23,10 @@ export const glyphs = {
   profile: Profile,
   logout: Logout,
   setting: Setting,
+  search: Search,
+  arrow: Arrow,
+  heart: Heart,
+  chevron: Chevron,
   store: Store,
   wrench: Wrench,
   location: Location,
