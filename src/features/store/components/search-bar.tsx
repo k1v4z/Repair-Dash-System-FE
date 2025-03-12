@@ -1,11 +1,10 @@
-import OptionsDropdown from './optionsdropdown';
+import OptionsDropdown from "./options-dropdown";
 import { Input } from "@/components/ui/input";
 
 export default function SearchBar() {
   return (
     <div className="flex flex-col gap-2 xs:gap-3 sm:gap-4">
       <OptionsDropdown />
-      
       <Input
         type="text"
         placeholder="Tìm kiếm dịch vụ"
@@ -14,4 +13,4 @@ export default function SearchBar() {
       />
     </div>
   );
-} 
+}

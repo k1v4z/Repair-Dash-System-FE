@@ -11,7 +11,6 @@ interface RoleSelectProps {
 
 const RoleSelect = ({ onChangeRole }: RoleSelectProps) => {
   const [role, setRole] = useState("customer");
-
   return (
     <div className="flex flex-col items-center mt-8">
       <div className="flex gap-2">
