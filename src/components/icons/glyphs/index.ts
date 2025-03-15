@@ -15,6 +15,9 @@ import { Location } from "./location";
 import { Upload } from "./upload";
 import { X } from "./x";
 import { Star } from "./star";
+import { Calendar } from "./calendar";
+import { UploadImg } from "./upload-img";
+import { Loader } from "./loader";
 
 export const glyphs = {
   eye: Eye,
@@ -34,6 +37,9 @@ export const glyphs = {
   upload: Upload,
   x: X,
   star: Star,
+  calendar: Calendar,
+  uploadImg: UploadImg,
+  loader: Loader,
 };
 
 export type Glyph = {

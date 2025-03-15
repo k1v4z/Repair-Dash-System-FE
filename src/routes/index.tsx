@@ -13,6 +13,7 @@ import Manage from "../pages/manage";
 import SignUp from "../pages/auth/signup";
 import StorePage from "../pages/store/page";
 import StoreDetail from "../pages/store-detail";
+import ManageStore from "../pages/manage-store";
 
 const listRoute: Route[] = [
   {
@@ -52,6 +53,11 @@ const listRoute: Route[] = [
   {
     path: routePath.storeDetail,
     component: <StoreDetail />,
+    layout: MainLayout,
+  },
+  {
+    path: routePath.manageStore,
+    component: <ManageStore />,
     layout: MainLayout,
   },
 ];
