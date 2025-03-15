@@ -76,7 +76,7 @@ const Login = () => {
 
         <Button
           size="lg"
-          className="bg-primary-electricViolet hover:bg-primary-electricViolet/80 mt-3 h-11"
+          className="bg-blue-600 hover:bg-blue-600/80 mt-3 h-11"
           disabled={isLoading}
           type="submit"
         >

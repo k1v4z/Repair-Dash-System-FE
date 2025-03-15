@@ -4,7 +4,6 @@ import {
   DISTRICT_BY_PROVINCES,
   WARDS_BY_DISTRICT,
 } from "@/constants/vi-locations";
-import type { Option } from "@/types/globals.type";
 
 interface UseSelectLocationProps {
   selectedProvince: string;
@@ -13,9 +12,9 @@ interface UseSelectLocationProps {
   handleProvinceChange: (value: string) => void;
   handleDistrictChange: (value: string) => void;
   handleWardChange: (value: string) => void;
-  provinces: Option[];
-  districts: Option[];
-  wards: Option[];
+  provinces: string[];
+  districts: string[];
+  wards: string[];
 }
 
 export const useSelectLocation = (): UseSelectLocationProps => {

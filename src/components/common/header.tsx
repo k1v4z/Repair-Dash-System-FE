@@ -10,7 +10,7 @@ import Icon from "../icons";
 import { Link } from "react-router-dom";
 
 const NAVIGATION_LINKS = [
-  { name: "Trang chủ", href: "#"},
+  { name: "Trang chủ", href: "#" },
   { name: "Dịch vụ", href: "#services" },
   { name: "Cửa hàng", href: "/store" },
   { name: "Bài viết", href: "#testimonials" },

@@ -1,7 +1,7 @@
 const routePath = {
   home: "/",
   login: "/login",
-  order: "/order",
+  order: "/order/:serviceId",
   manage: "/manage",
   signup: "/sign-up",
   store: "/store",
