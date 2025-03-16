@@ -18,6 +18,7 @@ import { Star } from "./star";
 import { Calendar } from "./calendar";
 import { UploadImg } from "./upload-img";
 import { Loader } from "./loader";
+import { Warning } from "./warning";
 
 export const glyphs = {
   eye: Eye,
@@ -35,6 +36,7 @@ export const glyphs = {
   wrench: Wrench,
   location: Location,
   upload: Upload,
+  warning: Warning,
   x: X,
   star: Star,
   calendar: Calendar,

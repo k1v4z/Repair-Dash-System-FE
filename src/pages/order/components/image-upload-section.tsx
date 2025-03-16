@@ -26,8 +26,8 @@ export default function ImageUploadSection() {
   };
 
   return (
-    <div className="space-y-4">
-      <Label className="text-left w-full block">Hình ảnh mô tả lỗi</Label>
+    <div className="space-y-4 mt-4">
+      <Label className="text-left w-full block pt-2">Hình ảnh mô tả lỗi</Label>
       <div className="flex items-center gap-4">
         <Button
           type="button"

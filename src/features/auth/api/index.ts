@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/config/axios";
-import {
+import type {
   LoginResponse,
   RegisterInput,
   AuthStatus,

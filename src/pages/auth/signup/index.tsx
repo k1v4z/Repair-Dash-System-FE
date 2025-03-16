@@ -75,6 +75,7 @@ const SignUp = () => {
         user_district: data.district,
         user_city: data.province,
       };
+
       const response = await authService.register(registerData);
       if (response.status === 201) {
         navigate(routePath.login);
@@ -196,6 +197,7 @@ const SignUp = () => {
                 onValueChange={handleProvinceChange}
                 options={provinces}
                 helperText={errors.province?.message}
+                {...register("province")}
               />
             </div>
           </div>
@@ -211,6 +213,7 @@ const SignUp = () => {
                 onValueChange={handleDistrictChange}
                 options={districts}
                 helperText={errors.district?.message}
+                {...register("district")}
               />
             </div>
           </div>
@@ -226,6 +229,7 @@ const SignUp = () => {
                 onValueChange={handleWardChange}
                 options={wards}
                 helperText={errors.ward?.message}
+                {...register("ward")}
               />
             </div>
           </div>

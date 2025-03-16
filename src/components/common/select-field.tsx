@@ -15,7 +15,7 @@ interface SelectFieldProps
   placeholder?: string;
   value?: string;
   onValueChange: (value: string) => void;
-  options: Option[];
+  options: Option[] | string[];
   triggerClassName?: string;
   helperText?: string;
 }
@@ -51,11 +51,20 @@ const SelectField = forwardRef<HTMLButtonElement, SelectFieldProps>(
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent>
-            {options.map((option: Option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
+            {options.map((option) => {
+              if (typeof option === 'string') {
+                return (
+                  <SelectItem key={option} value={option}>
+                    {option}
+                  </SelectItem>
+                );
+              }
+              return (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              );
+            })}
           </SelectContent>
         </Select>
         <div className="absolute bottom-[-20px] left-0 w-full">
