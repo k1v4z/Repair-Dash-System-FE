@@ -10,11 +10,11 @@ import Icon from "../icons";
 import { Link } from "react-router-dom";
 
 const NAVIGATION_LINKS = [
-  { name: "Home", href: "#" },
-  { name: "Services", href: "#services" },
-  { name: "Store", href: "store" },
-  { name: "Testimonials", href: "#testimonials" },
-  { name: "Contact", href: "#contact" },
+  { name: "Trang chủ", href: "#"},
+  { name: "Dịch vụ", href: "#services" },
+  { name: "Cửa hàng", href: "/store" },
+  { name: "Bài viết", href: "#testimonials" },
+  { name: "Liên hệ", href: "#contact" },
 ];
 
 export default function Header() {
@@ -79,7 +79,7 @@ export default function Header() {
                       className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700"
                     >
                       <Icon glyph="profile" className="size-5" />
-                      <span>Profile</span>
+                      <span>Hồ sơ</span>
                     </a>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
@@ -88,7 +88,7 @@ export default function Header() {
                       className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700"
                     >
                       <Icon glyph="setting" className="size-5" />
-                      <span>Settings</span>
+                      <span>Cài đặt</span>
                     </a>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
@@ -97,14 +97,14 @@ export default function Header() {
                       className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700"
                     >
                       <Icon glyph="logout" className="size-5" />
-                      <span>Sign out</span>
+                      <span>Đăng xuất</span>
                     </button>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
               <Button className="bg-blue-500 hover:bg-blue-400">
-                <Link to="/login">Login</Link>
+                <Link to="/login">Đăng nhập</Link>
               </Button>
             )}
           </div>
