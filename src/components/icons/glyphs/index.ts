@@ -14,6 +14,7 @@ import { Wrench } from "./wrench";
 import { Location } from "./location";
 import { Upload } from "./upload";
 import { X } from "./x";
+import { Star } from "./star";
 
 export const glyphs = {
   eye: Eye,
@@ -32,6 +33,7 @@ export const glyphs = {
   location: Location,
   upload: Upload,
   x: X,
+  star: Star,
 };
 
 export type Glyph = {

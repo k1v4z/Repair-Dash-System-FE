@@ -1,8 +1,6 @@
 import { useState } from "react";
 
-const StoreDescription = () => {
-  const [expanded, setExpanded] = useState(false);
-  const description = `
+const description = `
     TechCare là đơn vị chuyên cung cấp dịch vụ sửa chữa, bảo trì và lắp đặt 
     các thiết bị điện lạnh như máy giặt, điều hòa, tủ lạnh, lò vi sóng, máy 
     nước nóng với đội ngũ kỹ thuật viên giàu kinh nghiệm, tay nghề cao và 
@@ -17,9 +15,13 @@ const StoreDescription = () => {
     đề điện lạnh một cách hiệu quả nhất!
   `;
 
-  const limit = 700;
-  const showReadMore = description.length > limit;
-  const shortDescription = description.slice(0, limit);
+const LIMIT = 700;
+
+const StoreDescription = () => {
+  const [expanded, setExpanded] = useState(false);
+
+  const showReadMore = description.length > LIMIT;
+  const shortDescription = description.slice(0, LIMIT);
 
   return (
     <div className="border rounded-lg shadow p-4 bg-white">
