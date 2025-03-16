@@ -1,6 +1,6 @@
 import Icons from "@/components/icons";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import type { Review } from "../types/review";
+import type { Review } from "@/features/store-detail/types/review";
 
 interface ReviewProps {
   review: Review;
