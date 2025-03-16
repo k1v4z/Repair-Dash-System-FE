@@ -5,6 +5,7 @@ const routePath = {
   manage: "/manage",
   signup: "/sign-up",
   store: "/store",
+  storeDetail: "/store-detail/:id",
 };
 
 export default routePath;
