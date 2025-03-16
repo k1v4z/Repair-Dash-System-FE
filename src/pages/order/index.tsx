@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCheckout } from "@/features/order/hooks/useCheckout";
+import { useOrder } from "@/features/order/hooks/useOrder";
 import CustomerInformationSection from "./components/customer-information-section";
 import ServiceInformationSection from "./components/service-information-section";
 import ResourceNotFound from "@/components/common/resource-not-found";
@@ -10,6 +11,8 @@ import { orderFormSchema, type OrderFormData } from "@/schemas/order";
 
 export default function ServiceBookingForm() {
   const { customer, service, errorMessage, status } = useCheckout();
+  const { createOrder, isLoading } = useOrder();
+
   const form = useForm<OrderFormData>({
     resolver: zodResolver(orderFormSchema),
   });
@@ -29,11 +32,12 @@ export default function ServiceBookingForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customer]);
 
-  const onSubmit = (data: OrderFormData) => {
+  const onSubmit = async (data: OrderFormData) => {
     try {
-      // TODO: Implement order submission API call
-      console.log("Form submitted:", data);
-      toast.success("Đặt dịch vụ thành công!");
+      const response = await createOrder(data);
+      if (response) {
+        toast.success("Đặt dịch vụ thành công!");
+      }
     } catch {
       toast.error("Có lỗi xảy ra khi đặt dịch vụ. Vui lòng thử lại!");
     }
@@ -60,7 +64,7 @@ export default function ServiceBookingForm() {
             {customer && (
               <CustomerInformationSection customer={customer} form={form} />
             )}
-            {service && <ServiceInformationSection service={service} />}
+            {service && <ServiceInformationSection service={service} isLoading={isLoading} />}
           </div>
         </div>
       </form>

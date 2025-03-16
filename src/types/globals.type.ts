@@ -1,6 +1,4 @@
-import { ColumnDef } from "@tanstack/react-table"
-
-export type Theme = "light" | "dark";
+import { ColumnDef } from "@tanstack/react-table";
 
 export type Option = {
   value: string;
@@ -22,8 +20,14 @@ export interface Column<T> {
 }
 
 export interface DataTableProps<TData> {
-  columns: ColumnDef<TData>[]
-  data: TData[]
-  loading?: boolean
-  pageSize?: number
+  columns: ColumnDef<TData>[];
+  data: TData[];
+  loading?: boolean;
+  pageSize?: number;
+}
+
+export interface AxiosResponse<T = undefined> {
+  status: number;
+  message: string;
+  data?: T;
 }

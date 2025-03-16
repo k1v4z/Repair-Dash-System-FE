@@ -5,10 +5,12 @@ import type { Service } from "@/types/service";
 
 export interface ServiceInformationProps {
   service: Service;
+  isLoading?: boolean;
 }
 
 export default function ServiceInformationSection({
   service,
+  isLoading = false,
 }: ServiceInformationProps) {
   return (
     <Card className="p-6 space-y-6">
@@ -49,8 +51,19 @@ export default function ServiceInformationSection({
           >
             Huỷ
           </Button>
-          <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
-            Đặt dịch vụ
+          <Button 
+            type="submit" 
+            className="bg-blue-600 hover:bg-blue-700"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <div className="flex items-center gap-2">
+                <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
+                Đang xử lý...
+              </div>
+            ) : (
+              "Đặt dịch vụ"
+            )}
           </Button>
         </div>
       </div>
