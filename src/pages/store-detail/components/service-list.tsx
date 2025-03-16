@@ -6,7 +6,7 @@ interface ServiceListProps {
   showAll: boolean;
 }
 
-const services = [
+const SERVICES = [
   {
     id: 1,
     name: "Dịch vụ sửa chữa máy giặt",
@@ -51,12 +51,11 @@ const services = [
 
 const ServiceList = ({ showAll }: ServiceListProps) => {
   const [serviceList, setServiceList] = useState<Service[]>([]);
-  console.log(serviceList);
 
   const displayedServices = showAll ? serviceList : serviceList.slice(0, 4);
 
   useEffect(() => {
-    setServiceList(services);
+    setServiceList(SERVICES);
   }, []);
 
   return (

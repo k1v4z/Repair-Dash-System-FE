@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import type { Review } from "@/features/store-detail/types/review";
 import ReviewList from "./review-list";
 
-const reviews: Review[] = [
+const REVIEWS: Review[] = [
   {
     id: 1,
     user: {
@@ -54,7 +54,7 @@ const StoreReview = () => {
   const [listReview, setListReview] = useState<Review[]>([]);
 
   useEffect(() => {
-    setListReview(reviews);
+    setListReview(REVIEWS);
   }, []);
 
   return (
