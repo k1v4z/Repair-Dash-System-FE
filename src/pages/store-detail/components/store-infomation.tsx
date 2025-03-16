@@ -1,6 +1,4 @@
-import { Button } from "@/components/ui/button";
 import Icons from "@/components/icons";
-
 const StoreInformation = () => {
   return (
     <div className="flex-1">
@@ -29,9 +27,6 @@ const StoreInformation = () => {
             <span className="ml-2">4.8/5</span>
           </div>
         </div>
-        <Button className="mt-5 block mx-auto bg-primary-royalBlue hover:bg-primary-royalBlue/90">
-          Nhấn để đặt dịch vụ
-        </Button>
       </div>
     </div>
   );

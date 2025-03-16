@@ -1,7 +1,8 @@
-import StoreInformation from "@/features/store-detail/components/store-infomation";
-import StoreDescription from "@/features/store-detail/components/store-description";
-import StoreReview from "@/features/store-detail/components/store-review";
+import StoreInformation from "@/pages/store-detail/components/store-infomation";
+import StoreDescription from "@/pages/store-detail/components/store-description";
+import StoreReview from "./components/store-review";
 import SwitchableTabs from "@/components/common/switch-tab";
+import StoreService from "./components/store-service";
 
 const TABS = [
   {
@@ -25,7 +26,12 @@ const ServiceDetails = () => {
         </div>
         <StoreInformation />
       </div>
-      <div className="mt-8">
+
+      <div className="mt-14">
+        <StoreService />
+      </div>
+
+      <div className="mt-14">
         <SwitchableTabs tabs={TABS} defaultTab="description" />
       </div>
     </div>
