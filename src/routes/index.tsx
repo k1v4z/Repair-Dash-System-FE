@@ -9,7 +9,7 @@ import Login from "../pages/auth/login";
 import Home from "../pages/home";
 import Manage from "../pages/manage";
 import SignUp from "../pages/auth/signup";
-import StorePage from "../pages/store/page";
+import StorePage from "../pages/store";
 import StoreDetail from "../pages/store-detail";
 import ServiceDetail from "../pages/service-detail";
 import ManageStore from "../pages/manage-store";
