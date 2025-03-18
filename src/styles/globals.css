@@ -3,13 +3,20 @@
 @import url("./utilities.css");
 
 @layer base {
-}
-
-@layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
   }
+}
+
+:root {
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+}
+
+.dark {
+  --muted: 223 47% 11%;
+  --muted-foreground: 215.4 16.3% 56.9%;
 }

@@ -70,7 +70,11 @@ const listRoute: Route[] = [
   },
   {
     path: routePath.manageStore,
-    component: <ManageStore />,
+    component: (
+      <PrivateRoute>
+        <ManageStore />
+      </PrivateRoute>
+    ),
     layout: MainLayout,
   },
   {

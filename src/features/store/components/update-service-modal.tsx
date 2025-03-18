@@ -1,23 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalTitle,
-  ModalDescription,
-} from "@/components/ui/modal";
-import { ImageUpload } from "@/components/ui/image-upload";
 import { Label } from "@/components/ui/label";
-import Icon from "@/components/icons";
+import { ImageUpload } from "@/components/ui/image-upload";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import type { Service } from "@/features/store/types/store.type";
 
-interface AddServiceModalProps {
+interface UpdateServiceModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  service: Service;
   onSubmit: (data: { 
     service_name: string; 
     service_description: string;
@@ -29,11 +30,34 @@ interface AddServiceModalProps {
 interface FormData {
   service_name: string;
   service_description: string;
+  images: File[];
 }
 
-export function AddServiceModal({ open, onOpenChange, onSubmit, isLoading = false }: AddServiceModalProps) {
+export function UpdateServiceModal({ 
+  open, 
+  onOpenChange, 
+  service,
+  onSubmit,
+  isLoading = false
+}: UpdateServiceModalProps) {
   const [images, setImages] = useState<File[]>([]);
-  const { register, handleSubmit, reset } = useForm<FormData>();
+  
+  const { register, handleSubmit, reset } = useForm<FormData>({
+    defaultValues: {
+      service_name: service.service_name,
+      service_description: service.service_description,
+    }
+  });
+  
+  useEffect(() => {
+    if (service) {
+      reset({
+        service_name: service.service_name,
+        service_description: service.service_description,
+      });
+      setImages([]);
+    }
+  }, [service, reset, open]);
 
   const onSubmitForm = async (data: FormData) => {
     try {
@@ -41,10 +65,8 @@ export function AddServiceModal({ open, onOpenChange, onSubmit, isLoading = fals
         ...data,
         images: images
       });
-      reset();
-      setImages([]);
     } catch (error) {
-      console.error("Add failed:", error);
+      console.error("Update failed:", error);
     }
   };
 
@@ -52,18 +74,20 @@ export function AddServiceModal({ open, onOpenChange, onSubmit, isLoading = fals
     setImages([file]);
   };
 
- 
-
   return (
-    <Modal open={open} onOpenChange={onOpenChange}>
-      <ModalContent className="max-w-4xl">
+    <Dialog open={open} onOpenChange={(isOpen) => {
+      if (!isLoading) {
+        onOpenChange(isOpen);
+      }
+    }}>
+      <DialogContent className="max-w-4xl">
         <form onSubmit={handleSubmit(onSubmitForm)}>
-          <ModalHeader className="border-b pb-4">
-            <ModalTitle className="text-2xl">Thêm dịch vụ mới</ModalTitle>
-            <ModalDescription className="text-gray-500 mt-2">
-              Thêm một dịch vụ mới vào hệ thống quản lý cửa hàng
-            </ModalDescription>
-          </ModalHeader>
+          <DialogHeader className="border-b pb-4">
+            <DialogTitle className="text-2xl">Cập nhật dịch vụ</DialogTitle>
+            <DialogDescription className="text-gray-500 mt-2">
+              Cập nhật thông tin dịch vụ của bạn
+            </DialogDescription>
+          </DialogHeader>
 
           <div className="grid md:grid-cols-2 gap-6 py-6">
             <div className="space-y-6">
@@ -79,9 +103,9 @@ export function AddServiceModal({ open, onOpenChange, onSubmit, isLoading = fals
                 />
               </div>
               <div className="space-y-2">
-                <label htmlFor="service_description" className="text-sm font-medium">
+                <Label htmlFor="service_description" className="text-sm font-medium">
                   Mô tả dịch vụ
-                </label>
+                </Label>
                 <Textarea
                   id="service_description"
                   {...register("service_description")}
@@ -94,16 +118,23 @@ export function AddServiceModal({ open, onOpenChange, onSubmit, isLoading = fals
             <div className="flex flex-col items-center justify-center border rounded-lg p-6 bg-gray-50">
               <ImageUpload 
                 onImageChange={handleImageChange}
+                defaultImage={
+                  Array.isArray(service.service_images_url) && service.service_images_url.length > 0
+                    ? service.service_images_url[0]
+                    : typeof service.service_images_url === 'string'
+                      ? service.service_images_url
+                      : undefined
+                }
                 className="w-full"
               />
             </div>
           </div>
 
-          <ModalFooter className="border-t pt-4 mt-4">
+          <DialogFooter className="border-t pt-4 mt-4">
             <Button
               type="button"
               variant="outline"
-              onClick={() => onOpenChange(false)}
+              onClick={() => !isLoading && onOpenChange(false)}
               className="mr-2"
               disabled={isLoading}
             >
@@ -114,18 +145,11 @@ export function AddServiceModal({ open, onOpenChange, onSubmit, isLoading = fals
               className="bg-blue-600 hover:bg-blue-700"
               disabled={isLoading}
             >
-              {isLoading ? (
-                <>
-                  <Icon glyph="loader" className="w-4 h-4 mr-2 animate-spin" />
-                  Đang thêm...
-                </>
-              ) : (
-                'Thêm dịch vụ'
-              )}
+              {isLoading ? "Đang cập nhật..." : "Cập nhật"}
             </Button>
-          </ModalFooter>
+          </DialogFooter>
         </form>
-      </ModalContent>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 } 

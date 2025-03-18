@@ -6,6 +6,7 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
+  ColumnDef,
 } from "@tanstack/react-table"
 import { Button } from "@/components/ui/button"
 import {
@@ -16,15 +17,28 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui/table"
-import { DataTableProps } from '@/types/globals.type';
-import Icon from "@/components/icons";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export function DataTable<T>({
+interface PaginationProps {
+  currentPage: number;
+  pageSize: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}
+
+interface DataTableProps<TData> {
+  data: TData[];
+  columns: ColumnDef<TData>[];
+  loading?: boolean;
+  pagination?: PaginationProps;
+}
+
+export function DataTable<TData>({
   columns,
   data,
   loading = false,
-  pageSize = 10,
-}: DataTableProps<T>) {
+  pagination,
+}: DataTableProps<TData>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
 
   const table = useReactTable({
@@ -39,7 +53,7 @@ export function DataTable<T>({
     },
     initialState: {
       pagination: {
-        pageSize,
+        pageSize: pagination?.pageSize || 10,
       },
     },
   })
@@ -68,16 +82,15 @@ export function DataTable<T>({
           </TableHeader>
           <TableBody>
             {loading ? (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  <div className="flex items-center justify-center">
-                    <Icon glyph="loader" className="h-6 w-6 text-gray-500" />
-                  </div>
-                </TableCell>
-              </TableRow>
+              Array.from({ length: pagination?.pageSize || 5 }).map((_, index) => (
+                <TableRow key={index}>
+                  {Array.from({ length: columns.length }).map((_, cellIndex) => (
+                    <TableCell key={cellIndex}>
+                      <Skeleton className="h-10 w-full" />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
             ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -107,26 +120,31 @@ export function DataTable<T>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-          className="hover:bg-gray-100"
-        >
-          Trước
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-          className="hover:bg-gray-100"
-        >
-          Sau
-        </Button>
-      </div>
+      {pagination && (
+        <div className="flex items-center justify-end space-x-2 py-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => pagination.onPageChange(pagination.currentPage - 1)}
+            disabled={pagination.currentPage <= 1}
+          >
+            Previous
+          </Button>
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium">
+              Page {pagination.currentPage} of {pagination.totalPages}
+            </span>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => pagination.onPageChange(pagination.currentPage + 1)}
+            disabled={pagination.currentPage >= pagination.totalPages}
+          >
+            Next
+          </Button>
+        </div>
+      )}
     </div>
   )
 } 

@@ -1,13 +1,13 @@
 export type FilterType = 'location' | 'price' | 'rating';
 
-export interface FilterOption {
+export type FilterOption = {
   id: string;
   name: string;
   type: FilterType;
   value?: number;
 }
 
-export interface FilterSelectProps {
+export type FilterSelectProps = {
   label?: string;
   value: string;
   options: string[];
@@ -15,13 +15,23 @@ export interface FilterSelectProps {
   className?: string;
 }
 
-export interface Owner {
+export type Owner = {
   user_full_name: string;
   user_street: string;
   user_ward: string;
   user_district: string;
   user_city: string;
   user_phone_number: string;
+}
+
+export interface ServiceResponse {
+  data: {
+    message: string;
+    listService: Service[];
+    limit: number;
+    index: number;
+    totalPages: number;
+  };
 }
 
 export interface Service {
@@ -33,5 +43,52 @@ export interface Service {
   owner_id: number;
   createdAt: string;
   updatedAt: string;
-  owner: Owner;
+  owner: {
+    user_full_name: string;
+    user_street: string;
+    user_ward: string;
+    user_district: string;
+    user_city: string;
+    user_phone_number: string;
+  };
+}
+
+export type UpdateServiceRequest = {
+  service_name: string;
+  service_description: string;
+  service_images?: string[];
+}
+
+export type AddServiceRequest = {
+  service_name: string;
+  service_description: string;
+  service_images: string[];
+}
+
+export type UpdateServiceResponse = {
+  data: {
+    message: string;
+    serviceId: {
+      message: string;
+      newService: Service;
+      listService: Service[];
+      limit: number;
+      index: number;
+      totalPages: number;
+    }
+  }
+}
+
+export type AddServiceResponse = {
+  data: {
+    message: string;
+    serviceId: {
+      message: string;
+      newService: Service;
+      listService: Service[];
+      limit: number;
+      index: number;
+      totalPages: number;
+    }
+  }
 }
