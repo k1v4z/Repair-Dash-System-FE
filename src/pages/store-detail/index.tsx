@@ -13,7 +13,7 @@ const TABS = [
   { value: "reivew", label: "Đánh giá", content: <StoreReview /> },
 ];
 
-const ServiceDetails = () => {
+const StoreDetails = () => {
   return (
     <div className="max-w-[1440px] mx-auto px-4 py-8">
       <div className="flex lg:flex-row flex-col gap-6">
@@ -38,4 +38,4 @@ const ServiceDetails = () => {
   );
 };
 
-export default ServiceDetails;
+export default StoreDetails;

@@ -1,3 +1,5 @@
+import type { Service } from "@/types/service";
+
 export type Review = {
   id: number;
   user: {
@@ -6,4 +8,8 @@ export type Review = {
   };
   content: string;
   rating: number;
+};
+export type ServiceResponse = {
+  services: Service[];
+  status: number;
 };
