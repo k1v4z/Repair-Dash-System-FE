@@ -158,7 +158,7 @@ export default function CustomerInformationSection({
             id="order_description"
             {...register("order_description")}
             placeholder="Mô tả chi tiết về hư hỏng thiết bị của bạn và yêu cầu sửa chữa"
-            className="h-32"
+            className="h-32 resize-none"
           />
         </div>
       </div>

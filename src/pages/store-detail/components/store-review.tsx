@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type { Review } from "@/features/store-detail/types/review";
+import type { Review } from "@/features/store-detail/types/store-detail.type";
 import ReviewList from "./review-list";
 
 const REVIEWS: Review[] = [

@@ -19,6 +19,7 @@ export interface ServiceOwner extends UserAddress {
 export interface Service {
   service_id: number;
   service_name: string;
+  service_images_url: string[];
   service_description: string;
   owner_id: number;
   createdAt: string;

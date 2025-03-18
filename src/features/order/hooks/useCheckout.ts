@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { orderServices } from "../service/order.service";
 import type { CheckoutResponse } from "../types/orders.type";
 
-const pathSegments = window.location.pathname.split("/");
-
 export const useCheckout = () => {
-  const [checkoutResponse, setCheckoutResponse] = useState<CheckoutResponse | null>(null);
+  const pathSegments = window.location.pathname.split("/");
+  const [checkoutResponse, setCheckoutResponse] =
+    useState<CheckoutResponse | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [status, setStatus] = useState<number | null>(null);
 
