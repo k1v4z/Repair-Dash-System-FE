@@ -35,3 +35,15 @@ export interface Service {
   updatedAt: string;
   owner: Owner;
 }
+
+export interface UpdateServiceRequest {
+  service_name: string;
+  service_description: string;
+  service_images: string[];
+}
+
+export interface AddServiceRequest {
+  service_name: string;
+  service_description: string;
+  service_images: string[];
+}
