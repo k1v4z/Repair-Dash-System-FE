@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { FILTER_OPTIONS, FILTER_CATEGORIES } from "../constants/filter";
-import type { FilterOption } from "../types/store.type";
+import { FILTER_OPTIONS, FILTER_CATEGORIES } from "@/features/store/constants/filter";
+import type { FilterOption } from "@/features/store/types/store.type";
 import Icon from "@/components/icons";
 import SelectField from "@/components/common/select-field";
 

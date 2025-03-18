@@ -19,17 +19,16 @@ export interface Column<T> {
   enableSorting?: boolean;
 }
 
-export interface DataTableProps<TData> {
-  columns: ColumnDef<TData>[];
-  data: TData[];
-  loading?: boolean;
-  pageSize?: number;
-}
-
 export interface AxiosResponse<T = undefined> {
   status: number;
   message: string;
   data?: T;
 }
 
+export type PaginationProps = {
+  currentPage: number;
+  pageSize: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}
 export type Role = "STORE" | "USER" | "ADMIN";

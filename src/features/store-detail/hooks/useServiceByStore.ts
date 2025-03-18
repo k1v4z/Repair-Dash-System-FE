@@ -7,7 +7,7 @@ const useServiceByStore = (storeId: string) => {
   const [serviceList, setServiceList] = useState<Service[]>([]);
   const [error, setError] = useState<string | null>(null);
   const fetchServicesByStore = async () => {
-    try {
+    try { 
       setLoading(true);
       const response = await storeDetailServices.getServicesByStore(storeId);
       if (response.status === 200) {
