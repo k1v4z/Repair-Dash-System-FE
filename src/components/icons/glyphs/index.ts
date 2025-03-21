@@ -19,6 +19,8 @@ import { Calendar } from "./calendar";
 import { UploadImg } from "./upload-img";
 import { Loader } from "./loader";
 import { Warning } from "./warning";
+import { Message } from "./message";
+import { HalfStar } from "./half-star";
 
 export const glyphs = {
   eye: Eye,
@@ -42,6 +44,8 @@ export const glyphs = {
   calendar: Calendar,
   uploadImg: UploadImg,
   loader: Loader,
+  message: Message,
+  halfStar: HalfStar,
 };
 
 export type Glyph = {
