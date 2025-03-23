@@ -1,9 +1,9 @@
 import { useUploadFile } from "@/hooks/useUploadFile";
-import { X, Upload, AlertCircle, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Input } from "../ui/input";
+import Icon from "../icons";
 
 export interface FileInfo {
   file: File;
@@ -86,14 +86,14 @@ const FileUpload = ({
       <Button
         variant={buttonVariant}
         onClick={handleButtonClick}
-        className="mb-4 flex items-center gap-2"
+        className="mb-4 flex items-center gap-2 [&_svg]:size-4"
       >
-        <Upload size={16} />
+        <Icon glyph="upload" className="fill-white" />
         {buttonText}
       </Button>
       {error && (
         <Alert variant="destructive" className="mb-4">
-          <AlertCircle className="h-4 w-4" />
+          <Icon glyph="alertCircle" className="size-4 fill-white" />
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
@@ -131,23 +131,24 @@ const FileUpload = ({
                       {(fileInfo.file.size / 1024).toFixed(1)} KB
                     </p>
                   </div>
-                  <button
+                  <Button
+                    variant="ghost"
                     onClick={() => handleRemoveFile(fileInfo.id)}
-                    className="text-gray-500 hover:text-red-500"
+                    className="text-gray-500 hover:bg-transparent p-2 [&_svg]:size-3"
                     aria-label="Remove file"
                   >
-                    <X size={16} />
-                  </button>
+                    <Icon glyph="x" />
+                  </Button>
                 </div>
                 <div className="mt-1">
                   {fileInfo.error ? (
                     <div className="text-xs text-red-500 flex items-center gap-1">
-                      <AlertCircle size={12} />
+                      <Icon glyph="alertCircle" className="size-4" />
                       {fileInfo.error}
                     </div>
                   ) : fileInfo.uploaded ? (
                     <div className="text-xs text-green-500 flex items-center gap-1">
-                      <CheckCircle size={12} />
+                      <Icon glyph="checkCircle" className="size-4 fill-white" />
                       Tải lên thành công
                     </div>
                   ) : (
