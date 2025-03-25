@@ -15,10 +15,7 @@ const Rating = ({ number }: { number: number }) => {
         />
       ))}
       {halfStar && (
-        <Icons
-          glyph="halfStar"
-          className="w-5 h-5 mt-1 text-yellow-400"
-        />
+        <Icons glyph="halfStar" className="size-5 mt-1 text-yellow-400"/>
       )}
     </div>
   );

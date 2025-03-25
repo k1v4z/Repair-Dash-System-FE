@@ -1,11 +1,14 @@
+import { Link, useNavigate } from "react-router-dom";
 import Icons from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { useParams, useNavigate } from "react-router-dom";
+import type { Service } from "@/features/store-detail/types/store-detail.type";
 import routePath from "@/config/route";
 
-const ServiceInformation = () => {
-  const { id } = useParams();
+interface ServiceInformationProps {
+  service: Service;
+}
+
+const ServiceInformation = ({ service }: ServiceInformationProps) => {
   const navigate = useNavigate();
 
   return (
@@ -22,7 +25,9 @@ const ServiceInformation = () => {
             </p>
             <div className="flex">
               <Icons glyph="store" className="size-5 fill-blue-600 mt-1" />
-              <span className="font-medium ml-1">TechCare</span>
+              <span className="font-medium ml-1">
+                {service.owner.user_full_name}
+              </span>
             </div>
           </div>
 
@@ -31,7 +36,7 @@ const ServiceInformation = () => {
             <div className="flex">
               <Icons glyph="location" className="w-5 h-5 text-blue-600 mt-1" />
               <span className="font-medium ml-1">
-                123 Đường Nguyễn Văn Cừ, Quận 5, TP. Hồ Chí Minh
+                {`${service.owner.user_street}, ${service.owner.user_ward}, ${service.owner.user_district}, ${service.owner.user_city}`}
               </span>
             </div>
           </div>
@@ -39,7 +44,12 @@ const ServiceInformation = () => {
           <Button
             className="mt-6 bg-primary-royalBlue hover:bg-primary-royalBlue/90 w-full"
             onClick={() =>
-              navigate(routePath.order.replace(":serviceId", id ?? ""))
+              navigate(
+                routePath.order.replace(
+                  ":serviceId",
+                  service.service_id.toString()
+                )
+              )
             }
           >
             Đặt dịch vụ
@@ -49,7 +59,10 @@ const ServiceInformation = () => {
         <p className="text-center mt-3">
           Xem thông tin nhà cung cấp dịch vụ{" "}
           <Link
-            to="/store-detail/6"
+            to={routePath.storeDetail.replace(
+              ":id",
+              service.owner_id.toString()
+            )}
             className="text-primary-royalBlue underline"
           >
             tại đây

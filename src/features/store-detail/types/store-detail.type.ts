@@ -1,14 +1,20 @@
-import type { Service } from "@/types/service";
+import type { UserAddress } from "@/types/service";
 
 export type Review = {
-  id: number;
-  user: {
-    name: string;
-    avatar: string;
-  };
-  content: string;
-  rating: number;
+  customer_full_name: string;
+  order_feedback: string;
+  order_rating: number;
 };
+
+export type Service = {
+  service_id: number;
+  service_name: string;
+  service_description: string;
+  service_image_url: string;
+  owner_id: number;
+  owner: UserAddress;
+};
+
 export type ServiceResponse = {
   services: Service[];
   status: number;

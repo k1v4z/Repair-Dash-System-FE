@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type { Service } from "@/types/service";
+import type { Service } from "../types/store-detail.type";
 import { storeDetailServices } from "@/features/store-detail/service/store-detail.service";
 
 const useServiceByStore = (storeId: string) => {
@@ -24,6 +24,7 @@ const useServiceByStore = (storeId: string) => {
 
   useEffect(() => {
     fetchServicesByStore();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storeId]);
 
   return { loading, serviceList, error };
