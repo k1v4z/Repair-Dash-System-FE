@@ -21,7 +21,7 @@ import { Loader } from "./loader";
 import { Warning } from "./warning";
 import { AlertCircle } from "./alert-circle";
 import { CheckCircle } from "./check-circle";
-
+import { Phone } from "./phone";
 export const glyphs = {
   alertCircle: AlertCircle,
   checkCircle: CheckCircle,
@@ -46,6 +46,7 @@ export const glyphs = {
   calendar: Calendar,
   uploadImg: UploadImg,
   loader: Loader,
+  phone: Phone,
 };
 
 export type Glyph = {

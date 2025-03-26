@@ -14,6 +14,7 @@ import StoreDetail from "../pages/store-detail";
 import ManageStore from "../pages/manage-store";
 import NotFound from "../pages/not-found";
 import { AuthRoute } from "./auth-route";
+import OrderTracking from "../pages/order-tracking";
 
 const listRoute: Route[] = [
   {
@@ -40,10 +41,19 @@ const listRoute: Route[] = [
     layout: AuthLayout,
   },
   {
-    path: routePath.order,
+    path: routePath.bookingService,
     component: (
       <PrivateRoute>
         <Order />
+      </PrivateRoute>
+    ),
+    layout: MainLayout,
+  },
+  {
+    path: routePath.bookingDetail,
+    component: (
+      <PrivateRoute>
+        <OrderTracking />
       </PrivateRoute>
     ),
     layout: MainLayout,
