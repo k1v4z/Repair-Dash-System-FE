@@ -19,10 +19,14 @@ import { Calendar } from "./calendar";
 import { UploadImg } from "./upload-img";
 import { Loader } from "./loader";
 import { Warning } from "./warning";
+import { AlertCircle } from "./alert-circle";
+import { CheckCircle } from "./check-circle";
 import { Message } from "./message";
 import { HalfStar } from "./half-star";
 
 export const glyphs = {
+  alertCircle: AlertCircle,
+  checkCircle: CheckCircle,
   eye: Eye,
   facebook: FacebookIcon,
   instagram: InstagramIcon,
