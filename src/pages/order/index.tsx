@@ -52,28 +52,29 @@ export default function ServiceBookingForm() {
 
   return (
     <>
-      {status === 404 && (
+      {status === 404 ? (
         <ResourceNotFound
           title="Dịch vụ không tồn tại"
           description="Không tìm thấy dịch vụ bạn tìm kiếm hoặc có thể đã bị xóa."
           buttonText="Quay lại trang chủ"
         />
-      )}
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="container mx-auto px-4 pt-4 pb-3">
-          <div className="grid lg:grid-cols-2 gap-8">
-            {customer && (
-              <CustomerInformationSection customer={customer} form={form} />
-            )}
-            {service && (
-              <ServiceInformationSection
-                service={service}
-                isLoading={isLoading}
-              />
-            )}
+      ) : (
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="container mx-auto px-4 pt-4 pb-3">
+            <div className="grid lg:grid-cols-2 gap-8">
+              {customer && (
+                <CustomerInformationSection customer={customer} form={form} />
+              )}
+              {service && (
+                <ServiceInformationSection
+                  service={service}
+                  isLoading={isLoading}
+                />
+              )}
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      )}
     </>
   );
 }

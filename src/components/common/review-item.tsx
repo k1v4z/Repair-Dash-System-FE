@@ -1,24 +1,27 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import type { Review } from "@/features/store-detail/types/store-detail.type";
 import Rating from "@/components/common/rating";
+
 interface ReviewProps {
   review: Review;
 }
 
 const ReviewItem = ({ review }: ReviewProps) => {
   return (
-    <div key={review.id} className="flex gap-4 border-b pb-4 last:border-0">
+    <div className="flex gap-4 border-b pb-4 last:border-0">
       <Avatar>
-        <AvatarFallback>{review.user.name[0]}</AvatarFallback>
+        <AvatarFallback>{review.customer_full_name[0]}</AvatarFallback>
       </Avatar>
       <div className="flex-1">
         <div className="flex items-center gap-2 mb-2">
-          <span className="font-semibold">{review.user.name}</span>
+          <span className="font-semibold mt-1">
+            {review.customer_full_name}
+          </span>
           <div className="flex">
-            <Rating number={review.rating} />
+            <Rating number={review.order_rating} />
           </div>
         </div>
-        <p className="text-gray-600">{review.content}</p>
+        <p className="text-gray-600">{review.order_feedback}</p>
       </div>
     </div>
   );

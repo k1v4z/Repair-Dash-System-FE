@@ -12,7 +12,10 @@ export const storeDetailApi = {
         `${STORE_ENDPOINTS.GET_SERVICES_BY_STORE}${storeId}`
       );
 
-      return { services: response.data.data, status: response.status };
+      return {
+        services: response.data.data.listService,
+        status: response.status,
+      };
     } catch (error) {
       console.error("Get services by store error");
       throw error;
