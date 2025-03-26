@@ -5,17 +5,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Input } from "../ui/input";
 import Icon from "../icons";
 
-export interface FileInfo {
-  file: File;
-  id: string;
-  preview?: string;
-  progress: number;
-  error?: string;
-  uploaded?: boolean;
-}
-
 export interface FileUploadProps {
-  files?: FileInfo[];
   multiple?: boolean;
   acceptedFileTypes?: string[];
   maxFileSize?: number;
@@ -30,6 +20,7 @@ export interface FileUploadProps {
     | "link";
   emptyMessage?: string;
   className?: string;
+  files?: File[];
   onFilesSelected?: (files: File[]) => void;
   onFileRemoved?: (fileId: string) => void;
   onUploadComplete?: (files: File[]) => void;
@@ -38,7 +29,8 @@ export interface FileUploadProps {
     file: File,
     onProgress: (progress: number) => void
   ) => Promise<void>;
-  initialFiles?: FileInfo[];
+  initialFiles?: File[];
+  disabled?: boolean;
 }
 
 const FileUpload = ({
@@ -55,19 +47,26 @@ const FileUpload = ({
   onFileRemoved,
   onUploadComplete,
   uploadFunction,
+  disabled = false,
 }: FileUploadProps) => {
-  const { files, error, fileInputRef, handleFileChange, handleRemoveFile } =
-    useUploadFile({
-      multiple,
-      acceptedFileTypes,
-      maxFileSize,
-      maxFiles,
-      onFilesSelected,
-      onFileRemoved,
-      onUploadComplete,
-      uploadFunction,
-      initialFiles,
-    });
+  const {
+    files,
+    getMetadata,
+    error,
+    fileInputRef,
+    handleFileChange,
+    handleRemoveFile,
+  } = useUploadFile({
+    multiple,
+    acceptedFileTypes,
+    maxFileSize,
+    maxFiles,
+    onFilesSelected,
+    onFileRemoved,
+    onUploadComplete,
+    uploadFunction,
+    initialFiles,
+  });
 
   const handleButtonClick = () => {
     fileInputRef.current?.click();
@@ -86,7 +85,9 @@ const FileUpload = ({
       <Button
         variant={buttonVariant}
         onClick={handleButtonClick}
+        type="button"
         className="mb-4 flex items-center gap-2 [&_svg]:size-4"
+        disabled={disabled}
       >
         <Icon glyph="upload" className="fill-white" />
         {buttonText}
@@ -101,71 +102,78 @@ const FileUpload = ({
         {files.length === 0 ? (
           <div className="text-center py-4 text-gray-500">{emptyMessage}</div>
         ) : (
-          files.map((fileInfo) => (
-            <div
-              key={fileInfo.id}
-              className="border rounded-md p-3 flex items-center gap-3"
-            >
-              {fileInfo.preview ? (
-                <div className="relative h-16 w-16 flex-shrink-0">
-                  <img
-                    src={fileInfo.preview}
-                    alt={fileInfo.file.name}
-                    className="h-full w-full object-cover rounded"
-                  />
-                </div>
-              ) : (
-                <div className="h-16 w-16 bg-gray-100 flex items-center justify-center rounded flex-shrink-0">
-                  <span className="text-xs font-medium uppercase">
-                    {fileInfo.file.type.split("/")[1]}
-                  </span>
-                </div>
-              )}
-              <div className="flex-1 min-w-0">
-                <div className="flex justify-between items-start">
-                  <div className="truncate pr-2">
-                    <p className="text-sm font-medium truncate">
-                      {fileInfo.file.name}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {(fileInfo.file.size / 1024).toFixed(1)} KB
-                    </p>
+          files.map((file) => {
+            const metadata = getMetadata(file);
+            return (
+              <div
+                key={metadata.id}
+                className="border rounded-md p-3 flex items-center gap-3"
+              >
+                {metadata.preview ? (
+                  <div className="relative h-16 w-16 flex-shrink-0">
+                    <img
+                      src={metadata.preview}
+                      alt={file.name}
+                      className="h-full w-full object-cover rounded"
+                    />
                   </div>
-                  <Button
-                    variant="ghost"
-                    onClick={() => handleRemoveFile(fileInfo.id)}
-                    className="text-gray-500 hover:bg-transparent p-2 [&_svg]:size-3"
-                    aria-label="Remove file"
-                  >
-                    <Icon glyph="x" />
-                  </Button>
-                </div>
-                <div className="mt-1">
-                  {fileInfo.error ? (
-                    <div className="text-xs text-red-500 flex items-center gap-1">
-                      <Icon glyph="alertCircle" className="size-4" />
-                      {fileInfo.error}
-                    </div>
-                  ) : fileInfo.uploaded ? (
-                    <div className="text-xs text-green-500 flex items-center gap-1">
-                      <Icon glyph="checkCircle" className="size-4 fill-white" />
-                      Tải lên thành công
-                    </div>
-                  ) : (
-                    <>
-                      <Progress
-                        value={fileInfo.progress}
-                        className="h-1 w-full"
-                      />
-                      <p className="text-xs text-gray-500 mt-1">
-                        {fileInfo.progress.toFixed(0)}% đã tải lên
+                ) : (
+                  <div className="h-16 w-16 bg-gray-100 flex items-center justify-center rounded flex-shrink-0">
+                    <span className="text-xs font-medium uppercase">
+                      {file.type.split("/")[1]}
+                    </span>
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <div className="flex justify-between items-start">
+                    <div className="truncate pr-2">
+                      <p className="text-sm font-medium truncate">
+                        {file.name}
                       </p>
-                    </>
-                  )}
+                      <p className="text-xs text-gray-500">
+                        {(file.size / 1024).toFixed(1)} KB
+                      </p>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      onClick={() => handleRemoveFile(metadata.id)}
+                      disabled={disabled}
+                      className="text-gray-500 hover:bg-transparent p-2 [&_svg]:size-3"
+                      aria-label="Remove file"
+                    >
+                      <Icon glyph="x" />
+                    </Button>
+                  </div>
+                  <div className="mt-1">
+                    {metadata.error ? (
+                      <div className="text-xs text-red-500 flex items-center gap-1">
+                        <Icon glyph="alertCircle" className="size-4" />
+                        {metadata.error}
+                      </div>
+                    ) : metadata.uploaded ? (
+                      <div className="text-xs text-green-500 flex items-center gap-1">
+                        <Icon
+                          glyph="checkCircle"
+                          className="size-4 fill-white"
+                        />
+                        Tải lên thành công
+                      </div>
+                    ) : (
+                      <>
+                        <Progress
+                          value={metadata.progress}
+                          className="h-1 w-full"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">
+                          {metadata.progress.toFixed(0)}% đã tải lên
+                        </p>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
     </div>

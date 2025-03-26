@@ -1,13 +1,41 @@
 import { useState, useRef, ChangeEvent, useEffect } from "react";
 
-export interface FileInfo {
-  file: File;
-  id: string;
-  preview?: string;
-  progress: number;
-  error?: string;
-  uploaded?: boolean;
-}
+// Create a WeakMap to store metadata for each File instance
+const fileMetadata = new WeakMap<
+  File,
+  {
+    id: string;
+    preview?: string;
+    progress: number;
+    error?: string;
+    uploaded?: boolean;
+  }
+>();
+
+// Helper functions to work with the WeakMap
+const getMetadata = (file: File) => {
+  if (!fileMetadata.has(file)) {
+    fileMetadata.set(file, {
+      id: `${file.name}-${Date.now()}`,
+      preview: file.type.startsWith("image/")
+        ? URL.createObjectURL(file)
+        : undefined,
+      progress: 0,
+      error: undefined,
+      uploaded: false,
+    });
+  }
+  return fileMetadata.get(file)!;
+};
+
+const setMetadata = (
+  file: File,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: Partial<typeof fileMetadata extends WeakMap<any, infer T> ? T : never>
+) => {
+  fileMetadata.set(file, { ...getMetadata(file), ...data });
+  return fileMetadata.get(file)!;
+};
 
 export const useUploadFile = ({
   initialFiles = [],
@@ -20,7 +48,7 @@ export const useUploadFile = ({
   onUploadComplete,
   uploadFunction,
 }: {
-  initialFiles?: FileInfo[];
+  initialFiles?: File[];
   multiple?: boolean;
   acceptedFileTypes?: string[];
   maxFileSize?: number;
@@ -33,14 +61,19 @@ export const useUploadFile = ({
     onProgress: (progress: number) => void
   ) => Promise<void>;
 }) => {
-  const [files, setFiles] = useState<FileInfo[]>(initialFiles);
+  const [files, setFiles] = useState<File[]>(initialFiles);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (initialFiles) {
-      setFiles(initialFiles);
-    }
+    // Initialize metadata for initial files
+    initialFiles.forEach((file) => {
+      if (!fileMetadata.has(file)) {
+        getMetadata(file);
+      }
+    });
+
+    setFiles(initialFiles);
   }, [initialFiles]);
 
   const validateFile = (file: File): string | null => {
@@ -58,25 +91,16 @@ export const useUploadFile = ({
     return null;
   };
 
-  const createPreview = (file: File): string | undefined => {
-    if (file.type.startsWith("image/")) {
-      return URL.createObjectURL(file);
-    }
-    return undefined;
-  };
-
-  const uploadFile = async (fileInfo: FileInfo) => {
+  const uploadFile = async (file: File) => {
     try {
       const updateProgress = (progress: number) => {
-        setFiles((prevFiles) =>
-          prevFiles.map((f) =>
-            f.id === fileInfo.id ? { ...f, progress, error: undefined } : f
-          )
-        );
+        setMetadata(file, { progress, error: undefined });
+        // Force a re-render by creating a new array
+        setFiles((prevFiles) => [...prevFiles]);
       };
 
       if (uploadFunction) {
-        await uploadFunction(fileInfo.file, updateProgress);
+        await uploadFunction(file, updateProgress);
       } else {
         // Simulate upload if no upload function is provided
         const totalSteps = 10;
@@ -87,19 +111,11 @@ export const useUploadFile = ({
       }
 
       // Mark as uploaded
-      setFiles((prevFiles) =>
-        prevFiles.map((f) =>
-          f.id === fileInfo.id ? { ...f, uploaded: true } : f
-        )
-      );
+      setMetadata(file, { uploaded: true });
+      setFiles((prevFiles) => [...prevFiles]); // Force re-render
     } catch {
-      setFiles((prevFiles) =>
-        prevFiles.map((f) =>
-          f.id === fileInfo.id
-            ? { ...f, error: "Upload failed", progress: 0 }
-            : f
-        )
-      );
+      setMetadata(file, { error: "Upload failed", progress: 0 });
+      setFiles((prevFiles) => [...prevFiles]); // Force re-render
     }
   };
 
@@ -117,7 +133,6 @@ export const useUploadFile = ({
       return;
     }
 
-    const newFiles: FileInfo[] = [];
     const validFiles: File[] = [];
 
     selectedFiles.forEach((file) => {
@@ -128,26 +143,20 @@ export const useUploadFile = ({
         return;
       }
 
-      const fileInfo: FileInfo = {
-        file,
-        id: `${file.name}-${Date.now()}`,
-        preview: createPreview(file),
-        progress: 0,
-      };
-
-      newFiles.push(fileInfo);
+      // Initialize metadata for the file
+      getMetadata(file);
       validFiles.push(file);
     });
 
-    if (newFiles.length > 0) {
-      const updatedFiles = multiple ? [...files, ...newFiles] : newFiles;
+    if (validFiles.length > 0) {
+      const updatedFiles = multiple ? [...files, ...validFiles] : validFiles;
       setFiles(updatedFiles);
 
       if (onFilesSelected) {
         onFilesSelected(validFiles);
       }
 
-      newFiles.forEach(uploadFile);
+      validFiles.forEach(uploadFile);
     }
 
     if (fileInputRef.current) {
@@ -155,37 +164,43 @@ export const useUploadFile = ({
     }
   };
 
-  const handleRemoveFile = (id: string) => {
+  const handleRemoveFile = (fileId: string) => {
     setFiles((prevFiles) => {
-      const fileToRemove = prevFiles.find((f) => f.id === id);
+      const fileToRemove = prevFiles.find(
+        (file) => getMetadata(file).id === fileId
+      );
 
-      if (fileToRemove?.preview) {
-        URL.revokeObjectURL(fileToRemove.preview);
+      if (fileToRemove) {
+        const metadata = getMetadata(fileToRemove);
+        if (metadata.preview) {
+          URL.revokeObjectURL(metadata.preview);
+        }
+
+        if (onFileRemoved) {
+          onFileRemoved(fileId);
+        }
       }
 
-      if (onFileRemoved && fileToRemove) {
-        onFileRemoved(id);
-      }
-
-      return prevFiles.filter((f) => f.id !== id);
+      return prevFiles.filter((file) => getMetadata(file).id !== fileId);
     });
   };
 
   useEffect(() => {
     if (
       files.length > 0 &&
-      files.every((f) => f.uploaded) &&
+      files.every((file) => getMetadata(file).uploaded) &&
       onUploadComplete
     ) {
-      onUploadComplete(files.map((f) => f.file));
+      onUploadComplete(files);
     }
   }, [files, onUploadComplete]);
 
   useEffect(() => {
     return () => {
-      files.forEach((fileInfo) => {
-        if (fileInfo.preview) {
-          URL.revokeObjectURL(fileInfo.preview);
+      files.forEach((file) => {
+        const metadata = getMetadata(file);
+        if (metadata.preview) {
+          URL.revokeObjectURL(metadata.preview);
         }
       });
     };
@@ -193,6 +208,7 @@ export const useUploadFile = ({
 
   return {
     files,
+    getMetadata,
     error,
     fileInputRef,
     handleFileChange,
