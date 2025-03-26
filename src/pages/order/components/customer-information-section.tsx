@@ -4,11 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import TextareaField from "@/components/common/textarea-field";
 import SelectField from "@/components/common/select-field";
-import ImageUploadSection from "./image-upload-section";
 import { useSelectLocation } from "@/hooks/useSelectLocation";
 import type { UserAddress } from "@/types/service";
 import { UseFormReturn } from "react-hook-form";
 import type { OrderFormData } from "@/schemas/order";
+import FileUpload from "@/components/common/upload-file";
 
 interface CustomerInformationProps {
   customer: UserAddress;
@@ -42,6 +42,7 @@ export default function CustomerInformationSection({
     handleWardChange(customer.user_ward);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customer.user_city, customer.user_district, customer.user_ward]);
+
 
   return (
     <Card className="p-6 space-y-6">
@@ -149,7 +150,16 @@ export default function CustomerInformationSection({
             />
           </div>
         </div>
-        <ImageUploadSection />
+        <FileUpload
+          multiple
+          acceptedFileTypes={["image/png", "image/jpeg"]}
+          maxFiles={5}
+          buttonText="Tải lên"
+          buttonVariant="default"
+          onFilesSelected={(files) => {
+            setValue("order_images", files);
+          }}
+        />
         <div className="space-y-2">
           <Label htmlFor="order_description" className="text-left w-full block">
             Mô tả chi tiết

@@ -13,7 +13,7 @@ export default function ServiceInformationSection({
   isLoading = false,
 }: ServiceInformationProps) {
   return (
-    <Card className="p-6 space-y-6">
+    <Card className="p-6 space-y-6 h-fit">
       <h2 className="text-2xl font-semibold text-blue-700 text-left">
         Thông tin dịch vụ
       </h2>
