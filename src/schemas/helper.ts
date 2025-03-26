@@ -22,3 +22,7 @@ export const nameValidation = z
   .min(1, "Họ và tên là bắt buộc")
   .min(2, "Họ và tên phải có ít nhất 2 ký tự")
   .max(50, "Họ và tên không được quá 50 ký tự");
+export const phoneNumberValidation = z
+  .string()
+  .regex(/^[0-9]{10}$/, "Số điện thoại không hợp lệ");
+  

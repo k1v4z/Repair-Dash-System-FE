@@ -75,7 +75,7 @@ export default function Header() {
                 <DropdownMenuContent align="end" className="w-48">
                   <DropdownMenuItem>
                     <a
-                      href="#profile"
+                      href="/profile"
                       className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700"
                     >
                       <Icon glyph="profile" className="size-5" />

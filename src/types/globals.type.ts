@@ -31,3 +31,5 @@ export interface AxiosResponse<T = undefined> {
   message: string;
   data?: T;
 }
+export type Role = "STORE" | "USER" | "ADMIN"
+

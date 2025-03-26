@@ -16,6 +16,7 @@ import ManageStore from "../pages/manage-store";
 import NotFound from "../pages/not-found";
 import { AuthRoute } from "./auth-route";
 import OrderTracking from "../pages/order/tracking";
+import Profile from "../pages/profile";
 
 const listRoute: Route[] = [
   {
@@ -91,6 +92,15 @@ const listRoute: Route[] = [
   {
     path: "*",
     component: <NotFound />,
+    layout: MainLayout,
+  },
+  {
+    path: routePath.profile,
+    component: (
+      <PrivateRoute>
+        <Profile />
+      </PrivateRoute>
+    ),
     layout: MainLayout,
   },
 ];

@@ -5,7 +5,13 @@ import {
   WARDS_BY_DISTRICT,
 } from "@/constants/vi-locations";
 
-interface UseSelectLocationProps {
+interface Props {
+  initialProvince?: string;
+  initialDistrict?: string;
+  initialWard?: string;
+}
+
+interface UseSelectLocation {
   selectedProvince: string;
   selectedDistrict: string;
   selectedWard: string;
@@ -17,20 +23,20 @@ interface UseSelectLocationProps {
   wards: string[];
 }
 
-export const useSelectLocation = (): UseSelectLocationProps => {
-  const [selectedProvince, setSelectedProvince] = useState<string>("");
-  const [selectedDistrict, setSelectedDistrict] = useState<string>("");
-  const [selectedWard, setSelectedWard] = useState<string>("");
+export const useSelectLocation = (initValue?: Props): UseSelectLocation => {
+  const [selectedProvince, setSelectedProvince] = useState(initValue?.initialProvince || "");
+  const [selectedDistrict, setSelectedDistrict] = useState(initValue?.initialDistrict || "");
+  const [selectedWard, setSelectedWard] = useState(initValue?.initialWard || "");
 
   const handleProvinceChange = (value: string) => {
     setSelectedProvince(value);
-    setSelectedDistrict(""); // Reset district when province changes
-    setSelectedWard(""); // Reset ward when province changes
+    setSelectedDistrict("");
+    setSelectedWard("");
   };
 
   const handleDistrictChange = (value: string) => {
     setSelectedDistrict(value);
-    setSelectedWard(""); // Reset ward when district changes
+    setSelectedWard("");
   };
 
   const handleWardChange = (value: string) => {
@@ -45,9 +51,7 @@ export const useSelectLocation = (): UseSelectLocationProps => {
     handleDistrictChange,
     handleWardChange,
     provinces: PROVINCES,
-    districts: selectedProvince
-      ? DISTRICT_BY_PROVINCES[selectedProvince] || []
-      : [],
+    districts: selectedProvince ? DISTRICT_BY_PROVINCES[selectedProvince] || [] : [],
     wards: selectedDistrict ? WARDS_BY_DISTRICT[selectedDistrict] || [] : [],
   };
 };
