@@ -27,6 +27,7 @@ export default function ServiceBookingForm() {
         user_district: customer.user_district,
         user_ward: customer.user_ward,
         service_id: service?.service_id,
+        order_images: [],
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
