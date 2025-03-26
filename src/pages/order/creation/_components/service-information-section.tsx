@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Icons from "@/components/icons";
 import type { Service } from "@/types/service";
+import { useNavigate, useParams } from "react-router-dom";
+import routePath from "@/config/route";
 
 export interface ServiceInformationProps {
   service: Service;
@@ -12,6 +14,9 @@ export default function ServiceInformationSection({
   service,
   isLoading = false,
 }: ServiceInformationProps) {
+  const navigate = useNavigate();
+  const { serviceId } = useParams<{ serviceId: string }>();
+
   return (
     <Card className="p-6 space-y-6 h-fit">
       <h2 className="text-2xl font-semibold text-blue-700 text-left">
@@ -19,7 +24,7 @@ export default function ServiceInformationSection({
       </h2>
       <div className="space-y-6">
         <img
-          src="https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&q=80&w=800"
+          src={service.service_image_url}
           alt="Service"
           className="w-full h-48 object-cover rounded-lg"
         />
@@ -47,12 +52,16 @@ export default function ServiceInformationSection({
         <div className="flex justify-end gap-4 pt-4">
           <Button
             variant="outline"
+            type="button"
+            onClick={() =>
+              navigate(routePath.serviceDetail.replace(":id", serviceId || ""))
+            }
             className="text-red-600 hover:text-red-700 hover:bg-red-50"
           >
             Huỷ
           </Button>
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="bg-blue-600 hover:bg-blue-700"
             disabled={isLoading}
           >

@@ -40,12 +40,11 @@ const ServiceInformation = ({ service }: ServiceInformationProps) => {
               </span>
             </div>
           </div>
-
           <Button
             className="mt-6 bg-primary-royalBlue hover:bg-primary-royalBlue/90 w-full"
             onClick={() =>
               navigate(
-                routePath.order.replace(
+                routePath.bookingService.replace(
                   ":serviceId",
                   service.service_id.toString()
                 )
@@ -55,7 +54,6 @@ const ServiceInformation = ({ service }: ServiceInformationProps) => {
             Đặt dịch vụ
           </Button>
         </div>
-
         <p className="text-center mt-3">
           Xem thông tin nhà cung cấp dịch vụ{" "}
           <Link

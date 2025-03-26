@@ -3,14 +3,17 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCheckout } from "@/features/order/hooks/useCheckout";
 import { useOrder } from "@/features/order/hooks/useOrder";
-import CustomerInformationSection from "./components/customer-information-section";
-import ServiceInformationSection from "./components/service-information-section";
 import ResourceNotFound from "@/components/common/resource-not-found";
 import { toast } from "react-toastify";
 import { orderFormSchema, type OrderFormData } from "@/schemas/order";
+import CustomerInformationSection from "./_components/customer-information-section";
+import ServiceInformationSection from "./_components/service-information-section";
+import { useNavigate } from "react-router-dom";
+import routePath from "@/config/route";
 
 export default function ServiceBookingForm() {
   const { customer, service, errorMessage, status } = useCheckout();
+  const navigate = useNavigate();
   const { createOrder, isLoading } = useOrder();
 
   const form = useForm<OrderFormData>({
@@ -36,7 +39,13 @@ export default function ServiceBookingForm() {
   const onSubmit = async (data: OrderFormData) => {
     try {
       const response = await createOrder(data);
-      if (response) {
+      if (response?.order_id) {
+        navigate(
+          routePath.bookingDetail.replace(
+            ":orderId",
+            response.order_id.toString()
+          )
+        );
         toast.success("Đặt dịch vụ thành công!");
       }
     } catch {

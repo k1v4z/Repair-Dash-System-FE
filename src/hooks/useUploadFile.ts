@@ -74,7 +74,8 @@ export const useUploadFile = ({
     });
 
     setFiles(initialFiles);
-  }, [initialFiles]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(initialFiles)]);
 
   const validateFile = (file: File): string | null => {
     if (!acceptedFileTypes.includes(file.type)) {
