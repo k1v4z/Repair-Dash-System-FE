@@ -34,7 +34,10 @@ export const orderApi = {
   ): Promise<CreateOrderResponse> => {
     try {
       const response = await axiosInstance.post(ORDER_ENDPOINTS.CREATE, data);
-      return { message: response.data.message, status: response.status };
+      return {
+        message: response.data.message,
+        order_id: response.data.order_id,
+      };
     } catch (error) {
       console.error("Create order error");
       throw error;

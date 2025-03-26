@@ -1,5 +1,4 @@
 import type { Service, UserAddress } from "@/types/service";
-import type { AxiosResponse } from "@/types/globals.type";
 
 export type CheckoutResponse = {
   checkout: {
@@ -18,7 +17,10 @@ export type CreateOrderRequest = {
   order_images: (string | File)[];
 };
 
-export type CreateOrderResponse = AxiosResponse;
+export type CreateOrderResponse = {
+  message: string;
+  order_id: number;
+};
 
 export type OrderStatus = "PENDING" | "PROCESSING" | "CANCELED" | "COMPLETED";
 

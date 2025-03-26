@@ -1,25 +1,18 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { orderServices } from "../service/order.service";
 import type { UpdateOrderRequest } from "../types/orders.type";
 import type { OrderFormData } from "@/schemas/order";
-import routePath from "@/config/route";
 
 export const useOrder = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
 
   const createOrder = async (data: OrderFormData) => {
     setIsLoading(true);
     setError(null);
     try {
       const response = await orderServices.createOrder(data);
-      if (response.status === 201) {
-        navigate(routePath.home);
-        return response;
-      }
-      return null;
+      return response;
     } catch {
       setError("Error creating order");
       return null;
@@ -57,7 +50,6 @@ export const useOrder = () => {
       setIsLoading(false);
     }
   };
-
 
   return {
     isLoading,

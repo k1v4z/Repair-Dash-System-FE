@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import OrderStatusBar from "./components/order-status-bar";
-import CustomerInformation from "./components/customer-information";
-import ServiceInformation from "./components/service-information";
-import OrderActions from "./components/order-actions";
+import OrderStatusBar from "./_components/order-status-bar";
+import CustomerInformation from "./_components/customer-information";
+import ServiceInformation from "./_components/service-information";
+import OrderActions from "./_components/order-actions";
 import ResourceNotFound from "@/components/common/resource-not-found";
-import OrderSkeleton from "./components/order-skeleton";
+import OrderSkeleton from "./_components/order-skeleton";
 import type { Order } from "@/features/order/types/orders.type";
 import { useOrder } from "@/features/order/hooks/useOrder";
 

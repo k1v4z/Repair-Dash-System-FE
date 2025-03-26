@@ -4,7 +4,7 @@ import { PrivateRoute } from "./private-route";
 import MainLayout from "../layouts/main-layout";
 import AdminLayout from "../layouts/admin-layout";
 import AuthLayout from "../layouts/auth-layout";
-import Order from "../pages/order";
+import CreateOrder from "../pages/order/creation";
 import Login from "../pages/auth/login";
 import Home from "../pages/home";
 import Manage from "../pages/manage";
@@ -15,7 +15,7 @@ import ServiceDetail from "../pages/service-detail";
 import ManageStore from "../pages/manage-store";
 import NotFound from "../pages/not-found";
 import { AuthRoute } from "./auth-route";
-import OrderTracking from "../pages/order-tracking";
+import OrderTracking from "../pages/order/tracking";
 
 const listRoute: Route[] = [
   {
@@ -45,7 +45,7 @@ const listRoute: Route[] = [
     path: routePath.bookingService,
     component: (
       <PrivateRoute>
-        <Order />
+        <CreateOrder />
       </PrivateRoute>
     ),
     layout: MainLayout,
