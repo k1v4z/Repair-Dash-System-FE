@@ -22,6 +22,9 @@ import { Warning } from "./warning";
 import { AlertCircle } from "./alert-circle";
 import { CheckCircle } from "./check-circle";
 import { Phone } from "./phone";
+import { Message } from "./message";
+import { HalfStar } from "./half-star";
+
 export const glyphs = {
   alertCircle: AlertCircle,
   checkCircle: CheckCircle,
@@ -47,6 +50,8 @@ export const glyphs = {
   uploadImg: UploadImg,
   loader: Loader,
   phone: Phone,
+  message: Message,
+  halfStar: HalfStar,
 };
 
 export type Glyph = {

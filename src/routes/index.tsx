@@ -11,6 +11,7 @@ import Manage from "../pages/manage";
 import SignUp from "../pages/auth/signup";
 import StorePage from "../pages/store/page";
 import StoreDetail from "../pages/store-detail";
+import ServiceDetail from "../pages/service-detail";
 import ManageStore from "../pages/manage-store";
 import NotFound from "../pages/not-found";
 import { AuthRoute } from "./auth-route";
@@ -80,6 +81,11 @@ const listRoute: Route[] = [
   {
     path: routePath.manageStore,
     component: <ManageStore />,
+    layout: MainLayout,
+  },
+  {
+    path: routePath.serviceDetail,
+    component: <ServiceDetail />,
     layout: MainLayout,
   },
   {

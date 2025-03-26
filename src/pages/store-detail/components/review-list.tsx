@@ -1,5 +1,5 @@
-import ReviewItem from "./review-item";
-import type { Review } from "@/features/store-detail/types/review";
+import ReviewItem from "@/components/common/review-item";
+import type { Review } from "@/features/store-detail/types/store-detail.type";
 
 interface ReviewProps {
   list: Review[];

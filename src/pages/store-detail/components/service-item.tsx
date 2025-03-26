@@ -9,7 +9,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="rounded-lg overflow-hidden shadow hover:shadow-md cursor-pointer h-[380px] relative">
+    <div className="rounded-lg overflow-hidden shadow hover:shadow-md cursor-pointer h-[450px] relative">
       <div className="h-48 overflow-hidden">
         <img
           src={
@@ -26,19 +26,34 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
           {service.service_name}
         </h4>
         <p className="mt-2 line-clamp-2">{service.service_description}</p>
-        <Button
-          className="mt-5 absolute bottom-9 left-1/2 -translate-x-1/2 bg-primary-royalBlue hover:bg-primary-royalBlue/90"
-          onClick={() =>
-            navigate(
-              routePath.order.replace(
-                ":serviceId",
-                service.service_id.toString()
+        <div className="mt-5 absolute bottom-9 left-1/2 -translate-x-1/2 flex flex-col w-full gap-3 px-8">
+          <Button
+            className=" bg-primary-royalBlue hover:bg-primary-royalBlue/90 flex-1"
+            onClick={() =>
+              navigate(
+                routePath.serviceDetail.replace(
+                  ":id",
+                  service.service_id.toString()
+                )
               )
-            )
-          }
-        >
-          Đặt dịch vụ
-        </Button>
+            }
+          >
+            Xem chi tiết
+          </Button>
+          <Button
+            className=" bg-primary-royalBlue hover:bg-primary-royalBlue/90 flex-1"
+            onClick={() =>
+              navigate(
+                routePath.order.replace(
+                  ":serviceId",
+                  service.service_id.toString()
+                )
+              )
+            }
+          >
+            Đặt ngay
+          </Button>
+        </div>
       </div>
     </div>
   );
