@@ -2,19 +2,19 @@ import type { ServiceDetailResponse } from "../types/service-detail.ts";
 import { axiosInstance } from "@/config/axios";
 
 const SERVICE_DETAIL_ENDPOINTS = {
-  GET_SERVICE_BY_ID: "/service/",
+  GET_SERVICE_BY_ID: "/services",
 };
 
 export const serviceDetailApi = {
   getServiceById: async (serviceId: string): Promise<ServiceDetailResponse> => {
     try {
       const response = await axiosInstance.get(
-        `${SERVICE_DETAIL_ENDPOINTS.GET_SERVICE_BY_ID}${serviceId}`
+        `${SERVICE_DETAIL_ENDPOINTS.GET_SERVICE_BY_ID}/${serviceId}`
       );
       return {
-        service: response.data.data.service,
-        totalReviews: response.data.data.totalReviews,
-        averageRating: response.data.data.averageRating,
+        service: response.data.service,
+        totalReviews: response.data.totalReviews,
+        averageRating: response.data.averageRating,
         status: response.status,
       };
     } catch (error) {

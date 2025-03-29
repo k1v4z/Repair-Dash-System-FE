@@ -19,14 +19,15 @@ const useServiceDetail = (serviceId: string) => {
     } catch (error: any) {
       setStatus(error.status);
       setErrorMessage("Đã có lỗi xảy ra, vui lòng thử lại");
-      console.error("Error fetching service:", error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchServiceById();
+    if (serviceId) {
+      fetchServiceById();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [serviceId]);
 

@@ -12,11 +12,10 @@ const useServiceByStore = (storeId: string) => {
       const response = await storeDetailServices.getServicesByStore(storeId);
       if (response.status === 200) {
         setServiceList(response.services);
-      } else {
-        setError("Failed to fetch services.");
       }
-    } catch (err) {
-      console.error("Error fetching services:", err);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      setError("Failed to fetch services.");
     } finally {
       setLoading(false);
     }
