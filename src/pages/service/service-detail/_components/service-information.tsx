@@ -10,7 +10,6 @@ interface ServiceInformationProps {
 
 const ServiceInformation = ({ service }: ServiceInformationProps) => {
   const navigate = useNavigate();
-
   return (
     <div className="flex-1">
       <div className="h-80 border rounded-lg shadow p-6 bg-white">
@@ -46,7 +45,7 @@ const ServiceInformation = ({ service }: ServiceInformationProps) => {
               navigate(
                 routePath.bookingService.replace(
                   ":serviceId",
-                  service.service_id.toString()
+                  service.service_alias
                 )
               )
             }
@@ -55,12 +54,9 @@ const ServiceInformation = ({ service }: ServiceInformationProps) => {
           </Button>
         </div>
         <p className="text-center mt-3">
-          Xem thông tin nhà cung cấp dịch vụ{" "}
+          Xem thông tin nhà cung cấp dịch vụ
           <Link
-            to={routePath.storeDetail.replace(
-              ":id",
-              service.owner_id.toString()
-            )}
+            to={routePath.storeDetail.replace(":id", service.owner.user_alias)}
             className="text-primary-royalBlue underline"
           >
             tại đây

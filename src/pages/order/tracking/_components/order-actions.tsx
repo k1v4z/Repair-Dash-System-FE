@@ -5,6 +5,7 @@ import type { Order, OrderStatus } from "@/features/order/types/orders.type";
 import { toast } from "react-toastify";
 import { ConfirmDialog } from "@/components/common/confirm-dialog";
 import { useOrder } from "@/features/order/hooks/useOrder";
+import routePath from "@/config/route";
 
 interface OrderActionsProps {
   orderId: number;
@@ -35,7 +36,7 @@ export default function OrderActions({
   };
 
   const handleBack = () => {
-    navigate(-1);
+    navigate(routePath.home);
   };
 
   return (

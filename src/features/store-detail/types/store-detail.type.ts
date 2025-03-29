@@ -9,6 +9,7 @@ export type Review = {
 export type Service = {
   service_id: number;
   service_name: string;
+  service_alias: string;
   service_description: string;
   service_image_url: string;
   owner_id: number;
@@ -17,5 +18,10 @@ export type Service = {
 
 export type ServiceResponse = {
   services: Service[];
+  status: number;
+};
+
+export type StoreDetailResponse = {
+  store: UserAddress;
   status: number;
 };

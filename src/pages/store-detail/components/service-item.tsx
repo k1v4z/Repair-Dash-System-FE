@@ -35,9 +35,9 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
             className=" bg-primary-royalBlue hover:bg-primary-royalBlue/90 flex-1"
             onClick={() =>
               navigate(
-                routePath.order.replace(
+                routePath.bookingService.replace(
                   ":serviceId",
-                  service.service_id.toString()
+                  service.service_alias
                 )
               )
             }
@@ -45,10 +45,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
             Đặt ngay
           </Button>
           <Link
-            to={routePath.serviceDetail.replace(
-              ":id",
-              service.service_id.toString()
-            )}
+            to={routePath.serviceDetail.replace(":id", service.service_alias)}
             className="underline text-primary-royalBlue font-semibold text-center"
           >
             Xem chi tiết

@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import ServiceInformation from "./components/service-information";
-import ServiceReview from "./components/service-review";
+import ServiceInformation from "./_components/service-information";
+import ServiceReview from "./_components/service-review";
 import useServiceById from "@/features/service-detail/hooks/useServiceDetail";
 import Icons from "@/components/icons";
 import ResourceNotFound from "@/components/common/resource-not-found";
@@ -36,7 +36,7 @@ const ServiceDetail = () => {
               <Icons
                 glyph="star"
                 className="w-5 h-5 text-yellow-400 mt-[1px]"
-              />{" "}
+              />
               <span className="font-semibold">
                 {serviceDetail?.averageRating ?? 0}
               </span>

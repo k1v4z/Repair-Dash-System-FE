@@ -11,6 +11,7 @@ const ServiceList = ({ showAll }: ServiceListProps) => {
   const { id } = useParams();
 
   const { serviceList, loading, error } = useServiceByStore(id ?? "");
+
   const displayedServices = showAll ? serviceList : serviceList.slice(0, 4);
 
   if (loading) return <ServiceSkeleton />;
