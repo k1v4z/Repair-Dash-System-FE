@@ -24,6 +24,7 @@ import { CheckCircle } from "./check-circle";
 import { Phone } from "./phone";
 import { Message } from "./message";
 import { HalfStar } from "./half-star";
+import { Camera } from "./camera";
 
 export const glyphs = {
   alertCircle: AlertCircle,
@@ -52,6 +53,7 @@ export const glyphs = {
   phone: Phone,
   message: Message,
   halfStar: HalfStar,
+  camera: Camera, 
 };
 
 export type Glyph = {
