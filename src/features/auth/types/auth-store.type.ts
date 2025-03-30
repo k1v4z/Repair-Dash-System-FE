@@ -1,13 +1,14 @@
+import type { Role } from "@/types/globals.type";
+
 export interface User {
   user_id: number | null;
   auth_status: boolean;
   email: string;
+  role?: Role;
 }
 
 export interface AuthState {
   user: User | null;
-  // accessToken: string | null;
-  // refreshToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
@@ -39,6 +40,7 @@ export interface AuthResponse {
 export interface AuthStatus {
   auth_status: boolean;
   user_id: number | null;
+  role?: Role;
 }
 
 export interface RegisterInput {
