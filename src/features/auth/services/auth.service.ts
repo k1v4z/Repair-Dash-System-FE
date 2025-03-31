@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import {
+import type {
   LoginResponse,
   AuthStatus,
   RegisterInput,
@@ -30,6 +30,7 @@ export const authService = {
     return {
       auth_status: response.auth_status,
       user_id: response.user_id,
+      role: response.role,
     };
   },
 

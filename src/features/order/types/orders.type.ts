@@ -1,4 +1,5 @@
 import type { Service, UserAddress } from "@/types/service";
+import type { Option } from "@/types/globals.type";
 
 export type CheckoutResponse = {
   checkout: {
@@ -31,6 +32,10 @@ export type Employee = {
   owner_id: number;
   createdAt: string;
   updatedAt: string;
+};
+
+export type EmployeeOption = Option & {
+  avatar: string;
 };
 
 export type Owner = {
