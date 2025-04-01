@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Order } from "@/features/order/types/orders.type";
+import type { Order } from "@/features/order/types/orders.type";
 import { formatDateToVietnamese } from "@/utils/datetime";
 import { Avatar } from "@/components/ui/avatar";
 import TechnicianInformation from "./technician-information";
@@ -68,7 +68,7 @@ export default function ServiceInformation({ order }: ServiceInformationProps) {
               <span className="inline-block mr-2">
                 <Icon glyph="calendar" className="size-4" />
               </span>
-              {formatDateToVietnamese(order.createdAt)}
+              {formatDateToVietnamese(order.created_at)}
             </p>
           </div>
         </div>

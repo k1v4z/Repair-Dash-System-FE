@@ -134,24 +134,32 @@ export default function StoreOrderActions({
             className="space-y-4"
             onSubmit={storeUpdateForm.handleSubmit(handlePendingSubmit)}
           >
-            <SelectField
-              options={employeeOptions}
-              placeholder="Chọn nhân viên phụ trách"
-              value={storeUpdateForm.watch("employee_id")?.toString()}
-              helperText={storeUpdateForm.formState.errors.employee_id?.message}
-              onValueChange={(value) => handleEmployeeSelect(parseInt(value))}
-              renderOption={(option) => {
-                if (typeof option === "string") {
-                  return option;
+            {employeeOptions.length > 0 ? (
+              <SelectField
+                options={employeeOptions}
+                placeholder="Chọn nhân viên phụ trách"
+                value={storeUpdateForm.watch("employee_id")?.toString()}
+                helperText={
+                  storeUpdateForm.formState.errors.employee_id?.message
                 }
-                const employee = option as EmployeeOptionItem;
-                return <EmployeeOption option={employee} />;
-              }}
-            />
+                onValueChange={(value) => handleEmployeeSelect(parseInt(value))}
+                renderOption={(option) => {
+                  if (typeof option === "string") {
+                    return option;
+                  }
+                  const employee = option as EmployeeOptionItem;
+                  return <EmployeeOption option={employee} />;
+                }}
+              />
+            ) : (
+              <p className="text-gray-600 font-normal">
+                Tạm thời không có nhân viên
+              </p>
+            )}
             <div className="flex gap-3 mt-4">
               <Button
                 type="submit"
-                disabled={isLoading}
+                disabled={isLoading || employeeOptions.length === 0}
                 className="bg-blue-600 hover:bg-blue-700"
               >
                 Chuyển sang xử lý

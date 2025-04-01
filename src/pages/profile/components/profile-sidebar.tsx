@@ -14,39 +14,46 @@ interface ProfileSidebarProps {
   onProfileChange: (profile: ProfileResponse) => void;
 }
 
-export function ProfileSidebar({ profile, onProfileChange }: ProfileSidebarProps) {
+export function ProfileSidebar({
+  profile,
+  onProfileChange,
+}: ProfileSidebarProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
   const isStore = profile?.authentication?.role === "STORE";
   const servicesCount = profile?.services?.length || 0;
-  const joinDate = profile?.createdAt ? new Date(profile.createdAt).toLocaleDateString('vi-VN', {
-    month: 'numeric',
-    year: 'numeric'
-  }) : '';
+  const joinDate = profile?.created_at
+    ? new Date(profile.created_at).toLocaleDateString("vi-VN", {
+        month: "numeric",
+        year: "numeric",
+      })
+    : "";
 
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
     try {
       setIsUploading(true);
       const base64String = await convertToBase64(file);
-      
+
       const updatedProfile = await profileService.updateProfile({
-        user_avatar: base64String
+        user_avatar: base64String,
       });
-      
+
       onProfileChange({
         ...profile,
         ...updatedProfile,
       });
 
-      toast.success('Cập nhật ảnh đại diện thành công!');
+      toast.success("Cập nhật ảnh đại diện thành công!");
     } catch {
-      toast.error('Có lỗi xảy ra khi cập nhật ảnh đại diện!');
+      toast.error("Có lỗi xảy ra khi cập nhật ảnh đại diện!");
     } finally {
       setIsUploading(false);
     }
@@ -60,19 +67,24 @@ export function ProfileSidebar({ profile, onProfileChange }: ProfileSidebarProps
             <Avatar className="w-24 h-24 border-2 border-primary-royalBlue/50">
               <AvatarImage src={profile?.user_avatar_url} />
               <AvatarFallback>
-                {profile?.user_full_name?.slice(0, 2).toUpperCase() || 'U'}
+                {profile?.user_full_name?.slice(0, 2).toUpperCase() || "U"}
               </AvatarFallback>
             </Avatar>
             {isUploading && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-full">
-                <Icon glyph="loader" className="w-6 h-6 text-white animate-spin" />
+                <Icon
+                  glyph="loader"
+                  className="w-6 h-6 text-white animate-spin"
+                />
               </div>
             )}
           </div>
           <div className="text-center">
             <h3 className="font-medium">{profile.user_full_name}</h3>
-            <p className="text-sm text-muted-foreground">{profile.user_phone_number}</p>
-          </div>  
+            <p className="text-sm text-muted-foreground">
+              {profile.user_phone_number}
+            </p>
+          </div>
           <Input
             type="file"
             ref={fileInputRef}
@@ -80,8 +92,8 @@ export function ProfileSidebar({ profile, onProfileChange }: ProfileSidebarProps
             accept="image/*"
             onChange={handleFileChange}
           />
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="w-full border-primary-royalBlue hover:bg-primary-royalBlue/10 hover:text-primary-royalBlue text-primary-royalBlue"
             onClick={handleUploadClick}
           >
@@ -107,4 +119,4 @@ export function ProfileSidebar({ profile, onProfileChange }: ProfileSidebarProps
       </CardContent>
     </Card>
   );
-} 
+}

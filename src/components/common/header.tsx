@@ -33,15 +33,9 @@ export default function Header() {
     <header className="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50 top-0">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          <div className="flex-shrink-0">
-            <div className="flex-shrink-0">
-              <div className="flex-shrink-0">
-                <span className="text-2xl font-bold text-blue-600 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-blue-600 hover:via-purple-500 hover:to-sky-400 transition-all duration-300">
-                  Repair Dash
-                </span>
-              </div>
-            </div>
-          </div>
+          <span className="text-2xl font-bold text-blue-600 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-blue-600 hover:via-purple-500 hover:to-sky-400 transition-all duration-300">
+            Repair Dash
+          </span>
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
               {NAVIGATION_LINKS.map((item) => (

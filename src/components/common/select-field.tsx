@@ -46,7 +46,7 @@ const SelectField = forwardRef<HTMLButtonElement, SelectFieldProps>(
           <SelectTrigger
             ref={ref}
             className={cn(
-              "w-full h-[45.33px] rounded-lg border bg-white shadow-md focus:ring-0",
+              "w-full h-[45.33px] rounded-lg border bg-white shadow-md focus:ring-0 [&>svg]:transition-transform [&>svg]:duration-200 [&[data-state=open]>svg]:rotate-180",
               triggerClassName
             )}
           >
@@ -57,6 +57,7 @@ const SelectField = forwardRef<HTMLButtonElement, SelectFieldProps>(
               <SelectItem
                 key={typeof option === "string" ? option : option.value}
                 value={typeof option === "string" ? option : option.value}
+                className="cursor-pointer"
               >
                 {renderOption
                   ? renderOption(option)
