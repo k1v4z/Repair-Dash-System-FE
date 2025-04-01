@@ -13,11 +13,12 @@ import {
 } from "@/components/ui/modal";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { Label } from "@/components/ui/label";
+
 interface AddServiceModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit: (data: { 
-    service_name: string; 
+  onSubmit: (data: {
+    service_name: string;
     service_description: string;
     image: File | null;
   }) => void;
@@ -29,7 +30,11 @@ interface FormData {
   image: File | null;
 }
 
-export function AddServiceModal({ open, onOpenChange, onSubmit }: AddServiceModalProps) {
+export function AddServiceModal({
+  open,
+  onOpenChange,
+  onSubmit,
+}: AddServiceModalProps) {
   const [image, setImage] = useState<File | null>(null);
   const { register, handleSubmit, reset } = useForm<FormData>({
     defaultValues: {
@@ -42,7 +47,7 @@ export function AddServiceModal({ open, onOpenChange, onSubmit }: AddServiceModa
   const onSubmitForm = (data: FormData) => {
     onSubmit({
       ...data,
-      image: image
+      image: image,
     });
     console.log(data);
     reset();
@@ -79,7 +84,10 @@ export function AddServiceModal({ open, onOpenChange, onSubmit }: AddServiceModa
                 />
               </div>
               <div className="space-y-2">
-                <label htmlFor="service_description" className="text-sm font-medium">
+                <label
+                  htmlFor="service_description"
+                  className="text-sm font-medium"
+                >
                   Mô tả dịch vụ
                 </label>
                 <Textarea
@@ -92,7 +100,7 @@ export function AddServiceModal({ open, onOpenChange, onSubmit }: AddServiceModa
             </div>
 
             <div className="flex flex-col items-center justify-center border rounded-lg p-6 bg-gray-50">
-              <ImageUpload 
+              <ImageUpload
                 onImageChange={handleImageChange}
                 className="w-full"
               />
@@ -116,4 +124,4 @@ export function AddServiceModal({ open, onOpenChange, onSubmit }: AddServiceModa
       </ModalContent>
     </Modal>
   );
-} 
+}

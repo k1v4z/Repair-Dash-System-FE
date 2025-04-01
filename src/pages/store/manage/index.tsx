@@ -8,9 +8,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DateSelect } from "@/components/ui/date-select";
-import { AddServiceModal } from "@/features/store/components/add-service-modal";
+import { AddServiceModal } from "./_components/add-service-modal";
 import SERVICE_DEFAULT_IMG from "@/assets/images/servicedefault.png";
-import { SERVICE_DATA } from "@/features/store/constants/service";
+import { SERVICE_DATA } from "../constants/service";
 import { DataTable } from "@/components/ui/data-table";
 
 interface Service {
@@ -29,8 +29,8 @@ const columns: ColumnDef<Service>[] = [
       const image = row.original.image || SERVICE_DEFAULT_IMG;
       return (
         <div className="flex items-center gap-3">
-          <img 
-            src={image} 
+          <img
+            src={image}
             alt={row.original.service_name}
             className="w-10 h-10 rounded-lg object-cover"
           />
@@ -54,7 +54,7 @@ const columns: ColumnDef<Service>[] = [
   },
   {
     accessorKey: "updated_at",
-    header: "Ngày cập nhật", 
+    header: "Ngày cập nhật",
     cell: ({ row }) => (
       <span className="px-2 py-1 rounded bg-blue-100 text-blue-800 font-medium">
         {row.original.updated_at}
@@ -73,9 +73,7 @@ const columns: ColumnDef<Service>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem className="text-red-600">
-              Delete
-            </DropdownMenuItem>
+            <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -89,7 +87,10 @@ export default function ManageStorePage() {
   const [selectedMonth, setSelectedMonth] = useState("March");
   const [openAddModal, setOpenAddModal] = useState(false);
 
-  const handleAddService = (data: { service_name: string; service_description: string }) => {
+  const handleAddService = (data: {
+    service_name: string;
+    service_description: string;
+  }) => {
     const newService = {
       ...data,
       created_at: new Date().toISOString(),
@@ -103,10 +104,7 @@ export default function ManageStorePage() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Quản lý cửa hàng</h1>
         <div className="flex gap-2 items-center">
-          <DateSelect 
-            value={selectedMonth}
-            onChange={setSelectedMonth}
-          />
+          <DateSelect value={selectedMonth} onChange={setSelectedMonth} />
           <Button onClick={() => setOpenAddModal(true)}>Thêm dịch vụ</Button>
         </div>
       </div>
