@@ -1,6 +1,6 @@
 import { useState } from "react";
-import SearchBar from "@/features/store/components/search-bar";
-import ServiceCard from "@/features/store/components/service-card";
+import SearchBar from "./_components/search-bar";
+import ServiceCard from "./_components/service-card";
 
 const services = [
   {

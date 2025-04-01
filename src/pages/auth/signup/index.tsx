@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SelectField from "@/components/common/select-field";
-import RoleSelect from "@/features/auth/components/role-select";
+import RoleSelect from "../signup/_components/role-select";
 import routePath from "@/config/route";
 import { useSelectLocation } from "@/hooks/useSelectLocation";
 import { signupSchema, type SignupFormSchema } from "@/schemas/auth";
