@@ -12,6 +12,6 @@ export interface Employee {
   employee_id: number;
   employee_full_name: string;
   owner_id: number;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 }

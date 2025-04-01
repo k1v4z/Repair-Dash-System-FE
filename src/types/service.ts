@@ -11,8 +11,8 @@ export interface ServiceOwner extends UserAddress {
   user_id: number;
   user_full_name: string;
   authentication_id: number;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   employees: Employee[];
 }
 
@@ -22,7 +22,7 @@ export interface Service {
   service_image_url: string;
   service_description: string;
   owner_id: number;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   owner: ServiceOwner;
 }

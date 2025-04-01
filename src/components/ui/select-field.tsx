@@ -1,18 +1,20 @@
-import Icon from "@/components/icons"
-import { Button } from "@/components/ui/button"
+import Icon from "@/components/icons";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { cn } from "@/lib/utils"
-import { glyphs } from "@/components/icons/glyphs"
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+import { glyphs } from "@/components/icons/glyphs";
 
-export type SelectOption = string | {
-  value: string;
-  label: string;
-}
+export type SelectOption =
+  | string
+  | {
+      value: string;
+      label: string;
+    };
 
 interface SelectFieldProps {
   value: string;
@@ -34,27 +36,25 @@ export function SelectField({
   width = "w-[140px]",
 }: SelectFieldProps) {
   const getOptionLabel = (option: SelectOption) => {
-    return typeof option === 'string' ? option : option.label
-  }
+    return typeof option === "string" ? option : option.label;
+  };
 
   const getOptionValue = (option: SelectOption) => {
-    return typeof option === 'string' ? option : option.value
-  }
+    return typeof option === "string" ? option : option.value;
+  };
 
   const getCurrentLabel = () => {
-    const currentOption = options.find(opt => 
-      getOptionValue(opt) === value
-    )
-    return currentOption ? getOptionLabel(currentOption) : placeholder
-  }
+    const currentOption = options.find((opt) => getOptionValue(opt) === value);
+    return currentOption ? getOptionLabel(currentOption) : placeholder;
+  };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           className={cn(
-            width, 
+            width,
             "flex items-center gap-2 bg-white border border-gray-200 text-gray-600 hover:bg-gray-50/50 rounded-lg",
             className
           )}
@@ -67,8 +67,8 @@ export function SelectField({
           <span className="font-medium">{getCurrentLabel()}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent 
-        align="end" 
+      <DropdownMenuContent
+        align="end"
         className={cn(
           width,
           "bg-white mt-1 p-1 border border-gray-200 rounded-md shadow-lg"
@@ -85,5 +85,5 @@ export function SelectField({
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

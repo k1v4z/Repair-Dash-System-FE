@@ -42,11 +42,19 @@ export default function ServiceInformationSection({
             <p className="text-gray-600">{service.service_name}</p>
           </div>
           <div className="bg-blue-50 p-4 rounded-lg">
-            <p className="font-medium text-blue-700">Số kĩ thuật viên</p>
-            <p className="text-blue-600">
-              {service.owner.employees.length} kĩ thuật viên đang sẵn sàng phục
-              vụ
-            </p>
+            {service.owner.employees.length > 0 ? (
+              <>
+                <p className="font-medium text-blue-700">Số kĩ thuật viên</p>
+                <p className="text-blue-600">
+                  {service.owner.employees.length} kĩ thuật viên đang sẵn sàng
+                  phục vụ
+                </p>
+              </>
+            ) : (
+              <p className="text-gray-600 font-normal">
+                Tạm thời không có nhân viên
+              </p>
+            )}
           </div>
         </div>
         <div className="flex justify-end gap-4 pt-4">

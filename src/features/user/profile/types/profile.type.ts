@@ -1,8 +1,8 @@
 import type { Role } from "@/types/globals.type";
 
 export interface ProfileApiResponse {
-    message: string;
-    profile: ProfileResponse;
+  message: string;
+  profile: ProfileResponse;
 }
 
 export interface ProfileResponse {
@@ -18,8 +18,8 @@ export interface ProfileResponse {
   user_city: string;
   delete_flag: boolean;
   authentication_id: number;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   services?: Array<{
     service_name: string;
     service_description: string;
@@ -29,4 +29,4 @@ export interface ProfileResponse {
     role: Role;
     identifier_email: string;
   };
-} 
+}
