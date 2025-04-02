@@ -1,6 +1,6 @@
-import { ProfileHeader } from "@/pages/profile/components/profile-header";
-import { ProfileSidebar } from "@/pages/profile/components/profile-sidebar";
-import { ProfileForm } from "@/pages/profile/components/profile-form";
+import { ProfileHeader } from "@/pages/user/components/profile-header";
+import { ProfileSidebar } from "@/pages/user/components/profile-sidebar";
+import { ProfileForm } from "@/pages/user/components/profile-form";
 import { useProfile } from "@/features/user/hooks/useProfile";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -28,7 +28,7 @@ export default function ManageAccount() {
   }
 
   if (error || !profile) {
-    return <div>Error: {error || 'Không có dữ liệu'}</div>;
+    return <div>Error: {error || "Không có dữ liệu"}</div>;
   }
 
   return (
