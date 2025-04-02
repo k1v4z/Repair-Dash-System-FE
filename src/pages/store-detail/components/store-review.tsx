@@ -1,4 +1,4 @@
-import type { Review } from "@/features/store-detail/types/store-detail.type";
+import type { Review } from "@/features/store/types/store-detail.type";
 import ReviewList from "./review-list";
 
 const REVIEWS: Review[] = [

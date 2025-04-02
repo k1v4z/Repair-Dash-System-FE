@@ -1,4 +1,4 @@
-import { serviceDetailApi } from "../api";
+import { serviceDetailApi } from "../api/service-detail-api";
 import type { ServiceDetailResponse } from "../types/service-detail";
 
 export const serviceDetailServices = {

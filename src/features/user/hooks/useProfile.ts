@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { profileService } from "@/features/user/profile/service/profile.service";
-import type { ProfileResponse } from "@/features/user/profile/types/profile.type";
+import { profileService } from "@/features/user/service/profile.service";
+import type { ProfileResponse } from "@/features/user/types/profile.type";
 import { toast } from "react-toastify";
 
 export const useProfile = () => {
@@ -20,10 +20,13 @@ export const useProfile = () => {
     }
   };
 
-  const updateProfile = async (data: Partial<ProfileResponse>, showToast = true) => {
+  const updateProfile = async (
+    data: Partial<ProfileResponse>,
+    showToast = true
+  ) => {
     try {
       const updatedProfile = await profileService.updateProfile(data);
-      setProfile(prev => ({
+      setProfile((prev) => ({
         ...prev!,
         ...updatedProfile,
       }));
@@ -45,6 +48,6 @@ export const useProfile = () => {
     isLoading,
     error,
     updateProfile,
-    setProfile
+    setProfile,
   };
-}; 
+};

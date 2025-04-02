@@ -1,4 +1,4 @@
-import { profileApi } from "@/features/user/profile/api";
+import { profileApi } from "@/features/user/api";
 import type { ProfileResponse } from "../types/profile.type";
 
 export const profileService = {
@@ -6,7 +6,9 @@ export const profileService = {
     const profile = await profileApi.getProfile();
     return profile;
   },
-  updateProfile: async (data: Partial<ProfileResponse>): Promise<ProfileResponse> => {
+  updateProfile: async (
+    data: Partial<ProfileResponse>
+  ): Promise<ProfileResponse> => {
     const profile = await profileApi.updateProfile(data);
     return profile;
   },

@@ -4,6 +4,7 @@ import ServiceList from "./service-list";
 
 const StoreService = () => {
   const [showAll, setShowAll] = useState(false);
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">

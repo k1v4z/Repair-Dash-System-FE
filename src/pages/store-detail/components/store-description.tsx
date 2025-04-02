@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import useStoreDetail from "@/features/store-detail/hooks/useStoreDetail";
+import useStoreDetail from "@/features/store/hooks/useStoreDetail";
 
 const LIMIT = 700;
 

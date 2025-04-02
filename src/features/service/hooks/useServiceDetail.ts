@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import type { ServiceDetailResponse } from "../types/service-detail";
-import { serviceDetailServices } from "@/features/service-detail/service/service-detail";
+import { serviceDetailServices } from "../service/service-detail";
+
 const useServiceDetail = (serviceId: string) => {
   const [serviceDetail, setServiceDetail] =
     useState<ServiceDetailResponse | null>(null);

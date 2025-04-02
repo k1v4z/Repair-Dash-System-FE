@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ServiceInformation from "./_components/service-information";
 import ServiceReview from "./_components/service-review";
-import useServiceById from "@/features/service-detail/hooks/useServiceDetail";
+import useServiceById from "@/features/service/hooks/useServiceDetail";
 import Icons from "@/components/icons";
 import ResourceNotFound from "@/components/common/resource-not-found";
 import routePath from "@/config/route";
