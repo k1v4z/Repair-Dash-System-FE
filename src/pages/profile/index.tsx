@@ -1,7 +1,7 @@
 import { ProfileHeader } from "@/pages/profile/components/profile-header";
 import { ProfileSidebar } from "@/pages/profile/components/profile-sidebar";
 import { ProfileForm } from "@/pages/profile/components/profile-form";
-import { useProfile } from "@/features/user/profile/hooks/useProfile";
+import { useProfile } from "@/features/user/hooks/useProfile";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ManageAccount() {

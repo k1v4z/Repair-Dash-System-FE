@@ -6,7 +6,7 @@ import StoreReview from "./components/store-review";
 import SwitchableTabs from "@/components/common/switch-tab";
 import StoreService from "./components/store-service";
 import ResourceNotFound from "@/components/common/resource-not-found";
-import useStoreDetail from "@/features/store-detail/hooks/useStoreDetail";
+import useStoreDetail from "@/features/store/hooks/useStoreDetail";
 import routePath from "@/config/route";
 
 const TABS = [

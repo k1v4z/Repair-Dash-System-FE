@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import ServiceItem from "./service-item";
-import useServiceByStore from "@/features/store-detail/hooks/useServiceByStore";
+import useServiceByStore from "@/features/store/hooks/useServiceByStore";
 import ServiceSkeleton from "./service-skeleton";
 
 interface ServiceListProps {
