@@ -24,9 +24,15 @@ interface UseSelectLocation {
 }
 
 export const useSelectLocation = (initValue?: Props): UseSelectLocation => {
-  const [selectedProvince, setSelectedProvince] = useState(initValue?.initialProvince || "");
-  const [selectedDistrict, setSelectedDistrict] = useState(initValue?.initialDistrict || "");
-  const [selectedWard, setSelectedWard] = useState(initValue?.initialWard || "");
+  const [selectedProvince, setSelectedProvince] = useState(
+    initValue?.initialProvince || ""
+  );
+  const [selectedDistrict, setSelectedDistrict] = useState(
+    initValue?.initialDistrict || ""
+  );
+  const [selectedWard, setSelectedWard] = useState(
+    initValue?.initialWard || ""
+  );
 
   const handleProvinceChange = (value: string) => {
     setSelectedProvince(value);
@@ -51,7 +57,9 @@ export const useSelectLocation = (initValue?: Props): UseSelectLocation => {
     handleDistrictChange,
     handleWardChange,
     provinces: PROVINCES,
-    districts: selectedProvince ? DISTRICT_BY_PROVINCES[selectedProvince] || [] : [],
+    districts: selectedProvince
+      ? DISTRICT_BY_PROVINCES[selectedProvince] || []
+      : [],
     wards: selectedDistrict ? WARDS_BY_DISTRICT[selectedDistrict] || [] : [],
   };
 };

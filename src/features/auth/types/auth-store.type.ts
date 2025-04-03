@@ -30,6 +30,7 @@ export interface LoginResponse {
   data?: {
     user_id?: number;
   };
+  code?: string;
 }
 
 export interface AuthResponse {
