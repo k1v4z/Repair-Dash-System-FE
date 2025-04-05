@@ -15,6 +15,7 @@ import ManageStore from "../pages/store/manage";
 import NotFound from "../pages/not-found";
 import OrderTracking from "../pages/order/tracking";
 import Profile from "../pages/user";
+import ServiceMark from "../pages/service/service-mark";
 
 const listRoute: Route[] = [
   {
@@ -88,6 +89,15 @@ const listRoute: Route[] = [
     component: (
       <PrivateRoute>
         <Profile />
+      </PrivateRoute>
+    ),
+    layout: MainLayout,
+  },
+  {
+    path: routePath.serviceMark,
+    component: (
+      <PrivateRoute>
+        <ServiceMark />
       </PrivateRoute>
     ),
     layout: MainLayout,

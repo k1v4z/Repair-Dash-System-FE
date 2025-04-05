@@ -1,25 +1,25 @@
 import { useNavigate, Link } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Service } from "@/features/store/types/store-detail.type";
+import Icons from "@/components/icons";
 import routePath from "@/config/route";
+import DefaultImage from "@/assets/images/servicedefault.png";
 
 interface ServiceItemProps {
   service: Service;
 }
 
-const DEFAULT_IMAGE =
-  "https://images.unsplash.com/photo-1550041473-d296a3a8a18a?q=80&w=2727&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-
 const ServiceItem = ({ service }: ServiceItemProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="rounded-lg overflow-hidden shadow hover:shadow-md cursor-pointer h-[430px] relative">
+    <div className="rounded-lg overflow-hidden shadow hover:shadow-md h-[400px] relative">
       <div className="h-48 overflow-hidden">
         <img
-          src={service.service_image_url ?? DEFAULT_IMAGE}
+          src={service.service_image_url ?? DefaultImage}
           onError={(e) => {
-            e.currentTarget.src = DEFAULT_IMAGE;
+            e.currentTarget.src = DefaultImage;
           }}
           alt=""
           className="w-full h-full object-cover"
@@ -30,9 +30,25 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
           {service.service_name}
         </h4>
         <p className="mt-2 line-clamp-2">{service.service_description}</p>
-        <div className="mt-5 absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col w-full gap-2 px-8">
+
+        <div className="mt-5 absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col w-full gap-2 px-4">
+          <div className="flex gap-2">
+            {service.average_rating !== null && (
+              <div className="flex items-center gap-1">
+                <Icons glyph="star" color="#2563eb" className="size-4" />
+                <span className="text-lg font-semibold">
+                  {service.average_rating}
+                </span>
+              </div>
+            )}
+            <Link
+              to={routePath.serviceDetail.replace(":id", service.service_alias)}
+            >
+              <Badge className="py-1">Xem chi tiết</Badge>
+            </Link>
+          </div>
           <Button
-            className=" bg-primary-royalBlue hover:bg-primary-royalBlue/90 flex-1"
+            className="bg-primary-royalBlue hover:bg-primary-royalBlue/90 flex-1 py-3 text-center text-white font-semibold"
             onClick={() =>
               navigate(
                 routePath.bookingService.replace(
@@ -44,12 +60,6 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
           >
             Đặt ngay
           </Button>
-          <Link
-            to={routePath.serviceDetail.replace(":id", service.service_alias)}
-            className="underline text-primary-royalBlue font-semibold text-center"
-          >
-            Xem chi tiết
-          </Link>
         </div>
       </div>
     </div>

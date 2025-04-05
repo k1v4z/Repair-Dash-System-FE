@@ -25,6 +25,8 @@ import { Phone } from "./phone";
 import { Message } from "./message";
 import { HalfStar } from "./half-star";
 import { Camera } from "./camera";
+import { BookMark } from "./book-mark";
+import { Trash } from "./trash";
 
 export const glyphs = {
   alertCircle: AlertCircle,
@@ -53,7 +55,9 @@ export const glyphs = {
   phone: Phone,
   message: Message,
   halfStar: HalfStar,
-  camera: Camera, 
+  camera: Camera,
+  bookMark: BookMark,
+  trash: Trash,
 };
 
 export type Glyph = {

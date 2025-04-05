@@ -13,8 +13,6 @@ export const serviceDetailApi = {
       );
       return {
         service: response.data.service,
-        totalReviews: response.data.totalReviews,
-        averageRating: response.data.averageRating,
         status: response.status,
       };
     } catch (error) {

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,7 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import Icon from "../icons";
-import { Link } from "react-router-dom";
+import routePath from "@/config/route";
 
 const NAVIGATION_LINKS = [
   { name: "Trang chủ", href: "#" },
@@ -19,6 +20,7 @@ const NAVIGATION_LINKS = [
 
 export default function Header() {
   const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -66,7 +68,7 @@ export default function Header() {
                     />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuContent align="end" className="w-max">
                   <DropdownMenuItem>
                     <a
                       href="/profile"
@@ -75,6 +77,15 @@ export default function Header() {
                       <Icon glyph="profile" className="size-5" />
                       <span>Hồ sơ</span>
                     </a>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onSelect={() => navigate(routePath.serviceMark)}
+                  >
+                    <p className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700">
+                      <Icon glyph="bookMark" className="size-5 fill-black" />
+                      <span>Dịch vụ yêu thích</span>
+                    </p>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <a
