@@ -15,7 +15,7 @@ export const storeDetailApi = {
       );
 
       return {
-        services: response.data.listService,
+        services: response.data.services,
         status: response.status,
       };
     } catch (error) {
