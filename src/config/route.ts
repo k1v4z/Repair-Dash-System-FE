@@ -9,6 +9,7 @@ const routePath = {
   manageStore: "/manage-store",
   serviceDetail: "/service-detail/:id",
   profile: "/profile",
+  serviceMark: "/service-mark",
 };
 
 export default routePath;

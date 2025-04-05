@@ -7,7 +7,5 @@ export interface ServiceDetail extends Service {
 
 export type ServiceDetailResponse = {
   service: ServiceDetail;
-  totalReviews: number;
-  averageRating: number;
   status: number;
 };

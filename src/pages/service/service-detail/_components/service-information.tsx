@@ -54,7 +54,7 @@ const ServiceInformation = ({ service }: ServiceInformationProps) => {
           </Button>
         </div>
         <p className="text-center mt-3">
-          Xem thông tin nhà cung cấp dịch vụ
+          Xem thông tin nhà cung cấp dịch vụ{" "}
           <Link
             to={routePath.storeDetail.replace(":id", service.owner.user_alias)}
             className="text-primary-royalBlue underline"

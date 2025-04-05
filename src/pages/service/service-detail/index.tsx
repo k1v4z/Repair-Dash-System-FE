@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ServiceInformation from "./_components/service-information";
@@ -6,13 +7,13 @@ import useServiceById from "@/features/service/hooks/useServiceDetail";
 import Icons from "@/components/icons";
 import ResourceNotFound from "@/components/common/resource-not-found";
 import routePath from "@/config/route";
-
-const DEFAULT_IMAGE =
-  "https://images.unsplash.com/photo-1550041473-d296a3a8a18a?q=80&w=2727&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+import DefaultImage from "@/assets/images/servicedefault.png";
+import { cn } from "@/lib/utils";
 
 const ServiceDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [isBookMarked, setIsBookMarked] = useState(false);
   const { serviceDetail, status, errorMessage } = useServiceById(id || "");
 
   if (status !== 404) toast.error(errorMessage);
@@ -27,31 +28,45 @@ const ServiceDetail = () => {
           onButtonClick={() => navigate(routePath.home)}
         />
       ) : (
-        <div className="max-w-[1440px] mx-auto px-4 py-8">
-          <h2 className="text-3xl font-bold text-gray-900">
-            {serviceDetail?.service?.service_name}
-          </h2>
-          <div className="mt-2 flex items-center gap-1">
-            <div className="mt-1 flex gap-1">
+        <div className="max-w-[1440px]  mx-auto px-4 py-8">
+          <div className="flex justify-between items-center w-full xl:w-[60%]">
+            <h2 className="text-3xl font-bold text-gray-900">
+              {serviceDetail?.service?.service_name}
+            </h2>
+            <div
+              className="cursor-pointer"
+              onClick={() => setIsBookMarked(!isBookMarked)}
+            >
               <Icons
-                glyph="star"
-                className="w-5 h-5 text-yellow-400 mt-[1px]"
+                glyph="bookMark"
+                className={cn(
+                  "mt-3 size-7",
+                  isBookMarked
+                    ? "fill-yellow-500 stroke-yellow-500"
+                    : "fill-none stroke-gray-400"
+                )}
               />
+            </div>
+          </div>
+          <div className="mt-1 mb-3 flex items-center gap-1">
+            <div className="mt-1 flex gap-1">
+              <Icons glyph="star" className="size-5 text-yellow-400 mt-[1px]" />
               <span className="font-semibold">
-                {serviceDetail?.averageRating ?? 0}
+                {serviceDetail?.service?.average_rating === null
+                  ? ""
+                  : serviceDetail?.service?.average_rating}
               </span>
             </div>
 
             <span className="mt-1 ml-1 text-gray-500">
-              ({serviceDetail?.totalReviews} đánh giá)
+              ({serviceDetail?.service?.total_reviews} đánh giá)
             </span>
           </div>
-
-          <div className="flex lg:flex-row flex-col gap-6 mt-6">
-            <div className="lg:w-[60%] h-max">
+          <div className="flex xl:flex-row flex-col gap-6 mt-6">
+            <div className="xl:w-[60%] h-max">
               <img
-                src={serviceDetail?.service?.service_image_url ?? DEFAULT_IMAGE}
-                onError={(e) => (e.currentTarget.src = DEFAULT_IMAGE)}
+                src={serviceDetail?.service?.service_image_url ?? DefaultImage}
+                onError={(e) => (e.currentTarget.src = DefaultImage)}
                 alt="Service"
                 className="w-full h-[600px] object-cover border rounded-lg shadow"
               />
