@@ -44,6 +44,7 @@ export interface UpdateServiceRequest {
   service_name: string;
   service_description: string;
   service_image?: string;
+  service_alias?: string;
 }
 
 export type AddServiceRequest = {

@@ -18,6 +18,7 @@ interface SelectFieldProps
   options: Option[] | string[];
   triggerClassName?: string;
   helperText?: string;
+  renderOption?: (option: Option | string) => React.ReactNode;
 }
 
 const SelectField = forwardRef<HTMLButtonElement, SelectFieldProps>(
@@ -30,6 +31,7 @@ const SelectField = forwardRef<HTMLButtonElement, SelectFieldProps>(
       options,
       triggerClassName,
       helperText,
+      renderOption,
       ...rest
     } = props;
 
@@ -44,34 +46,33 @@ const SelectField = forwardRef<HTMLButtonElement, SelectFieldProps>(
           <SelectTrigger
             ref={ref}
             className={cn(
-              "w-full h-[45.33px] rounded-lg border bg-white shadow-md focus:ring-0",
+              "w-full h-[45.33px] rounded-lg border bg-white shadow-md focus:ring-0 [&>svg]:transition-transform [&>svg]:duration-200 [&[data-state=open]>svg]:rotate-180",
               triggerClassName
             )}
           >
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent>
-            {options.map((option) => {
-              if (typeof option === 'string') {
-                return (
-                  <SelectItem key={option} value={option}>
-                    {option}
-                  </SelectItem>
-                );
-              }
-              return (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              );
-            })}
+            {options.map((option) => (
+              <SelectItem
+                key={typeof option === "string" ? option : option.value}
+                value={typeof option === "string" ? option : option.value}
+                className="cursor-pointer"
+              >
+                {renderOption
+                  ? renderOption(option)
+                  : typeof option === "string"
+                  ? option
+                  : option.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
-        <div className="absolute bottom-[-20px] left-0 w-full">
-          {helperText && (
-            <p className="mt-1 text-xs text-red-500">{helperText}</p>
-          )}
-        </div>
+        {helperText && (
+          <p className="mt-1 text-xs text-red-500 absolute bottom-[-20px] left-0 w-full">
+            {helperText}
+          </p>
+        )}
       </div>
     );
   }

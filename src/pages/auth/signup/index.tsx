@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SelectField from "@/components/common/select-field";
-import RoleSelect from "@/features/auth/components/role-select";
+import RoleSelect from "../signup/_components/role-select";
 import routePath from "@/config/route";
 import { useSelectLocation } from "@/hooks/useSelectLocation";
 import { signupSchema, type SignupFormSchema } from "@/schemas/auth";
@@ -15,6 +15,7 @@ import type { RegisterInput } from "@/features/auth/types/auth-store.type";
 const SignUp = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -42,14 +43,19 @@ const SignUp = () => {
     wards,
   } = useSelectLocation();
 
+  console.log("form state", errors);
+
   const handleProvinceChange = (value: string) => {
     provinceChangeHandler(value);
     setValue("province", value, { shouldValidate: true });
+    setValue("district", "", { shouldValidate: true });
+    setValue("ward", "", { shouldValidate: true });
   };
 
   const handleDistrictChange = (value: string) => {
     districtChangeHandler(value);
     setValue("district", value, { shouldValidate: true });
+    setValue("ward", "", { shouldValidate: true });
   };
 
   const handleWardChange = (value: string) => {
@@ -76,12 +82,17 @@ const SignUp = () => {
         user_city: data.province,
       };
 
+      setIsLoading(true);
       const response = await authService.register(registerData);
       if (response.status === 201) {
         navigate(routePath.login);
       }
-    } catch {
-      setError("Đăng ký thất bại. Vui lòng thử lại.");
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -101,33 +112,44 @@ const SignUp = () => {
             >
               Email
             </label>
-            <div>
-              <Input
-                type="text"
-                placeholder="example@gmail.com"
-                className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
-                {...register("email")}
-                helperText={errors.email?.message}
-              />
-            </div>
+            <Input
+              type="text"
+              placeholder="example@gmail.com"
+              className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
+              {...register("email")}
+              helperText={errors.email?.message}
+            />
           </div>
-          <div className="flex flex-1 flex-col gap-2">
-            <label
-              htmlFor="password"
-              className="text-black text-[16px] font-semibold"
-            >
-              Mật khẩu
-            </label>
-            <div>
-              <Input
-                type="password"
-                placeholder="Nhập mật khẩu"
-                className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
-                {...register("password")}
-                helperText={errors.password?.message}
-              />
-            </div>
-          </div>
+        </div>
+        <div className="flex flex-1 flex-col gap-2">
+          <label
+            htmlFor="address"
+            className="text-black text-[16px] font-semibold"
+          >
+            Mật khẩu
+          </label>
+          <Input
+            type="password"
+            placeholder="Nhập mật khẩu"
+            className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
+            {...register("password")}
+            helperText={errors.password?.message}
+          />
+        </div>
+        <div className="flex flex-1 flex-col gap-2">
+          <label
+            htmlFor="password"
+            className="text-black text-[16px] font-semibold"
+          >
+            Xác nhận mật khẩu
+          </label>
+          <Input
+            type="password"
+            placeholder="Nhập mật khẩu"
+            className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
+            {...register("confirmPassword")}
+            helperText={errors.confirmPassword?.message}
+          />
         </div>
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="flex flex-1 flex-col gap-2">
@@ -137,15 +159,13 @@ const SignUp = () => {
             >
               Họ và tên
             </label>
-            <div>
-              <Input
-                type="text"
-                placeholder="Nguyễn Văn A"
-                className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
-                {...register("name")}
-                helperText={errors.name?.message}
-              />
-            </div>
+            <Input
+              type="text"
+              placeholder="Nguyễn Văn A"
+              className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
+              {...register("name")}
+              helperText={errors.name?.message}
+            />
           </div>
           <div className="flex flex-1 flex-col gap-2">
             <label
@@ -154,15 +174,13 @@ const SignUp = () => {
             >
               Số điện thoại
             </label>
-            <div>
-              <Input
-                type="text"
-                placeholder="0904217812"
-                className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
-                {...register("phoneNumber")}
-                helperText={errors.phoneNumber?.message}
-              />
-            </div>
+            <Input
+              type="text"
+              placeholder="0904217812"
+              className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
+              {...register("phoneNumber")}
+              helperText={errors.phoneNumber?.message}
+            />
           </div>
         </div>
 
@@ -174,15 +192,13 @@ const SignUp = () => {
             >
               Địa chỉ
             </label>
-            <div>
-              <Input
-                type="text"
-                placeholder="Số nhà, tên đường"
-                className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
-                {...register("address")}
-                helperText={errors.address?.message}
-              />
-            </div>
+            <Input
+              type="text"
+              placeholder="Số nhà, tên đường"
+              className="text-black px-4 py-3 rounded-lg border border-primary-grayLight bg-white shadow-md"
+              {...register("address")}
+              helperText={errors.address?.message}
+            />
           </div>
         </div>
         <div className="flex flex-col md:flex-row md:items-center gap-4">
@@ -190,53 +206,49 @@ const SignUp = () => {
             <label htmlFor="" className="text-black text-[16px] font-semibold">
               Tỉnh / Thành
             </label>
-            <div>
-              <SelectField
-                placeholder="Chọn tỉnh / thành"
-                value={selectedProvince}
-                onValueChange={handleProvinceChange}
-                options={provinces}
-                helperText={errors.province?.message}
-                {...register("province")}
-              />
-            </div>
+            <SelectField
+              placeholder="Chọn tỉnh / thành"
+              value={selectedProvince}
+              onValueChange={handleProvinceChange}
+              options={provinces}
+              helperText={errors.province?.message}
+              {...register("province")}
+            />
           </div>
           <div className="flex flex-1 flex-col gap-2">
             <label htmlFor="" className="text-black text-[16px] font-semibold">
               Quận / Huyện
             </label>
-            <div>
-              <SelectField
-                placeholder="Chọn quận / huyện"
-                disabled={!selectedProvince}
-                value={selectedDistrict}
-                onValueChange={handleDistrictChange}
-                options={districts}
-                helperText={errors.district?.message}
-                {...register("district")}
-              />
-            </div>
+            <SelectField
+              placeholder="Chọn quận / huyện"
+              disabled={!selectedProvince}
+              value={selectedDistrict}
+              onValueChange={handleDistrictChange}
+              options={districts}
+              helperText={errors.district?.message}
+              {...register("district")}
+            />
           </div>
           <div className="flex flex-1 flex-col gap-2">
             <label htmlFor="" className="text-black text-[16px] font-semibold">
               Phường / Xã
             </label>
-            <div>
-              <SelectField
-                placeholder="Chọn phường / xã"
-                disabled={!selectedDistrict}
-                value={selectedWard}
-                onValueChange={handleWardChange}
-                options={wards}
-                helperText={errors.ward?.message}
-                {...register("ward")}
-              />
-            </div>
+            <SelectField
+              placeholder="Chọn phường / xã"
+              disabled={!selectedDistrict}
+              value={selectedWard}
+              onValueChange={handleWardChange}
+              options={wards}
+              helperText={errors.ward?.message}
+              {...register("ward")}
+            />
           </div>
         </div>
         <Button
           size="lg"
           type="submit"
+          isLoading={isLoading}
+          loadingText="Đang xử lý ..."
           className="bg-primary-royalBlue hover:bg-primary-royalBlue/80 mt-3 h-11"
         >
           Đăng ký

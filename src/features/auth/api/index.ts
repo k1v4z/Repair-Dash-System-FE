@@ -4,6 +4,7 @@ import type {
   RegisterInput,
   AuthStatus,
 } from "../types/auth-store.type";
+import { AxiosError } from "axios";
 
 const AUTH_ENDPOINTS = {
   LOGIN: "/auth/login",
@@ -65,9 +66,13 @@ export const authApi = {
     try {
       const response = await axiosInstance.post(AUTH_ENDPOINTS.REGISTER, data);
       return { status: response.status };
-    } catch (error) {
-      if (error instanceof Error) {
-        error.message = "Failed to register";
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        if (error.response?.data.code === -1) {
+          throw new Error("Email đã tồn tại");
+        } else {
+          throw new Error("Đăng ký thất bại. Vui lòng thử lại.");
+        }
       }
       throw error;
     }

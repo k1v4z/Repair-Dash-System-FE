@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { storeService } from "../services/store.service";
+import { storeManageServices } from "../services/store.service";
 import type { Service, UseGetServiceByOwnerReturn } from "../types/store.type";
 
 export const useGetServiceByOwner = (
@@ -15,7 +15,7 @@ export const useGetServiceByOwner = (
   const loadServices = async (current_page: number, limit: number) => {
     try {
       setIsLoading(true);
-      const response = await storeService.getServicesByOwner({
+      const response = await storeManageServices.getServicesByOwner({
         page: current_page,
         limit,
       });
@@ -32,10 +32,10 @@ export const useGetServiceByOwner = (
       setShouldRefresh(false);
     }
   };
-  console.log("Service Page loaded:", currentPage);
+
   useEffect(() => {
     loadServices(currentPage, pageSize);
-    console.log("Refreshing services", services);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldRefresh, currentPage]);
 
   const refreshServices = () => {

@@ -1,6 +1,6 @@
-export type Option = {
+export type Option<T = Record<string, unknown>> = T & {
   value: string;
-  label: string;
+  label?: string;
 };
 
 export type TabItem = {
@@ -22,5 +22,5 @@ export interface AxiosResponse<T = undefined> {
   message: string;
   data?: T;
 }
-export type Role = "STORE" | "USER" | "ADMIN"
 
+export type Role = "STORE" | "USER" | "ADMIN";

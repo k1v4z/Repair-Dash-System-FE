@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { Order, OrderStatus } from "@/features/order/types/orders.type";
+import { useOrder } from "@/features/order/hooks/useOrder";
+import { useAuthStore } from "@/stores/auth";
+
 import {
   Card,
   CardContent,
@@ -14,10 +15,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
-import { orderUpdateSchema, type OrderUpdateData } from "@/schemas/order";
 import FileUpload from "@/components/common/upload-file";
 import { convertMultipleUrlToFile } from "@/utils/file";
-import { useOrder } from "@/features/order/hooks/useOrder";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { orderUpdateSchema, type OrderUpdateData } from "@/schemas/order";
+import type { Order, OrderStatus } from "@/features/order/types/orders.type";
+import type { Role } from "@/types/globals.type";
 
 interface CustomerInformationProps {
   order: Order;
@@ -31,6 +35,8 @@ export default function CustomerInformation({
   const [isEditing, setIsEditing] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const { updateOrder, isLoading } = useOrder();
+  const { user } = useAuthStore();
+  const isCustomer = user?.role === ("CUSTOMER" as Role);
 
   const form = useForm<OrderUpdateData>({
     resolver: zodResolver(orderUpdateSchema),
@@ -66,7 +72,8 @@ export default function CustomerInformation({
   const isDisabled =
     order.order_status === "PROCESSING" ||
     order.order_status === "CANCELED" ||
-    order.order_status === "COMPLETED";
+    order.order_status === "COMPLETED" ||
+    !isCustomer;
 
   const handleSubmit = async (data: OrderUpdateData) => {
     try {

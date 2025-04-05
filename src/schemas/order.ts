@@ -56,5 +56,25 @@ export const orderUpdateSchema = z.object({
   order_rating: z.number().min(1).max(5).optional(),
 });
 
+export const storeUpdateOrderSchema = z
+  .object({
+    order_status: z.enum(["PROCESSING", "CANCELED", "COMPLETED"]),
+    employee_id: z.number().min(1, "Vui lòng chọn nhân viên").optional(),
+    order_description: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.order_status === "PROCESSING") {
+        return !!data.employee_id;
+      }
+      return true;
+    },
+    {
+      message: "Vui lòng chọn nhân viên",
+      path: ["employee_id"],
+    }
+  );
+
 export type OrderFormData = z.infer<typeof orderFormSchema>;
 export type OrderUpdateData = z.infer<typeof orderUpdateSchema>;
+export type StoreOrderUpdateData = z.infer<typeof storeUpdateOrderSchema>;

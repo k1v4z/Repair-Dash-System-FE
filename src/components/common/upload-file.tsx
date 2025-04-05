@@ -24,11 +24,6 @@ export interface FileUploadProps {
   onFilesSelected?: (files: File[]) => void;
   onFileRemoved?: (fileId: string) => void;
   onUploadComplete?: (files: File[]) => void;
-  // Custom upload function - if provided, will handle the upload progress
-  uploadFunction?: (
-    file: File,
-    onProgress: (progress: number) => void
-  ) => Promise<void>;
   initialFiles?: File[];
   disabled?: boolean;
 }
@@ -46,7 +41,6 @@ const FileUpload = ({
   onFilesSelected,
   onFileRemoved,
   onUploadComplete,
-  uploadFunction,
   disabled = false,
 }: FileUploadProps) => {
   const {
@@ -64,7 +58,6 @@ const FileUpload = ({
     onFilesSelected,
     onFileRemoved,
     onUploadComplete,
-    uploadFunction,
     initialFiles,
   });
 

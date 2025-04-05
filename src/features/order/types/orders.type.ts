@@ -1,4 +1,5 @@
 import type { Service, UserAddress } from "@/types/service";
+import type { Option } from "@/types/globals.type";
 
 export type CheckoutResponse = {
   checkout: {
@@ -29,8 +30,12 @@ export type Employee = {
   employee_full_name: string;
   employee_avatar_url: string | null;
   owner_id: number;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type EmployeeOption = Option & {
+  avatar: string;
 };
 
 export type Owner = {
@@ -72,8 +77,8 @@ export type Order = {
   service_id: number;
   employee_id: number;
   customer_id: number;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   service: OrderService;
   customer: OrderCustomer;
 };

@@ -91,7 +91,6 @@ export function UpdateServiceModal({
               Cập nhật thông tin dịch vụ của bạn
             </DialogDescription>
           </DialogHeader>
-
           <div className="grid md:grid-cols-2 gap-6 py-6">
             <div className="space-y-6">
               <div className="space-y-2">
@@ -133,7 +132,6 @@ export function UpdateServiceModal({
                 )}
               </div>
             </div>
-
             <div className="flex flex-col items-center justify-center border rounded-lg p-6 bg-gray-50">
               <ImageUpload 
                 onImageChange={handleImageChange}
@@ -142,7 +140,6 @@ export function UpdateServiceModal({
               />
             </div>
           </div>
-
           <DialogFooter className="border-t pt-4 mt-4">
             <Button
               type="button"

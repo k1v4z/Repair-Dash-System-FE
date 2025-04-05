@@ -62,7 +62,15 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
           get().reset();
         }
       } else {
-        set({ isAuthenticated: true });
+        set({
+          isAuthenticated: true,
+          user: {
+            user_id: status.user_id,
+            auth_status: status.auth_status,
+            email: "",
+            role: status.role,
+          },
+        });
       }
     } catch {
       set({ error: "Authentication check failed." });

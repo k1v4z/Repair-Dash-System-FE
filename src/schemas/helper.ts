@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+const NAME_REGEX = /^[\p{L} ]+$/u;
+const PHONE_REGEX = /^[0-9]{10}$/;
+
 export const emailValidation = z
   .string()
   .min(1, "Email là bắt buộc")
@@ -13,16 +16,15 @@ export const passwordValidation = z
 export const phoneValidation = z
   .string()
   .min(1, "Số điện thoại là bắt buộc")
-  .regex(/^[0-9]+$/, "Số điện thoại chỉ được chứa số")
-  .min(10, "Số điện thoại phải có ít nhất 10 số")
-  .max(11, "Số điện thoại không được quá 11 số");
+  .regex(PHONE_REGEX, "Số điện thoại không hợp lệ");
 
 export const nameValidation = z
   .string()
   .min(1, "Họ và tên là bắt buộc")
-  .min(2, "Họ và tên phải có ít nhất 2 ký tự")
-  .max(50, "Họ và tên không được quá 50 ký tự");
+  .min(5, "Họ và tên phải có ít nhất 5 ký tự")
+  .max(500, "Họ và tên không được quá 500 ký tự")
+  .regex(NAME_REGEX, "Họ và tên không hợp lệ");
+
 export const phoneNumberValidation = z
   .string()
   .regex(/^[0-9]{10}$/, "Số điện thoại không hợp lệ");
-  
