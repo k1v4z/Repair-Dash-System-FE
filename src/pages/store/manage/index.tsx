@@ -8,95 +8,218 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DateSelect } from "@/components/ui/date-select";
-import { AddServiceModal } from "./_components/add-service-modal";
+import { AddServiceModal } from "@/pages/store/manage/_components/add-service-modal";
 import SERVICE_DEFAULT_IMG from "@/assets/images/servicedefault.png";
-import { SERVICE_DATA } from "../constants/service";
-import { DataTable } from "@/components/ui/data-table";
-
-interface Service {
-  service_name: string;
-  service_description: string;
-  created_at: string;
-  updated_at: string;
-  image?: string;
-}
-
-const columns: ColumnDef<Service>[] = [
-  {
-    accessorKey: "service_name",
-    header: "Tên dịch vụ",
-    cell: ({ row }) => {
-      const image = row.original.image || SERVICE_DEFAULT_IMG;
-      return (
-        <div className="flex items-center gap-3">
-          <img
-            src={image}
-            alt={row.original.service_name}
-            className="w-10 h-10 rounded-lg object-cover"
-          />
-          <span>{row.original.service_name}</span>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "service_description",
-    header: "Mô tả dịch vụ",
-  },
-  {
-    accessorKey: "created_at",
-    header: "Ngày tạo",
-    cell: ({ row }) => (
-      <span className="px-2 py-1 rounded bg-yellow-100 text-yellow-800 font-medium">
-        {row.original.created_at}
-      </span>
-    ),
-  },
-  {
-    accessorKey: "updated_at",
-    header: "Ngày cập nhật",
-    cell: ({ row }) => (
-      <span className="px-2 py-1 rounded bg-blue-100 text-blue-800 font-medium">
-        {row.original.updated_at}
-      </span>
-    ),
-  },
-  {
-    id: "actions",
-    cell: () => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="text-xl">⋮</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
+import { DataTable } from "@/components/common/data-table";
+import { storeManageServices } from "@/features/store/services/store.service";
+import type { Service } from "@/features/store/types/store.type";
+import { ConfirmDialog } from "@/components/common/confirm-dialog";
+import type {
+  AddServiceRequest,
+  UpdateServiceRequest,
+} from "@/features/store/types/store.type";
+import { UpdateServiceModal } from "@/pages/manage-store/components/update-service-modal";
+import { convertToBase64 } from "@/utils/convert/base64";
+import { formatDate } from "@/utils/datetime/date";
+import { userAutoGenerateAlisas } from "@/hooks/userAutoGenerateAlisas";
+import { useGetServiceByOwner } from "@/features/store/hooks/useGetServiceByOwner";
+import { toast } from "react-toastify";
+const pageSize = 8;
 
 export default function ManageStorePage() {
-  const [services, setServices] = useState<Service[]>(SERVICE_DATA);
+  const {
+    services,
+    setServices,
+    currentPage,
+    totalPages,
+    isLoading: showSkeleton,
+    setCurrentPage,
+    refreshServices,
+  } = useGetServiceByOwner(pageSize);
 
   const [selectedMonth, setSelectedMonth] = useState("March");
   const [openAddModal, setOpenAddModal] = useState(false);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isAddLoading, setIsAddLoading] = useState(false);
+  const [isUpdateLoading, setIsUpdateLoading] = useState(false);
 
-  const handleAddService = (data: {
+  const columns: ColumnDef<Service>[] = [
+    {
+      accessorKey: "service_name",
+      header: "Tên dịch vụ",
+      cell: ({ row }) => {
+        let imageUrl = SERVICE_DEFAULT_IMG;
+        const images = row.original.service_image_url;
+        if (images) {
+          imageUrl = images;
+        }
+        return (
+          <div className="flex items-center gap-3 w-[250px]">
+            <img
+              src={imageUrl}
+              alt={row.original.service_name}
+              className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
+            />
+            <span className="truncate">{row.original.service_name}</span>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "service_description",
+      header: "Mô tả dịch vụ",
+      cell: ({ row }) => (
+        <div className="w-[300px]">
+          <p className="truncate" title={row.original.service_description}>
+            {row.original.service_description}
+          </p>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "createdAt",
+      header: "Ngày tạo",
+      cell: ({ row }) => (
+        <div className="w-[120px]">
+          <span className="px-2 py-1 rounded bg-yellow-100 text-yellow-800 font-medium whitespace-nowrap">
+            {formatDate(new Date(row.original.created_at), "vi-VN")}
+          </span>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "updatedAt",
+      header: "Ngày cập nhật",
+      cell: ({ row }) => (
+        <div className="w-[120px]">
+          <span className="px-2 py-1 rounded bg-blue-100 text-blue-800 font-medium whitespace-nowrap">
+            {formatDate(new Date(row.original.updated_at), "vi-VN")}
+          </span>
+        </div>
+      ),
+    },
+    {
+      id: "actions",
+      cell: ({ row }) => {
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="text-xl">⋮</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={() => {
+                  setSelectedService(row.original);
+                  setIsUpdateModalOpen(true);
+                }}
+              >
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="text-red-600"
+                onClick={() => {
+                  setDeleteId(row.original.service_id);
+                  setIsDeleteDialogOpen(true);
+                }}
+              >
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
+
+  const handleAddService = async (data: {
     service_name: string;
     service_description: string;
+    service_alias: string;
+    image: File | null;
   }) => {
-    const newService = {
-      ...data,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
-    setServices([...services, newService]);
+    try {
+      setIsAddLoading(true);
+
+      const addData: AddServiceRequest = {
+        service_name: data.service_name,
+        service_description: data.service_description,
+        service_image: data.image ? await convertToBase64(data.image) : null,
+        service_alias:
+          data.service_alias || userAutoGenerateAlisas(data.service_name),
+      };
+
+      const addResponse = await storeManageServices.addService(addData);
+
+      if (addResponse) {
+        refreshServices();
+      }
+    } catch (error) {
+      console.error("Add Error:", error);
+    } finally {
+      setIsAddLoading(false);
+      setOpenAddModal(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!deleteId) return;
+
+    try {
+      await storeManageServices.deleteService(deleteId.toString());
+      setIsDeleteDialogOpen(false);
+      toast.success("Xóa dịch vụ thành công");
+      refreshServices();
+    } catch {
+      toast.error("Xóa dịch vụ thất bại");
+    }
+  };
+
+  const handleUpdate = async (data: {
+    service_name: string;
+    service_description: string;
+    service_alias: string;
+    image?: File | null;
+  }) => {
+    if (!selectedService) return;
+
+    try {
+      setIsUpdateLoading(true);
+
+      const updateData: UpdateServiceRequest = {
+        service_name: data.service_name,
+        service_description: data.service_description,
+        service_alias: data.service_alias,
+        service_image: data.image
+          ? await convertToBase64(data.image)
+          : selectedService.service_image_url,
+      };
+
+      const updateResponse = await storeManageServices.updateService(
+        selectedService.service_id.toString(),
+        updateData
+      );
+
+      if (updateResponse.data.result) {
+        setServices((prevServices: Service[]) =>
+          prevServices.map((service) =>
+            service.service_id === selectedService.service_id
+              ? updateResponse.data.result
+              : service
+          )
+        );
+      }
+
+      setIsUpdateModalOpen(false);
+    } catch (error) {
+      console.error("Update Error:", error);
+    } finally {
+      setIsUpdateLoading(false);
+    }
   };
 
   return (
@@ -108,12 +231,42 @@ export default function ManageStorePage() {
           <Button onClick={() => setOpenAddModal(true)}>Thêm dịch vụ</Button>
         </div>
       </div>
-      <DataTable columns={columns} data={services} />
+      <div className="transition-opacity duration-300 ease-in-out">
+        <DataTable
+          columns={columns}
+          data={services}
+          loading={showSkeleton}
+          pagination={{
+            currentPage,
+            pageSize: 8,
+            totalPages,
+            onPageChange: setCurrentPage,
+          }}
+        />
+      </div>
       <AddServiceModal
         open={openAddModal}
         onOpenChange={setOpenAddModal}
         onSubmit={handleAddService}
+        isLoading={isAddLoading}
       />
+      <ConfirmDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        title="Xác nhận xóa"
+        description="Bạn có chắc chắn muốn xóa dịch vụ này? Hành động này không thể hoàn tác."
+        onConfirm={handleDelete}
+        confirmText="Xóa"
+      />
+      {selectedService && (
+        <UpdateServiceModal
+          open={isUpdateModalOpen}
+          onOpenChange={setIsUpdateModalOpen}
+          service={selectedService}
+          onSubmit={handleUpdate}
+          isLoading={isUpdateLoading}
+        />
+      )}
     </div>
   );
 }

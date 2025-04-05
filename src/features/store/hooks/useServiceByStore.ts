@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { Service } from "../types/store-detail.type";
-import { storeDetailServices } from "../service/store-detail.service";
+import { storeDetailServices } from "../services/store-detail.service";
 
 const useServiceByStore = (storeId: string) => {
   const [loading, setLoading] = useState(false);

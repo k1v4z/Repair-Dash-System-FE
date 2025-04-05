@@ -1,5 +1,3 @@
-import { ColumnDef } from "@tanstack/react-table";
-
 export type Option<T = Record<string, unknown>> = T & {
   value: string;
   label?: string;
@@ -17,13 +15,6 @@ export interface Column<T> {
   accessorKey: string;
   cell?: (props: { row: { original: T } }) => React.ReactNode;
   enableSorting?: boolean;
-}
-
-export interface DataTableProps<TData> {
-  columns: ColumnDef<TData>[];
-  data: TData[];
-  loading?: boolean;
-  pageSize?: number;
 }
 
 export interface AxiosResponse<T = undefined> {

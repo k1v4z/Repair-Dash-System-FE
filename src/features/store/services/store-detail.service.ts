@@ -1,4 +1,4 @@
-import { storeDetailApi } from "../api";
+import { storeDetailApi } from "../api/store-detail";
 import type {
   ServiceResponse,
   StoreDetailResponse,

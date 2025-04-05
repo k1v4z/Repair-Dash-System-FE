@@ -43,8 +43,8 @@ export interface Service {
 export interface UpdateServiceRequest {
   service_name: string;
   service_description: string;
-  service_image?: string;
   service_alias?: string;
+  service_image?: string;
 }
 
 export type AddServiceRequest = {
@@ -89,11 +89,11 @@ export type UseGetServiceByOwnerProps = {
 
 export type UseGetServiceByOwnerReturn = {
   services: Service[];
-  setServices: React.Dispatch<React.SetStateAction<Service[]>>;
   currentPage: number;
   totalPages: number;
   isLoading: boolean;
   error: Error | null;
   setCurrentPage: (page: number) => void;
   refreshServices: () => void;
+  onUpdateService: (updatedService: Service) => void;
 };
