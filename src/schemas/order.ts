@@ -73,6 +73,18 @@ export const storeUpdateOrderSchema = z
       message: "Vui lòng chọn nhân viên",
       path: ["employee_id"],
     }
+  )
+  .refine(
+    (data) => {
+      if (data.order_status === "CANCELED") {
+        return !!data.order_description;
+      }
+      return true;
+    },
+    {
+      message: "Vui lòng nhập lý do hủy đơn",
+      path: ["order_description"],
+    }
   );
 
 export type OrderFormData = z.infer<typeof orderFormSchema>;

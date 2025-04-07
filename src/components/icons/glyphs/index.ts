@@ -27,10 +27,18 @@ import { HalfStar } from "./half-star";
 import { Camera } from "./camera";
 import { BookMark } from "./book-mark";
 import { Trash } from "./trash";
+import CheckCircle2 from "./check-circle2";
+import NoteComplete from "./note-complete";
+import WarningCircle from "./warning-circle";
+import OrderCancel from "./order-cancel";
 
 export const glyphs = {
   alertCircle: AlertCircle,
   checkCircle: CheckCircle,
+  checkCircle2: CheckCircle2,
+  noteComplete: NoteComplete,
+  warningCircle: WarningCircle,
+  orderCancel: OrderCancel,
   eye: Eye,
   facebook: FacebookIcon,
   instagram: InstagramIcon,

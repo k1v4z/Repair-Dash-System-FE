@@ -1,14 +1,14 @@
-import { useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import TextareaField from "@/components/common/textarea-field";
 import SelectField from "@/components/common/select-field";
 import { useSelectLocation } from "@/hooks/useSelectLocation";
-import type { UserAddress } from "@/types/service";
 import { UseFormReturn } from "react-hook-form";
-import type { OrderFormData } from "@/schemas/order";
 import FileUpload from "@/components/common/upload-file";
+
+import type { OrderFormData } from "@/schemas/order";
+import type { UserAddress } from "@/types/service";
 
 interface CustomerInformationProps {
   customer: UserAddress;
@@ -25,10 +25,14 @@ export default function CustomerInformationSection({
     provinces,
     districts,
     wards,
-    handleProvinceChange,
-    handleDistrictChange,
-    handleWardChange,
-  } = useSelectLocation();
+    handleProvinceChange: provinceChangeHandler,
+    handleDistrictChange: districtChangeHandler,
+    handleWardChange: wardChangeHandler,
+  } = useSelectLocation({
+    initialProvince: customer.user_city,
+    initialDistrict: customer.user_district,
+    initialWard: customer.user_ward,
+  });
 
   const {
     register,
@@ -36,13 +40,23 @@ export default function CustomerInformationSection({
     formState: { errors },
   } = form;
 
-  useEffect(() => {
-    handleProvinceChange(customer.user_city);
-    handleDistrictChange(customer.user_district);
-    handleWardChange(customer.user_ward);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [customer.user_city, customer.user_district, customer.user_ward]);
+  const handleProvinceChange = (value: string) => {
+    provinceChangeHandler(value);
+    setValue("user_city", value, { shouldValidate: true });
+    setValue("user_district", "", { shouldValidate: true });
+    setValue("user_ward", "", { shouldValidate: true });
+  };
 
+  const handleDistrictChange = (value: string) => {
+    districtChangeHandler(value);
+    setValue("user_district", value, { shouldValidate: true });
+    setValue("user_ward", "", { shouldValidate: true });
+  };
+
+  const handleWardChange = (value: string) => {
+    wardChangeHandler(value);
+    setValue("user_ward", value, { shouldValidate: true });
+  };
 
   return (
     <Card className="p-6 space-y-6">

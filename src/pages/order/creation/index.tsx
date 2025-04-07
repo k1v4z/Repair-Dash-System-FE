@@ -10,6 +10,7 @@ import CustomerInformationSection from "./_components/customer-information-secti
 import ServiceInformationSection from "./_components/service-information-section";
 import { useNavigate } from "react-router-dom";
 import routePath from "@/config/route";
+import ORDER_NOT_FOUND_MESSAGE from "@/features/order/constants/order-notfound-message";
 
 export default function ServiceBookingForm() {
   const { customer, service, errorMessage, status } = useCheckout();
@@ -53,7 +54,7 @@ export default function ServiceBookingForm() {
     }
   };
 
-  if (errorMessage && status != 404) {
+  if (errorMessage && status != 404 && status != 403) {
     toast.error(errorMessage, {
       toastId: errorMessage,
     });
@@ -61,11 +62,12 @@ export default function ServiceBookingForm() {
 
   return (
     <>
-      {status === 404 ? (
+      {status === 404 || status === 403 ? (
         <ResourceNotFound
-          title="Dịch vụ không tồn tại"
-          description="Không tìm thấy dịch vụ bạn tìm kiếm hoặc có thể đã bị xóa."
-          buttonText="Quay lại trang chủ"
+          title={ORDER_NOT_FOUND_MESSAGE[status].title}
+          description={ORDER_NOT_FOUND_MESSAGE[status].description}
+          buttonText={ORDER_NOT_FOUND_MESSAGE[status].buttonText}
+          onButtonClick={() => navigate(routePath.home)}
         />
       ) : (
         <form onSubmit={form.handleSubmit(onSubmit)}>

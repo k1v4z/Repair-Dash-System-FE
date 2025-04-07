@@ -52,9 +52,12 @@ export default function OrderTracking() {
         <h1 className="text-2xl font-bold mb-2">
           Chi tiết đơn đặt dịch vụ #{order.order_id}
         </h1>
-        <OrderStatusBar status={order.order_status} role={user?.role as Role} />
+        <OrderStatusBar
+          status={order.order_status}
+          role={user?.role as Role}
+          order={order}
+        />
       </div>
-
       {isStore ? (
         <StoreOrderActions order={order} onOrderUpdated={onUpdateOrder} />
       ) : (

@@ -81,10 +81,10 @@ export type Order = {
   updated_at: string;
   service: OrderService;
   customer: OrderCustomer;
-};
-
-export type GetOrderResponse = {
-  order: Order;
+  created_description: string | null;
+  customer_cancelled_description: string | null;
+  store_cancelled_description: string | null;
+  completed_description: string | null;
 };
 
 export type UpdateOrderRequest = {
