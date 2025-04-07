@@ -43,14 +43,14 @@ export interface Service {
 export interface UpdateServiceRequest {
   service_name: string;
   service_description: string;
-  service_image?: string;
+  service_image?: File | null;
   service_alias?: string;
 }
 
 export type AddServiceRequest = {
   service_name: string;
   service_description: string;
-  service_image: string | null;
+  service_image: string | File | null;
   service_alias: string;
 };
 
@@ -97,3 +97,12 @@ export type UseGetServiceByOwnerReturn = {
   setCurrentPage: (page: number) => void;
   refreshServices: () => void;
 };
+export type Employee ={
+  id: number;
+  name: string;
+  position: string;
+  email: string;
+  phone: string;
+  status: "active" | "inactive";
+  joined_date: string;
+}

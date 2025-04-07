@@ -15,7 +15,6 @@ import { Label } from "@/components/ui/label";
 import Icon from "@/components/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { serviceSchema, type ServiceFormData } from "@/schemas/service";
-import { toast } from "react-toastify";
 import TextareaField from "@/components/common/textarea-field";
 
 interface AddServiceModalProps {
@@ -47,19 +46,14 @@ export function AddServiceModal({
     resolver: zodResolver(serviceSchema),
   });
 
-  const onSubmitForm = async (data: ServiceFormData) => {
-    try {
-      await onSubmit({
-        ...data,
-        image: images[0],
-      });
-      reset();
-      setImages([]);
-      toast.success("Thêm dịch vụ mới thành công");
-      onOpenChange(false);
-    } catch {
-      toast.error("Có lỗi xảy ra khi thêm dịch vụ");
-    }
+  const onSubmitForm = async (data: ServiceFormData) => {      
+    await onSubmit({
+          ...data,
+          image: images[0],
+        });
+        reset();
+        setImages([]);
+        onOpenChange(false); 
   };
 
   const handleImageChange = (file: File) => {

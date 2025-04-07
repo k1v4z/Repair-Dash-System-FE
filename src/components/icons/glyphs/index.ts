@@ -31,6 +31,13 @@ import CheckCircle2 from "./check-circle2";
 import NoteComplete from "./note-complete";
 import WarningCircle from "./warning-circle";
 import OrderCancel from "./order-cancel";
+import { Edit } from "./edit";
+import { Delete } from "./delete";
+import { Plus } from "./plus";
+import { EyeNonBorder } from "./eye-non-border";
+import { Chart } from "./chart";
+import { Block } from "./block";
+import { Check } from "./check";
 
 export const glyphs = {
   alertCircle: AlertCircle,
@@ -66,6 +73,13 @@ export const glyphs = {
   camera: Camera,
   bookMark: BookMark,
   trash: Trash,
+  edit: Edit,
+  delete: Delete,
+  plus: Plus,
+  eyeNonBorder: EyeNonBorder,
+  chart: Chart,
+  block: Block,
+  check: Check,
 };
 
 export type Glyph = {

@@ -44,13 +44,13 @@ export interface UpdateServiceRequest {
   service_name: string;
   service_description: string;
   service_alias?: string;
-  service_image?: string;
+  service_image?: File | string | null;
 }
 
 export type AddServiceRequest = {
   service_name: string;
   service_description: string;
-  service_image: string | null;
+  service_image: string | File | null;
   service_alias: string;
 };
 
@@ -97,3 +97,11 @@ export type UseGetServiceByOwnerReturn = {
   refreshServices: () => void;
   onUpdateService: (updatedService: Service) => void;
 };
+export type Feedback = {
+  id: number;
+  customer_name: string;
+  service_name: string;
+  rating: number;
+  content: string;
+  created_at: string;
+}
