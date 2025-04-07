@@ -3,7 +3,7 @@ import type {
   CheckoutResponse,
   CreateOrderRequest,
   CreateOrderResponse,
-  GetOrderResponse,
+  Order,
   UpdateOrderRequest,
   UpdateOrderResponse,
 } from "../types/orders.type";
@@ -44,7 +44,7 @@ export const orderApi = {
     }
   },
 
-  getOrder: async (orderId: string): Promise<GetOrderResponse> => {
+  getOrder: async (orderId: string): Promise<Order> => {
     try {
       const response = await axiosInstance.get(
         `${ORDER_ENDPOINTS.GET_ORDER}${orderId}`

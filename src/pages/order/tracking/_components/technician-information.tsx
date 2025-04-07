@@ -1,4 +1,4 @@
-import { Order } from "@/features/order/types/orders.type";
+import type { Order } from "@/features/order/types/orders.type";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 interface TechnicianInformationProps {
@@ -14,54 +14,40 @@ export default function TechnicianInformation({
   );
 
   return (
-    <div className="flex flex-col gap-2 p-6">
-      <h3 className="font-semibold">Thông tin kỹ thuật viên</h3>
+    <div className="flex flex-col gap-3 p-6 rounded-lg bg-white shadow-sm">
+      <h3 className="text-base font-semibold">Thông tin kỹ thuật viên</h3>
       <div className="text-sm text-gray-600">
         Chi tiết về kỹ thuật viên được phân công xử lý đơn hàng của bạn
       </div>
-      {order.order_status === "PROCESSING" && order.employee_full_name ? (
-        <div className="flex items-start gap-4">
-          <Avatar className="size-12 rounded-full border border-gray-200">
+      {(order.order_status === "PROCESSING" ||
+        order.order_status === "COMPLETED") &&
+      order.employee_full_name ? (
+        <div className="flex flex-col sm:flex-row items-start gap-4 mt-2">
+          <Avatar className="size-14 rounded-full border border-gray-200 shrink-0">
             {employee?.employee_avatar_url ? (
               <img
                 src={employee.employee_avatar_url}
                 alt={order.employee_full_name}
-                className="object-cover"
+                className="object-cover w-full h-full"
               />
             ) : (
-              <AvatarFallback>
+              <AvatarFallback className="text-lg">
                 {order.employee_full_name.charAt(0)}
               </AvatarFallback>
             )}
           </Avatar>
-          <div>
-            <div className="mb-4">
-              <h3 className="font-medium">Họ và tên</h3>
-              <p className="text-lg font-semibold">
+          <div className="flex flex-col w-full space-y-4">
+            <div>
+              <h3 className="text-sm font-medium text-gray-500">Họ và tên</h3>
+              <p className="text-base font-semibold mt-1">
                 {order.employee_full_name}
               </p>
-            </div>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div>
-                <h3 className="font-medium">Kinh nghiệm</h3>
-                <p className="text-sm text-gray-600">
-                  {employee?.employee_id
-                    ? "5 năm kinh nghiệm sửa chữa điện lạnh"
-                    : "Chưa có thông tin"}
-                </p>
-              </div>
-              <div>
-                <h3 className="font-medium">Số điện thoại</h3>
-                <p className="text-sm text-blue-600 hover:underline">
-                  {order.store_phone_number}
-                </p>
-              </div>
             </div>
           </div>
         </div>
       ) : (
-        <div className="flex items-center justify-center h-full">
-          <p className="text-gray-500">
+        <div className="flex items-center justify-center h-24 bg-gray-50 rounded-md mt-2">
+          <p className="text-gray-500 text-sm">
             Không có kỹ thuật viên nào được phân công
           </p>
         </div>

@@ -35,7 +35,7 @@ export const orderServices = {
 
   async getOrder(orderId: string): Promise<Order> {
     const response = await orderApi.getOrder(orderId);
-    return response.order;
+    return response;
   },
 
   async updateOrder(

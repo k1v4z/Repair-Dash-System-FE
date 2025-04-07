@@ -83,15 +83,17 @@ export default function StoreOrderActions({
     }
   };
 
-  const handleCancelOrder = async () => {
+  const handleCancelOrder = async (reason?: string) => {
     try {
       const updatedOrder = await updateOrder(order.order_id.toString(), {
         order_status: "CANCELED",
+        order_description: reason,
       });
 
       if (updatedOrder) {
         toast.success(SUCCESS_MESSAGES["CANCELED"]);
         onOrderUpdated(updatedOrder);
+        setIsConfirmModalOpen(false);
       }
     } catch {
       toast.error("Có lỗi xảy ra khi hủy đơn đặt dịch vụ!");
@@ -156,7 +158,7 @@ export default function StoreOrderActions({
                 Tạm thời không có nhân viên
               </p>
             )}
-            <div className="flex gap-3 mt-4">
+            <div className="flex gap-3 pt-2">
               <Button
                 type="submit"
                 disabled={isLoading || employeeOptions.length === 0}
@@ -214,10 +216,13 @@ export default function StoreOrderActions({
       </CardContent>
       <ConfirmDialog
         open={isConfirmModalOpen}
+        isLoading={isLoading}
         onOpenChange={setIsConfirmModalOpen}
         title="Xác nhận huỷ đơn đặt dịch vụ"
-        description="Bạn có muốn hủy đơn đặt dịch vụ này?"
+        description="Vui lòng nhập lý do hủy đơn hàng này."
         onConfirm={handleCancelOrder}
+        reasonRequired
+        reasonLabel="Lý do hủy đơn"
       />
     </Card>
   );

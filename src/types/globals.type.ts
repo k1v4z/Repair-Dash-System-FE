@@ -24,3 +24,12 @@ export interface AxiosResponse<T = undefined> {
 }
 
 export type Role = "STORE" | "USER" | "ADMIN";
+
+export type DialogContent = {
+  isOpen: boolean;
+  title: string;
+  description: string;
+  onConfirm: () => void;
+  reasonRequired?: boolean;
+  reasonLabel?: string;
+};

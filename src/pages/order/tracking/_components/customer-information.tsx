@@ -44,7 +44,7 @@ export default function CustomerInformation({
       customer_full_name: order.customer_full_name,
       customer_phone_number: order.customer_phone_number,
       customer_address: order.customer_address,
-      order_description: order.order_description,
+      order_description: order.created_description || "",
       order_images: images,
     },
   });
@@ -86,9 +86,6 @@ export default function CustomerInformation({
         order_status: "PENDING" as OrderStatus,
         order_images: orderImages,
       };
-
-      // Log payload to verify images are included
-      console.log("Submitting with images:", orderImages.length);
 
       const updatedOrder = await updateOrder(
         order.order_id.toString(),
@@ -207,7 +204,7 @@ export default function CustomerInformation({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="order_description">Mô tả chi tiết lỗi</Label>
+              <Label htmlFor="order_description">Chi tiết lỗi</Label>
               <Textarea
                 id="order_description"
                 disabled={!isEditing || isLoading || isDisabled}

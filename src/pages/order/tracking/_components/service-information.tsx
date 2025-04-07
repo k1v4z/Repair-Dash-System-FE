@@ -48,7 +48,12 @@ export default function ServiceInformation({ order }: ServiceInformationProps) {
               <span className="inline-block mr-2">
                 <Icon glyph="phone" className="size-4" />
               </span>
-              {order.store_phone_number}
+              <a
+                href={`tel:${order.store_phone_number}`}
+                className="hover:underline"
+              >
+                {order.store_phone_number}
+              </a>
             </p>
           </div>
         </div>
