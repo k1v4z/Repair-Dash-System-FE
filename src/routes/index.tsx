@@ -16,6 +16,7 @@ import NotFound from "../pages/not-found";
 import OrderTracking from "../pages/order/tracking";
 import Profile from "../pages/user";
 import ServiceMark from "../pages/service/service-mark";
+import ServiceSearchPage from "../pages/service/search";
 
 const listRoute: Route[] = [
   {
@@ -81,6 +82,11 @@ const listRoute: Route[] = [
   {
     path: routePath.serviceDetail,
     component: <ServiceDetail />,
+    layout: MainLayout,
+  },
+  {
+    path: routePath.searchService,
+    component: <ServiceSearchPage />,
     layout: MainLayout,
   },
   {

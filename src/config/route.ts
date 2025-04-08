@@ -10,6 +10,7 @@ const routePath = {
   serviceDetail: "/service-detail/:id",
   profile: "/profile",
   serviceMark: "/service-mark",
+  searchService: "/services/search",
 };
 
 export default routePath;
