@@ -24,13 +24,13 @@ export type Owner = {
   user_phone_number: string;
 };
 
-export interface ServiceResponse {
+export type ServiceResponse ={
   listService: Service[];
   totalPages: number;
   currentPage: number;
 }
 
-export interface Service {
+export type Service ={
   service_id: number;
   service_name: string;
   service_description: string;
@@ -40,7 +40,7 @@ export interface Service {
   updated_at: string;
 }
 
-export interface UpdateServiceRequest {
+export type UpdateServiceRequest ={
   service_name: string;
   service_description: string;
   service_alias?: string;
@@ -97,6 +97,7 @@ export type UseGetServiceByOwnerReturn = {
   refreshServices: () => void;
   onUpdateService: (updatedService: Service) => void;
 };
+
 export type Feedback = {
   id: number;
   customer_name: string;
@@ -104,4 +105,36 @@ export type Feedback = {
   rating: number;
   content: string;
   created_at: string;
+}
+
+export type Employee ={
+  employee_id: number;
+  employee_full_name: string;
+  employee_avatar_url: string | null;
+  delete_flag: boolean;
+  owner_id: number;
+  created_at: string;
+  updated_at: string;
+  total_orders: number;
+  status: boolean;
+}
+
+export type EmployeeResponse = {
+  employees: Employee[];
+  limit: number;
+  current_page: number;
+  total_pages: number;
+}
+export type UseEmployeePage = {
+  pageSize?: number;
+}
+
+export type UseEmployeeReturn = {
+  employees: Employee[];
+  currentPage: number;
+  totalPages: number;
+  isLoading: boolean;
+  error: Error | null;
+  setCurrentPage: (page: number) => void;
+  refreshEmployees: () => Promise<void>;
 }

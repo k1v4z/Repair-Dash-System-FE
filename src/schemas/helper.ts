@@ -28,3 +28,4 @@ export const nameValidation = z
 export const phoneNumberValidation = z
   .string()
   .regex(/^[0-9]{10}$/, "Số điện thoại không hợp lệ");
+

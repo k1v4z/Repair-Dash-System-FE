@@ -28,7 +28,6 @@ const PAGE_SIZE = 8;
 export function ServiceManagement() {
   const {
     services,
-    setServices,
     currentPage,
     totalPages,
     isLoading: showSkeleton,
@@ -193,7 +192,7 @@ export function ServiceManagement() {
     service_name: string;
     service_description: string;
     service_alias: string;
-    image?: File | null;
+    image: File | null;
   }) => {
     if (!selectedService) return;
 
@@ -204,29 +203,21 @@ export function ServiceManagement() {
         service_name: data.service_name,
         service_description: data.service_description,
         service_alias: data.service_alias,
-        service_image: data.image, 
+        service_image: data.image || undefined
       };
 
-      const updateResponse = await storeManageServices.updateService(
+      await storeManageServices.updateService(
         selectedService.service_id.toString(),
         updateData
       );
-
-      if (updateResponse.data.result) {
-        setServices((prevServices: Service[]) =>
-          prevServices.map((service) =>
-            service.service_id === selectedService.service_id
-              ? updateResponse.data.result
-              : service
-          )
-        );
-        toast.success("Cập nhật dịch vụ thành công");
-      }
-    } catch {
+      await refreshServices();
+      toast.success("Cập nhật dịch vụ thành công");
+      setIsUpdateModalOpen(false);
+    } catch (error) {
+      console.error("Error updating service:", error);
       toast.error("Cập nhật dịch vụ thất bại");
     } finally {
       setIsUpdateLoading(false);
-      setIsUpdateModalOpen(false);
     }
   };
 

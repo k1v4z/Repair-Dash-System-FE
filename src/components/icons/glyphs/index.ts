@@ -38,7 +38,7 @@ import { EyeNonBorder } from "./eye-non-border";
 import { Chart } from "./chart";
 import { Block } from "./block";
 import { Check } from "./check";
-
+import { AvatarDefault } from "./avatar-default";
 export const glyphs = {
   alertCircle: AlertCircle,
   checkCircle: CheckCircle,
@@ -80,6 +80,7 @@ export const glyphs = {
   chart: Chart,
   block: Block,
   check: Check,
+  avatarDefault: AvatarDefault,
 };
 
 export type Glyph = {

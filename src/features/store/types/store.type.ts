@@ -24,13 +24,13 @@ export type Owner = {
   user_phone_number: string;
 };
 
-export interface ServiceResponse {
+export type ServiceResponse ={
   listService: Service[];
   totalPages: number;
   currentPage: number;
 }
 
-export interface Service {
+export type Service ={
   service_id: number;
   service_name: string;
   service_description: string;
@@ -105,4 +105,12 @@ export type Employee ={
   phone: string;
   status: "active" | "inactive";
   joined_date: string;
+}
+export type AddEmployeeRequest = {
+  employee_full_name: string;
+  avatar_image: string | File | null;
+}
+export type UpdateEmployeeRequest = {
+  employee_full_name: string;
+  avatar_image: string | File | null;
 }
