@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import Icons from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import type { Service } from "@/features/store-detail/types/store-detail.type";
+import type { Service } from "@/features/store/types/store-detail.type";
 import routePath from "@/config/route";
 
 interface ServiceInformationProps {

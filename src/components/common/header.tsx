@@ -80,7 +80,7 @@ export default function Header() {
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     className="cursor-pointer"
-                    onSelect={() => navigate(routePath.serviceMark)}
+                    onSelect={() => navigate(routePath.serviceFavorite)}
                   >
                     <p className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700">
                       <Icon glyph="bookMark" className="size-5 fill-black" />

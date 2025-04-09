@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import ServiceInformation from "./_components/service-information";
 import ServiceReview from "./_components/service-review";
 import useServiceById from "@/features/service/hooks/useServiceDetail";
+import useFavorite from "@/features/service/hooks/useFavorite";
 import Icons from "@/components/icons";
 import ResourceNotFound from "@/components/common/resource-not-found";
 import routePath from "@/config/route";
@@ -13,10 +13,22 @@ import { cn } from "@/lib/utils";
 const ServiceDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [isBookMarked, setIsBookMarked] = useState(false);
-  const { serviceDetail, status, errorMessage } = useServiceById(id || "");
+  const { serviceDetail, status } = useServiceById(id || "");
+  const [favoriteId, setFavoriteId] = useState< null | -1 | number>(null);
 
-  if (status !== 404) toast.error(errorMessage);
+  useEffect(() => {
+    if (serviceDetail?.service?.favorite_id !== undefined) {
+      setFavoriteId(serviceDetail.service.favorite_id);
+    }
+  }, [serviceDetail?.service?.favorite_id]);
+
+  const { toggleFavorite } = useFavorite({
+    serviceId: serviceDetail?.service?.service_id || 0,
+    favorite: favoriteId,
+    onChange: (newFavorite) => {
+      setFavoriteId(newFavorite);
+    }
+  });
 
   return (
     <>
@@ -28,20 +40,17 @@ const ServiceDetail = () => {
           onButtonClick={() => navigate(routePath.home)}
         />
       ) : (
-        <div className="max-w-[1440px]  mx-auto px-4 py-8">
+        <div className="max-w-[1440px] mx-auto px-4 py-8">
           <div className="flex justify-between items-center w-full xl:w-[60%]">
             <h2 className="text-3xl font-bold text-gray-900">
               {serviceDetail?.service?.service_name}
             </h2>
-            <div
-              className="cursor-pointer"
-              onClick={() => setIsBookMarked(!isBookMarked)}
-            >
+            <div className="cursor-pointer" onClick={toggleFavorite}>
               <Icons
                 glyph="bookMark"
                 className={cn(
                   "mt-3 size-7",
-                  isBookMarked
+                  typeof favoriteId === 'number' && favoriteId > 0
                     ? "fill-yellow-500 stroke-yellow-500"
                     : "fill-none stroke-gray-400"
                 )}

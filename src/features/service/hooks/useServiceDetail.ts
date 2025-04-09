@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type { ServiceDetailResponse } from "../types/service-detail";
+import type { ServiceDetailResponse } from "../types/service-detail.type";
 import { serviceDetailServices } from "../service/service-detail";
 
 const useServiceDetail = (serviceId: string) => {

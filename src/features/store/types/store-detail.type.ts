@@ -14,6 +14,7 @@ export type Service = {
   service_image_url: string;
   total_reviews: number;
   average_rating: number;
+  favorite_id: null | -1 | number;
   owner_id: number;
   owner: UserAddress;
 };

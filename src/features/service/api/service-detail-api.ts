@@ -1,4 +1,4 @@
-import type { ServiceDetailResponse } from "../types/service-detail.ts";
+import type { ServiceDetailResponse } from "../types/service-detail.type.ts";
 import { axiosInstance } from "@/config/axios";
 
 const SERVICE_DETAIL_ENDPOINTS = {
