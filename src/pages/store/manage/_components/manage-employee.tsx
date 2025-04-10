@@ -9,75 +9,157 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Icons from "@/components/icons";
-import type { Employee } from "@/features/store/types/store.type";
+import type { Employee } from "@/features/store/types/store-manage.type";
 import {formatDate} from "@/utils/datetime/date";
-
-const DUMMY_EMPLOYEES: Employee[] = [
-  {
-    id: 1,
-    name: "Nguyễn Văn A",
-    position: "Kỹ thuật viên",
-    email: "nguyenvana@example.com",
-    phone: "0901234567",
-    status: "active",
-    joined_date: "2023-01-15",
-  },
-  {
-    id: 2,
-    name: "Trần Thị B",
-    position: "Lễ tân",
-    email: "tranthib@example.com",
-    phone: "0901234568",
-    status: "active",
-    joined_date: "2023-02-20",
-  },
-  {
-    id: 3,
-    name: "Lê Văn C",
-    position: "Quản lý",
-    email: "levanc@example.com",
-    phone: "0901234569",
-    status: "inactive",
-    joined_date: "2022-11-10",
-  },
-];
+import { useEmployee } from '@/features/store/hooks/useEmployee';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import { AddEmployeeModal } from "./add-employee-modal";
+import { UpdateEmployeeModal } from "./update-employee-modal";
+import { storeManageServices } from "@/features/store/services/store.service";
+import { toast } from "react-toastify";
+import type { AddEmployeeRequest, UpdateEmployeeRequest } from "@/features/store/types/store.type";
+import { convertToBase64 } from "@/utils/convert/base64";
+import { ConfirmDialog } from "@/components/common/confirm-dialog";
 
 export function EmployeeManagement() {
-  const [employees] = useState<Employee[]>(DUMMY_EMPLOYEES);
-  const [currentPage, setCurrentPage] = useState(1);
+  const {
+    employees,
+    currentPage,
+    totalPages,
+    isLoading,
+    setCurrentPage,
+    refreshEmployees
+  } = useEmployee();
+  
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isAddLoading, setIsAddLoading] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isUpdateLoading, setIsUpdateLoading] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  const handleAddEmployee = async (data: {
+    employee_full_name: string;
+    image: File | null;
+  }) => {
+    try {
+      setIsAddLoading(true);
+      const addData : AddEmployeeRequest = {
+        employee_full_name: data.employee_full_name,
+        avatar_image: data.image
+      };
+      const addResponse = await storeManageServices.addEmployee(addData);
+      if (addResponse) {
+        refreshEmployees();
+        toast.success("Thêm nhân viên mới thành công");
+        setIsAddModalOpen(false);
+      }
+      else {
+        toast.error("Dữ liệu bị lỗi");
+        throw new Error("Unexpected error");        
+      }
+    } catch {
+      toast.error("Không thể thêm nhân viên. Vui lòng thử lại");
+    } finally {
+      setIsAddLoading(false);
+    }
+  };
+
+  const handleUpdateClick = (employee: Employee) => {
+    setSelectedEmployee(employee);
+    setIsUpdateModalOpen(true);
+  };
+
+  const handleUpdateEmployee = async (data: {
+    employee_full_name: string;
+    image: File | null;
+  }) => {
+    try {
+      setIsUpdateLoading(true);
+      if (!selectedEmployee) return;
+
+      let avatarUrl = selectedEmployee.employee_avatar_url;
+      if (data.image) {
+        avatarUrl = await convertToBase64(data.image);
+      }
+
+      const updateData: UpdateEmployeeRequest = {
+        employee_full_name: data.employee_full_name,
+        avatar_image: avatarUrl
+      };
+
+      await storeManageServices.updateEmployee(selectedEmployee.employee_id.toString(), updateData);
+      await refreshEmployees();
+      toast.success("Cập nhật nhân viên thành công");
+      setIsUpdateModalOpen(false);
+    } catch {
+      toast.error("Không thể cập nhật nhân viên. Vui lòng thử lại");
+    } finally {
+      setIsUpdateLoading(false);
+    }
+  };
+
+  const handleDeleteEmployee = async () => {
+    try {
+      if (!selectedEmployee) return;
+
+      await storeManageServices.deleteEmployee(selectedEmployee.employee_id.toString());
+      await refreshEmployees();
+      toast.success("Xóa nhân viên thành công");
+      setIsDeleteDialogOpen(false);
+    } catch {
+      toast.error("Không thể xóa nhân viên. Vui lòng thử lại");
+    }
+  };
 
   const columns: ColumnDef<Employee>[] = [
     {
-      accessorKey: "name",
+      accessorKey: "employee_full_name",
       header: "Họ tên",
-      cell: ({ row }) => (
-        <div className="font-medium text-gray-800">{row.original.name}</div>
-      ),
+      cell: ({ row }) => {
+        const status = row.original.status;
+        const colorScheme = status ? {
+          border: "border-green-500",
+          bg: "bg-green-100",
+          text: "text-green-500"
+        } : {
+          border: "border-primary-royalBlue",
+          bg: "bg-transparent",
+          text: "text-primary-royalBlue"
+        };
+
+        return (
+          <div className="flex items-center gap-3">
+            <Avatar className={cn(
+              "border-2",
+              colorScheme.border
+            )}>
+              <AvatarImage src={row.original.employee_avatar_url || ""} />
+              <AvatarFallback className={colorScheme.bg}>
+                <Icons 
+                  glyph="avatarDefault" 
+                  className={cn(
+                    "w-5 h-5",
+                    colorScheme.text
+                  )} 
+                />
+              </AvatarFallback>
+            </Avatar>
+            <div className="font-medium text-gray-800">
+              {row.original.employee_full_name}
+            </div>
+          </div>
+        );
+      },
     },
     {
-      accessorKey: "position",
-      header: "Chức vụ",
+      accessorKey: "total_orders",
+      header: "Số đơn hàng",
       cell: ({ row }) => (
         <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-100">
-          {row.original.position}
+          {row.original.total_orders}
         </span>
-      ),
-    },
-    {
-      accessorKey: "email",
-      header: "Email",
-      cell: ({ row }) => (
-        <div className="flex items-center">
-          <span className="text-gray-600 text-sm">{row.original.email}</span>
-        </div>
-      ),
-    },
-    {
-      accessorKey: "phone",
-      header: "Số điện thoại",
-      cell: ({ row }) => (
-        <div className="text-gray-600 text-sm">{row.original.phone}</div>
       ),
     },
     {
@@ -88,22 +170,42 @@ export function EmployeeManagement() {
         return (
           <span
             className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
-              status === "active"
+              status
                 ? "bg-green-50 text-green-700 border border-green-100"
-                : "bg-red-50 text-red-700 border border-red-100"
+                : "bg-primary-royalBlue/10 text-primary-royalBlue border"
             }`}
           >
-            <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${status === "active" ? "bg-green-500" : "bg-red-500"}`}></span>
-            {status === "active" ? "Đang làm việc" : "Ngừng làm việc"}
+            <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${status ? "bg-green-500" : "bg-primary-royalBlue"}`}></span>
+            {status ? "Đang trong đơn hàng" : "Đang rảnh"}
           </span>
         );
       },
     },
     {
-      accessorKey: "joined_date",
-      header: "Ngày bắt đầu",
+      accessorKey: "created_at",
+      header: "Ngày thêm",
       cell: ({ row }) => {
-        const date = new Date(row.original.joined_date);
+        const date = new Date(row.original.created_at);
+        const now = new Date();
+        const diffMonths = (now.getFullYear() - date.getFullYear()) * 12 + (now.getMonth() - date.getMonth());
+        
+        return (
+          <div className="flex flex-col">
+            <span className="text-gray-700 text-sm">
+              {formatDate(date)}
+            </span>
+            <span className="text-xs text-gray-500">
+              {diffMonths > 0 ? `${diffMonths} tháng trước` : "Mới"}
+            </span>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "updated_at",
+      header: "Ngày cập nhật",
+      cell: ({ row }) => {
+        const date = new Date(row.original.updated_at);
         const now = new Date();
         const diffMonths = (now.getFullYear() - date.getFullYear()) * 12 + (now.getMonth() - date.getMonth());
         
@@ -126,25 +228,22 @@ export function EmployeeManagement() {
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 border border-gray-200 rounded-md hover:bg-gray-100">
-                <span className="text-lg">⋮</span>
+              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                <span className="text-xl">⋮</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-[180px]">
-              <DropdownMenuItem className="cursor-pointer flex items-center">
-                <Icons glyph="eyeNonBorder" className="mr-2 text-blue-500" />
-                <span>Xem chi tiết</span>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => handleUpdateClick(row.original)}>
+                <Icons glyph="edit" className="mr-2 h-4 w-4" />
+                <span>Cập nhật</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer flex items-center">
-                <Icons glyph="edit" className="mr-2 text-gray-500" />
-                <span>Chỉnh sửa</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer text-red-600 flex items-center">
-                <Icons glyph={row.original.status === "active" ? "block" : "check"} className="mr-2" />
+              <DropdownMenuItem className="cursor-pointer text-red-600 flex items-center" onClick={() => {
+                setSelectedEmployee(row.original);
+                setIsDeleteDialogOpen(true);
+              }}>
+                <Icons glyph="delete" className="mr-2" />
                 <span>
-                  {row.original.status === "active"
-                    ? "Vô hiệu hóa"
-                    : "Kích hoạt lại"}
+                  Xóa
                 </span>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -154,7 +253,7 @@ export function EmployeeManagement() {
     },
   ];
 
-  const activeCount = employees.filter(emp => emp.status === "active").length;
+  const activeCount = employees.filter((emp: Employee) => emp.status).length;
 
   return (
     <div className="space-y-6">
@@ -180,28 +279,39 @@ export function EmployeeManagement() {
         <DataTable
           columns={columns}
           data={employees}
+          loading={isLoading}
           pagination={{
             currentPage,
-            pageSize: 5,
-            totalPages: Math.ceil(employees.length / 5),
+            pageSize: 10,
+            totalPages,
             onPageChange: setCurrentPage,
           }}
         />
       </div>
 
-      {isAddModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-            <h3 className="text-lg font-semibold mb-4">Thêm nhân viên mới</h3>
-            <div className="text-right mt-4">
-              <Button variant="outline" className="mr-2" onClick={() => setIsAddModalOpen(false)}>
-                Hủy
-              </Button>
-              <Button>Lưu</Button>
-            </div>
-          </div>
-        </div>
-      )}
+      <AddEmployeeModal 
+        open={isAddModalOpen}
+        onOpenChange={setIsAddModalOpen}
+        onSubmit={handleAddEmployee}
+        isLoading={isAddLoading}
+      />
+      <UpdateEmployeeModal
+        open={isUpdateModalOpen}
+        onOpenChange={setIsUpdateModalOpen}
+        onSubmit={handleUpdateEmployee}
+        isLoading={isUpdateLoading}
+        employee={selectedEmployee!}
+      />
+
+      <ConfirmDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        title="Xác nhận xóa"
+        description="Bạn có chắc chắn muốn xóa nhân viên này? Hành động này không thể hoàn tác."
+        onConfirm={handleDeleteEmployee}
+        confirmText="Xóa"
+      />
+      
     </div>
   );
 } 

@@ -3,13 +3,18 @@ import type {
   UpdateServiceRequest,
   AddServiceRequest,
   ServiceResponse,
+  EmployeeResponse,
 } from "../../store/types/store-manage.type";
-
+import type { AddEmployeeRequest ,UpdateEmployeeRequest} from "../../store/types/store.type";
 const STORE_ENDPOINTS = {
   GET_SERVICES_BY_OWNER: "/profile",
   DELETE_SERVICE: "/services/:serviceId",
   UPDATE_SERVICE: "/services/:serviceId",
   ADD_SERVICE: "/services",
+  GET_EMPLOYEES: "/employees",
+  ADD_EMPLOYEE: "/employees",
+  UPDATE_EMPLOYEE: "/employees/:employeeId",
+  DELETE_EMPLOYEE: "/employees/:employeeId",
 };
 
 export const storeManageApi = {
@@ -73,4 +78,61 @@ export const storeManageApi = {
       throw error;
     }
   },
+  getEmployees: async (
+    current_page: number,
+    limit: number
+  ): Promise<EmployeeResponse> => {
+    try {
+      const response = await axiosInstance.get(
+        STORE_ENDPOINTS.GET_EMPLOYEES,
+        {
+          params: {
+            current_page,
+            limit,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching employees");
+      throw error;
+    }
+  },
+  addEmployee: async (data: AddEmployeeRequest) => {
+    try {
+      const response = await axiosInstance.post(
+        STORE_ENDPOINTS.ADD_EMPLOYEE,
+        data
+      );  
+      return response.data;
+    } catch (error) {
+      console.error("Error adding employee");
+      throw error;
+    }
+  },
+  updateEmployee: async (employeeId: string, data: UpdateEmployeeRequest) => {
+    try {
+      const response = await axiosInstance.put(
+        STORE_ENDPOINTS.UPDATE_EMPLOYEE.replace(":employeeId", employeeId),
+        data
+      );  
+      return response.data;
+    } catch (error) {
+      console.error("Error updating employee");
+      throw error;
+    }
+  },
+  deleteEmployee: async (employeeId: string) => {
+    try {
+      const response = await axiosInstance.delete(
+        STORE_ENDPOINTS.DELETE_EMPLOYEE.replace(":employeeId", employeeId)
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting employee");
+      throw error;
+    }
+  },
+  
 };

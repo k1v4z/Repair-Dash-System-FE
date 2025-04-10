@@ -42,9 +42,9 @@ export function UpdateServiceModal({
   const { register, handleSubmit, reset, formState: { errors } } = useForm<ServiceFormData>({
     resolver: zodResolver(serviceSchema),
     defaultValues: {
-      service_name: service.service_name,
-      service_description: service.service_description,
-      service_alias: service.service_alias,
+      service_name: service?.service_name || "",
+      service_description: service?.service_description || "",
+      service_alias: service?.service_alias || "",
     }
   });
   
@@ -59,11 +59,15 @@ export function UpdateServiceModal({
     }
   }, [service, reset, open]);
 
+  if (!service) {
+    return null;
+  }
+
   const onSubmitForm = async (data: ServiceFormData) => {
     try {
       await onSubmit({
         ...data,
-        image: images  || null
+        image: images || null
       });
       onOpenChange(false);
     } catch {
