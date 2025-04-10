@@ -1,5 +1,5 @@
 import { serviceDetailApi } from "../api/service-detail-api";
-import type { ServiceDetailResponse } from "../types/service-detail";
+import type { ServiceDetailResponse } from "../types/service-detail.type";
 
 export const serviceDetailServices = {
   getServiceById: async (serviceId: string): Promise<ServiceDetailResponse> => {

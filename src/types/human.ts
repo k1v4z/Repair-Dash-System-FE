@@ -6,6 +6,7 @@ export interface UserInfo {
   user_description: string;
   user_phone_number: string;
   role: string;
+  favorite_id: null | -1 | number;
 }
 
 export interface Employee {

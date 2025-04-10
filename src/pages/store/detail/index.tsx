@@ -22,7 +22,6 @@ const TABS = [
 const StoreDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
   const { storeDetail, status, errorMessage } = useStoreDetail(id || "");
 
   if (status !== 404) toast.error(errorMessage);
