@@ -1,3 +1,5 @@
+import { Glyph } from "@/components/icons/glyphs";
+
 export type Option<T = Record<string, unknown>> = T & {
   value: string;
   label?: string;
@@ -33,3 +35,13 @@ export type DialogContent = {
   reasonRequired?: boolean;
   reasonLabel?: string;
 };
+export type StatItem = {
+  label: string;
+  value: number;
+  total: number;
+  color: string;
+  icon: Glyph["glyph"];
+  iconClass: string;
+  description: string;
+};
+

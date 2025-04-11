@@ -138,3 +138,58 @@ export type UseEmployeeReturn = {
   setCurrentPage: (page: number) => void;
   refreshEmployees: () => Promise<void>;
 }
+
+export type ServiceOrder = {
+  order_id: number;
+  order_status: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'CANCELED';
+  order_feedback: string | null;
+  order_rating: number | null;
+  employee_full_name: string | null;
+  customer_full_name: string;
+  service_id: number;
+  employee_id: number | null;
+  customer_id: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ServiceOrderResponse = {
+  orders: ServiceOrder[];
+  limit: number;
+  current_page: number;
+  total_pages: number;
+}
+
+export type ServiceReportItem = {
+  service: {
+    service_id: number;
+    service_name: string;
+    service_alias: string;
+    service_image_url: string | null;
+    service_description: string;
+    owner_id: number;
+    created_at: string;
+    updated_at: string;
+  };
+  total_orders: number;
+  total_canceled_orders: number;
+  total_completed_orders: number;
+  total_pending_orders: number;
+  total_processing_orders: number;
+  total_favorites: number;
+  orders?: ServiceOrder[];
+}
+
+export type ReportResponse = {
+  total_pages: number;
+  current_page: number;
+  services: ServiceReportItem[];
+  total: {
+    total_orders: number;
+    total_canceled_orders: number;
+    total_completed_orders: number;
+    total_pending_orders: number;
+    total_processing_orders: number;
+    total_favorites: number;
+  };
+}

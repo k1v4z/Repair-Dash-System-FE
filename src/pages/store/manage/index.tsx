@@ -1,6 +1,6 @@
 import type { TabItem } from "@/types/globals.type";
 import { ServiceManagement } from "./_components/manage-services";
-import { FeedbackManagement } from "./_components/manage-feedback";
+import { ReportManagement } from "./_components/manage-report";
 import { EmployeeManagement } from "./_components/manage-employee";
 import { TabNavigation } from "./_components/tab-navigation";
 
@@ -12,8 +12,8 @@ const TABS: TabItem[] = [
   },
   {
     value: "feedback",
-    label: "Phản hồi",
-    content: <FeedbackManagement />,
+    label: "Báo cáo",
+    content: <ReportManagement/>,
   },
   {
     value: "employees",

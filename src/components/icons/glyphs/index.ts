@@ -39,6 +39,11 @@ import { Chart } from "./chart";
 import { Block } from "./block";
 import { Check } from "./check";
 import { AvatarDefault } from "./avatar-default";
+import { Box } from "./box";
+import { Loading } from "./loading";
+import { Clock } from "./clock";
+import { Close } from "./close";
+
 export const glyphs = {
   alertCircle: AlertCircle,
   checkCircle: CheckCircle,
@@ -81,6 +86,10 @@ export const glyphs = {
   block: Block,
   check: Check,
   avatarDefault: AvatarDefault,
+  box: Box,
+  loading: Loading,
+  clock: Clock,
+  close: Close,
 };
 
 export type Glyph = {
