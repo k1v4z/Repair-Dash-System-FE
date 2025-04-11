@@ -1,18 +1,26 @@
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useSelectLocation } from "@/hooks/useSelectLocation";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Icon from "@/components/icons";
 import SelectField from "@/components/common/select-field";
-import { useState } from "react";
-import { useSelectLocation } from "@/hooks/useSelectLocation";
+import type { SearchServiceParams } from "@/features/service/types/search.type";
+import { processFilterParams } from "@/utils/params";
+import { FILTER_PARAMS_LIST } from "@/features/service/constants/filterParamsList";
 
 interface SearchFiltersProps {
-  onSearch: () => void;
+  onSearch: (params: SearchServiceParams) => Promise<void>;
+  currentPage?: number;
 }
 
-const SearchFilters = ({ onSearch }: SearchFiltersProps) => {
+const SearchFilters = ({ onSearch, currentPage = 1 }: SearchFiltersProps) => {
+  const location = useLocation();
   const [keyword, setKeyword] = useState("");
   const [street, setStreet] = useState("");
+  const index = currentPage;
 
   const {
     selectedProvince,
@@ -26,17 +34,53 @@ const SearchFilters = ({ onSearch }: SearchFiltersProps) => {
     wards,
   } = useSelectLocation();
 
+  // Initialize form state from URL parameters
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const filterParams = processFilterParams(FILTER_PARAMS_LIST, urlParams);
+
+    if (filterParams["keyword"]) setKeyword(filterParams["keyword"]);
+    if (filterParams["city"]) {
+      handleProvinceChange(filterParams["city"]);
+      handleDistrictChange("");
+      handleWardChange("");
+    }
+    if (filterParams["district"]) {
+      handleDistrictChange(filterParams["district"]);
+      handleWardChange("");
+    }
+    if (filterParams["ward"]) {
+      handleWardChange(filterParams["ward"]);
+    }
+    if (filterParams["street"]) setStreet(filterParams["street"]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]);
+
   const handleSearch = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const searchParams = {
-      keyword,
+    const searchParams: SearchServiceParams = {
+      keyword: keyword.trim(),
       user_city: selectedProvince,
       user_district: selectedDistrict,
       user_ward: selectedWard,
-      user_street: street,
+      user_street: street.trim(),
+      index, // Preserve the current page index
     };
 
-    onSearch();
+    // Remove empty params
+    Object.keys(searchParams).forEach((key) => {
+      if (!searchParams[key as keyof SearchServiceParams]) {
+        delete searchParams[key as keyof SearchServiceParams];
+      }
+    });
+
+    onSearch(searchParams);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
   };
 
   return (
@@ -53,6 +97,7 @@ const SearchFilters = ({ onSearch }: SearchFiltersProps) => {
               className="pl-10 h-[45.33px]"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
             <Icon
               glyph="search"
@@ -99,6 +144,7 @@ const SearchFilters = ({ onSearch }: SearchFiltersProps) => {
                 className="w-full h-[45.33px]"
                 value={street}
                 onChange={(e) => setStreet(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
             </div>
             <Button

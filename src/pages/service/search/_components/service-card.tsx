@@ -2,13 +2,23 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Icon from "@/components/icons";
+import { useNavigate } from "react-router-dom";
 import type { SearchServiceItem } from "@/features/service/types/search.type";
+import routePath from "@/config/route";
 
 interface ServiceCardProps {
   service: SearchServiceItem;
 }
 
 const ServiceCard = ({ service }: ServiceCardProps) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(
+      `${routePath.serviceDetail.replace(":id", service.service_alias)}`
+    );
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -16,6 +26,9 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
       whileHover={{ scale: 1.01 }}
       transition={{ duration: 0.2 }}
       className="cursor-pointer h-full"
+      onClick={handleCardClick}
+      role="button"
+      tabIndex={0}
     >
       <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 p-4 h-full flex flex-col">
         <div className="flex gap-3 h-full">
@@ -52,7 +65,7 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
                   glyph="location"
                   className="w-4 h-4 text-blue-500 fill-none mr-1"
                 />
-                <span>Cách {service.distance.toFixed(1)} km</span>
+                <span>Cách {service.distance?.toFixed(1)} km</span>
               </Badge>
               <Badge className="text-xs bg-green-100 text-gray-800 hover:bg-green-200">
                 <Icon

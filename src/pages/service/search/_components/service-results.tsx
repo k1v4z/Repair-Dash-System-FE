@@ -1,6 +1,6 @@
 import Icon from "@/components/icons";
 import type { SearchServiceItem } from "@/features/service/types/search.type";
-import Pagination from "./pagination";
+import Pagination from "@/components/common/pagination";
 import ServiceCard from "./service-card";
 
 interface ServiceResultsProps {
