@@ -9,33 +9,33 @@ import {
 
 export const SERVICES = [
   {
-    name: "Plumbing",
+    name: "Sửa Ống Nước",
     icon: WrenchIcon,
-    description: "Expert plumbing services for all your needs",
+    description: "Dịch vụ sửa ống nước chuyên nghiệp cho mọi nhu cầu",
   },
   {
-    name: "Electrical",
+    name: "Điện",
     icon: BoltIcon,
-    description: "Professional electrical repairs and installations",
+    description: "Sửa chữa điện chuyên nghiệp",
   },
   {
-    name: "HVAC",
+    name: "Điều Hòa",
     icon: FireIcon,
-    description: "Heating, ventilation, and air conditioning services",
+    description: "Sửa chữa điều hòa",
   },
   {
-    name: "Painting",
+    name: "Sơn",
     icon: PaintBrushIcon,
-    description: "Interior and exterior painting services",
+    description: "Sửa chữa ngoại thất",
   },
   {
-    name: "Home Improvement",
+    name: "Nhà",
     icon: HomeModernIcon,
-    description: "General home improvement and repairs",
+    description: "Sửa chữa các dụng cụ trong nhà",
   },
   {
-    name: "Maintenance",
+    name: "Bảo Trì",
     icon: WrenchScrewdriverIcon,
-    description: "Regular maintenance and preventive care",
+    description: "Bảo trì thường xuyên",
   },
 ];

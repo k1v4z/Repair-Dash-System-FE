@@ -7,10 +7,10 @@ export default function Services() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-            Our Services
+            Dịch Vụ Của Chúng Tôi
           </h2>
           <p className="mt-4 text-xl text-gray-600">
-            Professional solutions for all your home repair needs
+            Giải pháp chuyên nghiệp cho mọi nhu cầu sửa chữa tại nhà của bạn
           </p>
         </div>
 

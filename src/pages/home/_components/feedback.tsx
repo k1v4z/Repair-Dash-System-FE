@@ -10,13 +10,12 @@ export default function Feedback() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-            What Our Customers Say
+            Khách Hàng Nói Gì Về Chúng Tôi ?
           </h2>
           <p className="mt-4 text-xl text-gray-600">
-            Read about experiences from our satisfied customers
+            Đọc những chia sẻ từ những khách hàng hài lòng của chúng tôi
           </p>
         </div>
-
         <Swiper
           modules={[Autoplay, Pagination]}
           spaceBetween={30}

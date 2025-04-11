@@ -2,11 +2,11 @@ import Icons from "../icons";
 
 const NAVIGATION_LINKS = {
   main: [
-    { name: "About", href: "#" },
-    { name: "Contact", href: "#" },
-    { name: "FAQ", href: "#" },
-    { name: "Terms", href: "#" },
-    { name: "Privacy", href: "#" },
+    { name: "Giới Thiệu", href: "#" },
+    { name: "Liên Hệ", href: "#" },
+    { name: "Câu Hỏi Thường Gặp", href: "#" },
+    { name: "Điều Khoản", href: "#" },
+    { name: "Bảo Mật", href: "#" },
   ],
   social: [
     {
@@ -23,7 +23,7 @@ const NAVIGATION_LINKS = {
       name: "Instagram",
       href: "#",
       icon: <Icons glyph="instagram" className="size-6" />,
-    },  
+    },
   ],
 };
 
@@ -59,7 +59,7 @@ const Footer = () => {
           ))}
         </div>
         <p className="mt-8 text-center text-base text-gray-400">
-          &copy; 2025 Repair Dash, Inc. All rights reserved.
+          &copy; 2025 Repair Dash. Đã đăng ký bản quyền.
         </p>
       </div>
     </footer>
