@@ -20,6 +20,7 @@ export interface SearchServiceItem {
   service_id: number;
   service_name: string;
   service_image: string;
+  service_alias: string;
   owner_id: number;
   owner: SearchServiceOwner;
   avg_rating: number;

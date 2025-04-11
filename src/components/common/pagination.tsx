@@ -1,70 +1,60 @@
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/icons";
+import usePagination from "@/hooks/usePagination";
 
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  className?: string;
 }
 
+/**
+ * A reusable pagination component with ellipsis for many pages
+ */
 const Pagination = ({
   currentPage,
   totalPages,
   onPageChange,
+  className = "",
 }: PaginationProps) => {
-  // Helper function to determine which pages to show
-  const getPageNumbers = () => {
-    const pageNumbers = [];
+  const { pageNumbers, canGoPrevious, canGoNext } = usePagination({
+    currentPage,
+    totalPages,
+  });
 
-    if (totalPages <= 7) {
-      // Show all pages if there are 7 or fewer
-      for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i);
-      }
-    } else {
-      // Always show first and last page
-      pageNumbers.push(1);
+  // Don't render pagination if there's only one page
+  if (totalPages <= 1) return null;
 
-      // Show dots before if not showing first 3 pages
-      if (currentPage > 3) {
-        pageNumbers.push("...");
-      }
-
-      // Show pages around current page
-      const startPage = Math.max(2, currentPage - 1);
-      const endPage = Math.min(totalPages - 1, currentPage + 1);
-
-      for (let i = startPage; i <= endPage; i++) {
-        pageNumbers.push(i);
-      }
-
-      // Show dots after if not showing last 3 pages
-      if (currentPage < totalPages - 2) {
-        pageNumbers.push("...");
-      }
-
-      pageNumbers.push(totalPages);
+  const handlePageClick = (pageNumber: number) => {
+    if (pageNumber !== currentPage) {
+      onPageChange(pageNumber);
     }
-
-    return pageNumbers;
   };
 
   return (
-    <div className="flex justify-end mt-8">
+    <nav
+      aria-label="Pagination"
+      className={`flex justify-end mt-8 ${className}`}
+    >
       <div className="flex items-center space-x-1">
         <Button
           variant="outline"
           size="sm"
           className="px-2 py-1 h-8 text-gray-600"
-          disabled={currentPage === 1}
-          onClick={() => onPageChange(currentPage - 1)}
+          disabled={!canGoPrevious}
+          onClick={() => handlePageClick(currentPage - 1)}
+          aria-label="Previous page"
         >
           <Icon glyph="chevron" className="w-4 h-4 rotate-120" />
         </Button>
-
-        {getPageNumbers().map((pageNumber, index) =>
+        {pageNumbers.map((pageNumber, index) =>
           pageNumber === "..." ? (
-            <span key={`ellipsis-${index}`} className="px-3 py-1">
+            <span
+              key={`ellipsis-${index}`}
+              className="px-3 py-1"
+              aria-hidden="true"
+            >
               ...
             </span>
           ) : (
@@ -78,8 +68,10 @@ const Pagination = ({
                   : "text-gray-600"
               }`}
               onClick={() =>
-                typeof pageNumber === "number" && onPageChange(pageNumber)
+                typeof pageNumber === "number" && handlePageClick(pageNumber)
               }
+              aria-label={`Page ${pageNumber}`}
+              aria-current={currentPage === pageNumber ? "page" : undefined}
             >
               {pageNumber}
             </Button>
@@ -89,13 +81,14 @@ const Pagination = ({
           variant="outline"
           size="sm"
           className="px-2 py-1 h-8 text-gray-600"
-          disabled={currentPage === totalPages}
-          onClick={() => onPageChange(currentPage + 1)}
+          disabled={!canGoNext}
+          onClick={() => handlePageClick(currentPage + 1)}
+          aria-label="Next page"
         >
           <Icon glyph="chevron" className="w-4 h-4 rotate-180" />
         </Button>
       </div>
-    </div>
+    </nav>
   );
 };
 
