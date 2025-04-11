@@ -15,10 +15,10 @@ export default function StoreCarousel() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-            Our Partner Stores
+            Cửa Hàng Đối Tác
           </h2>
           <p className="mt-4 text-xl text-gray-600">
-            Discover our network of trusted service providers
+            Khám phá mạng lưới đối tác cung cấp dịch vụ uy tín của chúng tôi
           </p>
         </div>
         <Carousel className="w-full">
@@ -48,7 +48,7 @@ export default function StoreCarousel() {
                         {store.description}
                       </p>
                       <Button className="mt-6 w-full bg-blue-600 text-white hover:bg-blue-700">
-                        View Details
+                        Xem Chi Tiết
                       </Button>
                     </div>
                   </div>

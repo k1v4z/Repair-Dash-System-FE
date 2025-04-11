@@ -5,8 +5,11 @@ import { EffectFade, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import { HERO_IMAGES } from "../constants/hero-image";
+import { useNavigate } from "react-router-dom";
 
 export default function Hero() {
+  const navigate = useNavigate();
+
   return (
     <div className="relative h-screen">
       <div className="absolute inset-0">
@@ -42,12 +45,12 @@ export default function Hero() {
             className="space-y-6"
           >
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-              Your One-Stop Solution for
-              <span className="text-blue-400"> Professional Home Services</span>
+              Giải Pháp Toàn Diện Cho
+              <span className="text-blue-400"> Dịch Vụ Sữa Chữa Tại Nhà</span>
             </h1>
             <p className="text-xl sm:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto">
-              Connect with verified experts for all your home repair needs.
-              Quality service, guaranteed satisfaction.
+              Kết nối với các chuyên gia sửa chữa cho mọi nhu cầu sửa chữa tại
+              nhà. Dịch vụ chất lượng, đảm bảo sự hài lòng.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
@@ -55,14 +58,15 @@ export default function Hero() {
                 whileTap={{ scale: 0.95 }}
                 className="bg-blue-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-blue-700 transition-colors"
               >
-                Get Started
+                Bắt Đầu Ngay
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="bg-white/10 backdrop-blur-sm text-white border-2 border-white/20 px-8 py-3 rounded-full text-lg font-semibold hover:bg-white/20 transition-colors"
+                onClick={() => navigate("/services/search")}
               >
-                View Services
+                Xem Dịch Vụ
               </motion.button>
             </div>
           </motion.div>

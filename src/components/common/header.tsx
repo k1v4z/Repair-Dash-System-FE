@@ -9,13 +9,15 @@ import {
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import Icon from "../icons";
 import routePath from "@/config/route";
+import { cn } from "@/lib/utils";
+import { isLinkActive } from "@/utils/headerActive";
 
 const NAVIGATION_LINKS = [
-  { name: "Trang chủ", href: "#" },
-  { name: "Dịch vụ", href: "#services" },
+  { name: "Trang chủ", href: "/" },
+  { name: "Dịch vụ", href: "/services" },
   { name: "Cửa hàng", href: "/store" },
-  { name: "Bài viết", href: "#testimonials" },
-  { name: "Liên hệ", href: "#contact" },
+  { name: "Tìm kiếm", href: "/services/search" },
+  { name: "Liên hệ", href: "/contact" },
 ];
 
 export default function Header() {
@@ -35,19 +37,30 @@ export default function Header() {
     <header className="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50 top-0">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          <span className="text-2xl font-bold text-blue-600 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-blue-600 hover:via-purple-500 hover:to-sky-400 transition-all duration-300">
+          <Link
+            to="/"
+            className="text-2xl font-bold text-blue-600 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-blue-600 hover:via-purple-500 hover:to-sky-400 transition-all duration-300"
+          >
             Repair Dash
-          </span>
+          </Link>
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
               {NAVIGATION_LINKS.map((item) => (
                 <Button key={item.name} asChild variant="link">
-                  <a
-                    href={item.href}
-                    className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+                  <Link
+                    to={{ pathname: item.href }}
+                    className={cn(
+                      "px-3 py-2 text-sm font-medium relative hover:no-underline",
+                      isLinkActive(item.href)
+                        ? "text-blue-600"
+                        : "text-gray-700 hover:text-blue-600"
+                    )}
                   >
                     {item.name}
-                  </a>
+                    {isLinkActive(item.href) && (
+                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600" />
+                    )}
+                  </Link>
                 </Button>
               ))}
             </div>
@@ -70,13 +83,13 @@ export default function Header() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-max">
                   <DropdownMenuItem>
-                    <a
-                      href="/profile"
+                    <Link
+                      to="/profile"
                       className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700"
                     >
                       <Icon glyph="profile" className="size-5" />
                       <span>Hồ sơ</span>
-                    </a>
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     className="cursor-pointer"
