@@ -125,12 +125,12 @@ export const useUploadFile = ({
     const selectedFiles = Array.from(e.target.files || []);
 
     if (!multiple && selectedFiles.length > 1) {
-      setError("Multiple file selection is not allowed");
+      setError("Không được chọn nhiều hơn 1 file");
       return;
     }
 
     if (multiple && selectedFiles.length + files.length > maxFiles) {
-      setError(`You can only upload a maximum of ${maxFiles} files`);
+      setError(`Chỉ được tải lên tối đa ${maxFiles} file`);
       return;
     }
 
