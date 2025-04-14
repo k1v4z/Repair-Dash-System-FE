@@ -87,8 +87,10 @@ const FileUpload = ({
       </Button>
       {error && (
         <Alert variant="destructive" className="mb-4">
-          <Icon glyph="alertCircle" className="size-4 fill-white" />
-          <AlertDescription>{error}</AlertDescription>
+          <div className="flex items-center gap-2">
+            <Icon glyph="alertCircle" className="size-4 fill-white" />
+            <AlertDescription>{error}</AlertDescription>
+          </div>
         </Alert>
       )}
       <div className="space-y-2">

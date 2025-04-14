@@ -181,7 +181,7 @@ export default function CustomerInformation({
               <Input
                 id="customer_full_name"
                 className="px-4 py-3"
-                disabled={!isEditing || isDisabled}
+                disabled
                 {...form.register("customer_full_name")}
               />
             </div>
@@ -192,6 +192,9 @@ export default function CustomerInformation({
                 className="px-4 py-3"
                 disabled={!isEditing || isDisabled}
                 {...form.register("customer_phone_number")}
+                helperText={
+                  form.formState.errors.customer_phone_number?.message
+                }
               />
             </div>
             <div className="space-y-2">
@@ -201,6 +204,7 @@ export default function CustomerInformation({
                 className="px-4 py-3"
                 disabled={!isEditing || isDisabled}
                 {...form.register("customer_address")}
+                helperText={form.formState.errors.customer_address?.message}
               />
             </div>
             <div className="space-y-2">
@@ -213,14 +217,14 @@ export default function CustomerInformation({
               />
             </div>
             <div className="space-y-2">
-              <Label>Hình ảnh mô tả lỗi (tối đa 10 ảnh)</Label>
+              <Label>Hình ảnh mô tả lỗi (tối đa 5 ảnh)</Label>
               <FileUpload
                 initialFiles={images}
                 onFilesSelected={handleFilesSelected}
                 onFileRemoved={handleImageRemove}
                 multiple
                 acceptedFileTypes={["image/png", "image/jpeg"]}
-                maxFiles={10}
+                maxFiles={5}
                 disabled={!isEditing || isDisabled}
                 buttonText="Tải lên hình ảnh"
               />

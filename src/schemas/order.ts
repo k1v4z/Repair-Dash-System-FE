@@ -1,13 +1,10 @@
 import { z } from "zod";
-
-const phoneRegex = /^\d{10,11}$/;
+import { addressValidation, phoneValidation } from "./helper";
 
 export const orderFormSchema = z.object({
   customer_full_name: z.string().min(1, "Vui lòng nhập tên"),
-  customer_phone_number: z
-    .string()
-    .regex(phoneRegex, "Số điện thoại gồm 10-11 số"),
-  user_street: z.string().min(1, "Vui lòng nhập địa chỉ"),
+  customer_phone_number: phoneValidation,
+  user_street: addressValidation,
   user_city: z.string().min(1, "Vui lòng chọn thành phố"),
   user_district: z.string().min(1, "Vui lòng chọn quận/huyện"),
   user_ward: z.string().min(1, "Vui lòng chọn phường/xã"),
@@ -30,11 +27,8 @@ export const orderFormSchema = z.object({
 
 export const orderUpdateSchema = z.object({
   customer_full_name: z.string().min(1, "Vui lòng nhập tên").optional(),
-  customer_phone_number: z
-    .string()
-    .regex(phoneRegex, "Số điện thoại gồm 10-11 số")
-    .optional(),
-  customer_address: z.string().min(1, "Vui lòng nhập địa chỉ").optional(),
+  customer_phone_number: phoneValidation.optional(),
+  customer_address: addressValidation.optional(),
   order_description: z.string().optional(),
   order_status: z
     .enum(["PENDING", "PROCESSING", "CANCELED", "COMPLETED"])

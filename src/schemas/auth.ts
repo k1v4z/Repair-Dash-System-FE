@@ -4,24 +4,23 @@ import {
   passwordValidation,
   phoneValidation,
   nameValidation,
+  confirmPasswordValidation,
+  addressValidation,
 } from "./helper";
 
 export const loginSchema = z.object({
   email: emailValidation,
-  password: passwordValidation,
+  password: passwordValidation(),
 });
 
 export const signupSchema = z
   .object({
     email: emailValidation,
-    password: passwordValidation,
-    confirmPassword: passwordValidation,
+    password: passwordValidation("signup"),
+    confirmPassword: confirmPasswordValidation,
     name: nameValidation,
     phoneNumber: phoneValidation,
-    address: z
-      .string()
-      .min(5, "Địa chỉ phải có ít nhất 5 ký tự")
-      .max(100, "Địa chỉ không được quá 100 ký tự"),
+    address: addressValidation,
     province: z.string().min(1, "Vui lòng chọn tỉnh/thành"),
     district: z.string().min(1, "Vui lòng chọn quận/huyện"),
     ward: z.string().min(1, "Vui lòng chọn phường/xã"),
