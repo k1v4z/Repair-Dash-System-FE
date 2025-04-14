@@ -11,6 +11,7 @@ const routePath = {
   profile: "/profile",
   searchService: "/services/search",
   serviceFavorite: "/service-favorite",
+  orderManagement: "/order-management",
 };
 
 export default routePath;

@@ -51,4 +51,9 @@ export const orderServices = {
     const response = await orderApi.updateOrder(orderId, data);
     return response;
   },
+
+  async getOrderByOwner(): Promise<Order[]> {
+    const response = await orderApi.getOrderByOwner();
+    return response;
+  },
 };
