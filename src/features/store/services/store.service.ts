@@ -4,6 +4,8 @@ import type {
   AddServiceRequest,
   ServiceResponse,
   EmployeeResponse,
+  ReportResponse,
+  ServiceOrderResponse,
 } from "../types/store-manage.type";
 import { convertToBase64 } from "@/utils/convert/base64";
 import { generateAlias } from "@/utils/alias";
@@ -98,5 +100,26 @@ export const storeManageServices = {
   },
   deleteEmployee: async (employeeId: string) => {
     return await storeManageApi.deleteEmployee(employeeId);
+  },
+  getReport: async (params: {
+    page: number;
+    limit: number;
+  }): Promise<ReportResponse> => {
+    try {
+      const { page, limit } = params;
+      const response = await storeManageApi.getReport(page, limit);
+      return response;
+    } catch (error) {
+      console.error("Error in getReport:");
+      throw error;
+    }
+  },
+  getOrderByService: async (serviceId: string, params: {
+    page: number;
+    limit: number;
+  }): Promise<ServiceOrderResponse> => {
+    const { page, limit } = params;
+    const response = await storeManageApi.getOrderByService(serviceId, page, limit);
+    return response;
   },
 };

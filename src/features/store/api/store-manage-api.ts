@@ -4,6 +4,8 @@ import type {
   AddServiceRequest,
   ServiceResponse,
   EmployeeResponse,
+  ReportResponse,
+  ServiceOrderResponse,
 } from "../../store/types/store-manage.type";
 import type { AddEmployeeRequest ,UpdateEmployeeRequest} from "../../store/types/store.type";
 const STORE_ENDPOINTS = {
@@ -15,6 +17,8 @@ const STORE_ENDPOINTS = {
   ADD_EMPLOYEE: "/employees",
   UPDATE_EMPLOYEE: "/employees/:employeeId",
   DELETE_EMPLOYEE: "/employees/:employeeId",
+  GET_REPORT: "/reports/services",
+  GET_ORDER_BY_SERVICE: "/reports/services/:serviceId",
 };
 
 export const storeManageApi = {
@@ -134,5 +138,43 @@ export const storeManageApi = {
       throw error;
     }
   },
-  
+  getReport: async (page: number, limit: number): Promise<ReportResponse> => {
+    try {
+      const response = await axiosInstance.get(
+        STORE_ENDPOINTS.GET_REPORT,
+        {
+          params: {
+            index: page,
+            max_range: limit,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching service report");
+      throw error;
+    }
+  },
+  getOrderByService: async (serviceId: string, page: number, limit: number): Promise<ServiceOrderResponse> => {
+    try {
+      const response = await axiosInstance.get(
+        STORE_ENDPOINTS.GET_ORDER_BY_SERVICE.replace(":serviceId", serviceId),
+        {
+          params: {
+            index: page,
+            max_range: limit,
+          },
+        }
+      );
+      return {
+        orders: response.data.service.orders || [],
+        total_pages: response.data.total_pages,
+        current_page: response.data.current_page,
+        limit: limit
+      };
+    } catch (error) {
+      console.error("Error fetching order by service:", error);
+      throw error;
+    }
+  },
 };
