@@ -17,7 +17,7 @@ import OrderTracking from "../pages/order/tracking";
 import Profile from "../pages/user";
 import ServiceSearchPage from "../pages/service/search";
 import ServiceFavorite from "../pages/service/service-favorite";
-
+import OrderManagement from "../pages/order/manage";
 const listRoute: Route[] = [
   {
     path: routePath.home,
@@ -108,6 +108,15 @@ const listRoute: Route[] = [
     component: (
       <PrivateRoute>
         <ServiceFavorite />
+      </PrivateRoute>
+    ),
+    layout: MainLayout,
+  },
+  {
+    path: routePath.orderManagement,
+    component: (
+      <PrivateRoute>
+        <OrderManagement />
       </PrivateRoute>
     ),
     layout: MainLayout,

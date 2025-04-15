@@ -84,11 +84,20 @@ export default function Header() {
                 <DropdownMenuContent align="end" className="w-max">
                   <DropdownMenuItem>
                     <Link
-                      to="/profile"
+                      to={routePath.profile}
                       className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700"
                     >
                       <Icon glyph="profile" className="size-5" />
                       <span>Hồ sơ</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link
+                      to={routePath.orderManagement}
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700"
+                    >
+                      <Icon glyph="orderList" className="size-5 fill-black" />
+                      <span>Đơn hàng</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem
@@ -122,7 +131,7 @@ export default function Header() {
               </DropdownMenu>
             ) : (
               <Button className="bg-blue-500 hover:bg-blue-400">
-                <Link to="/login">Đăng nhập</Link>
+                <Link to={routePath.login}>Đăng nhập</Link>
               </Button>
             )}
           </div>

@@ -43,7 +43,7 @@ import { Box } from "./box";
 import { Loading } from "./loading";
 import { Clock } from "./clock";
 import { Close } from "./close";
-
+import { OrderList } from "./order-list";
 export const glyphs = {
   alertCircle: AlertCircle,
   checkCircle: CheckCircle,
@@ -90,6 +90,7 @@ export const glyphs = {
   loading: Loading,
   clock: Clock,
   close: Close,
+  orderList: OrderList,
 };
 
 export type Glyph = {

@@ -86,6 +86,35 @@ export type Order = {
   store_cancelled_description: string | null;
   completed_description: string | null;
 };
+export type OrderByCustomer = {
+  order_id: number;
+  order_description: string;
+  order_images_url: string[];
+  order_status: OrderStatus;
+  order_feedback: string | null;
+  order_rating: number | null;
+  order_rtc_session_id: string | null;
+  service_name: string;
+  service_description: string;
+  store_full_name: string;
+  store_address: string;
+  store_phone_number: string;
+  employee_full_name: string | null;
+  customer_full_name: string;
+  customer_phone_number: string;
+  customer_address: string;
+  service_id: number;
+  employee_id: number | null;
+  customer_id: number;
+  created_at: string;
+  updated_at: string;
+  service: OrderService;
+  customer: OrderCustomer;
+  created_description: string | null;
+  customer_cancelled_description: string | null;
+  store_cancelled_description: string | null;
+  completed_description: string | null;
+};
 
 export type UpdateOrderRequest = {
   customer_full_name?: string;

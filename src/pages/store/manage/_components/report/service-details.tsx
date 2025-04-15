@@ -234,13 +234,13 @@ export function ServiceDetailsDialog({ isOpen, onClose, service }: ServiceDetail
                   <Table>
                     <TableHeader className="sticky top-0 bg-white z-10">
                       <TableRow>
-                        <TableHead className="w-[120px] py-4 text-base">Mã đơn</TableHead>
-                        <TableHead className="py-4 text-base">Khách hàng</TableHead>
-                        <TableHead className="py-4 text-base">Nhân viên</TableHead>
-                        <TableHead className="w-[140px] py-4 text-base">Trạng thái</TableHead>
+                        <TableHead className="w-[100px] py-4 text-base">Mã đơn</TableHead>
+                        <TableHead className="w-[200px] py-4 text-base">Khách hàng</TableHead>
+                        <TableHead className="w-[120px] py-4 text-base">Nhân viên</TableHead>
+                        <TableHead className="w-[150px] py-4 text-base">Trạng thái</TableHead>
                         <TableHead className="w-[120px] py-4 text-base">Đánh giá</TableHead>
                         <TableHead className="w-[140px] py-4 text-base">Ngày tạo</TableHead>
-                        <TableHead className="w-[100px] py-4 text-base text-center">Thao tác</TableHead>
+                        <TableHead className="w-[80px] py-4 text-base text-center">Thao tác</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -249,7 +249,6 @@ export function ServiceDetailsDialog({ isOpen, onClose, service }: ServiceDetail
                           <TableCell colSpan={7} className="text-center py-8 text-base">
                             <div className="flex items-center justify-center gap-2">
                               <Icons glyph="loading" className="w-5 h-5 animate-spin" />
-                              <span>Đang tải...</span>
                             </div>
                           </TableCell>
                         </TableRow>

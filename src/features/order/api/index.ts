@@ -13,6 +13,7 @@ const ORDER_ENDPOINTS = {
   CREATE: "/orders",
   GET_ORDER: "/orders/",
   UPDATE_ORDER: "/orders/",
+  
 };
 
 export const orderApi = {
@@ -69,6 +70,22 @@ export const orderApi = {
     } catch (error) {
       console.error("Update order error");
       throw error;
+    }
+  },
+
+  getOrderByOwner: async (): Promise<Order[]> => { 
+    try {
+      const response = await axiosInstance.get(ORDER_ENDPOINTS.GET_ORDER);
+      // Ensure response.data.orders exists and is an array
+      const orders = response.data?.orders || [];
+      if (!Array.isArray(orders)) {
+        console.error("Invalid orders data received:", orders);
+        return [];
+      }
+      return orders;
+    } catch (error) {
+      console.error("Get orders error:", error);
+      return [];
     }
   },
 };
