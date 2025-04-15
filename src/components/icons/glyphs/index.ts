@@ -47,6 +47,9 @@ import { OrderList } from "./order-list";
 import Send from "./send";
 import { Minus } from "./minus";
 import { Messenger } from "./messenger";
+import { Dashboard } from "./dashboard";
+import { ManageUser } from "./manage-user";
+import { Menu } from "./menu";
 
 export const glyphs = {
   alertCircle: AlertCircle,
@@ -98,6 +101,9 @@ export const glyphs = {
   send: Send,
   minus: Minus,
   messenger: Messenger,
+  dashboard: Dashboard,
+  manageUser: ManageUser,
+  menu: Menu,
 };
 
 export type Glyph = {

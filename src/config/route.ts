@@ -12,6 +12,9 @@ const routePath = {
   searchService: "/services/search",
   serviceFavorite: "/service-favorite",
   orderManagement: "/order-management",
+  manageReport: "/admin/manage-report",
+  manageUser: "/admin/manage-user",
+  unauthorized: "/unauthorized",
 };
 
 export default routePath;
