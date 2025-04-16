@@ -7,7 +7,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { DateSelect } from "@/components/ui/date-select";
 import { AddServiceModal } from "@/pages/store/manage/_components/add-service-modal";
 import SERVICE_DEFAULT_IMG from "@/assets/images/servicedefault.png";
 import { DataTable } from "@/components/common/data-table";
@@ -25,6 +24,7 @@ import { toast } from "react-toastify";
 import Icons from "@/components/icons";
 
 const PAGE_SIZE = 8;
+
 export function ServiceManagement() {
   const {
     services,
@@ -35,7 +35,6 @@ export function ServiceManagement() {
     refreshServices,
   } = useGetServiceByOwner(PAGE_SIZE);
 
-  const [selectedMonth, setSelectedMonth] = useState("March");
   const [openAddModal, setOpenAddModal] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -55,7 +54,7 @@ export function ServiceManagement() {
           imageUrl = images;
         }
         return (
-          <div className="flex items-center gap-3 w-[250px]">
+          <div className="flex items-center gap-3 min-w-0 max-w-[300px]">
             <div className="w-10 h-10 rounded-md overflow-hidden shadow-sm flex-shrink-0 border border-gray-100">
               <img
                 src={imageUrl}
@@ -63,9 +62,13 @@ export function ServiceManagement() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="flex flex-col">
-              <span className="font-medium text-gray-800 truncate">{row.original.service_name}</span>
-              <span className="text-xs text-gray-500 truncate">{row.original.service_alias}</span>
+            <div className="flex flex-col min-w-0">
+              <span className="font-medium text-gray-800 truncate" title={row.original.service_name}>
+                {row.original.service_name}
+              </span>
+              <span className="text-xs text-gray-500 truncate" title={row.original.service_alias}>
+                {row.original.service_alias}
+              </span>
             </div>
           </div>
         );
@@ -75,7 +78,7 @@ export function ServiceManagement() {
       accessorKey: "service_description",
       header: "Mô tả dịch vụ",
       cell: ({ row }) => (
-        <div className="w-[300px]">
+        <div className="min-w-0 max-w-[300px]">
           <p className="truncate text-gray-600" title={row.original.service_description}>
             {row.original.service_description}
           </p>
@@ -155,8 +158,8 @@ export function ServiceManagement() {
       const addData: AddServiceRequest = {
         service_name: data.service_name,
         service_description: data.service_description,
-        service_image: data.image ,
-        service_alias:data.service_alias ,
+        service_image: data.image,
+        service_alias: data.service_alias,
       };
       const addResponse = await storeManageServices.addService(addData);
       if (addResponse) {
@@ -164,12 +167,12 @@ export function ServiceManagement() {
         toast.success("Thêm dịch vụ thành công");
         setOpenAddModal(false);
       }
-      else {
-        toast.error("Dữ liệu bị lỗi");
-        throw new Error("Unexpected error");        
+    } catch (error: any) {  
+      if (error?.response?.data?.code === -3) {
+        toast.error("Mã dịch vụ đã tồn tại, vui lòng chọn mã khác");
+      } else {
+        toast.error("Thêm dịch vụ thất bại");
       }
-    } catch {
-      toast.error("Thêm dịch vụ thất bại");
     } finally {
       setIsAddLoading(false);
     }
@@ -213,9 +216,12 @@ export function ServiceManagement() {
       await refreshServices();
       toast.success("Cập nhật dịch vụ thành công");
       setIsUpdateModalOpen(false);
-    } catch (error) {
-      console.error("Error updating service:", error);
-      toast.error("Cập nhật dịch vụ thất bại");
+    } catch (error: any) {
+      if (error?.response?.data?.code === -2) {
+        toast.error("Mã dịch vụ đã tồn tại, vui lòng chọn mã khác");
+      } else {
+        toast.error("Cập nhật dịch vụ thất bại");
+      }
     } finally {
       setIsUpdateLoading(false);
     }
@@ -229,7 +235,6 @@ export function ServiceManagement() {
           <p className="text-sm text-gray-500 mt-1">Có tất cả {services.length} dịch vụ</p>
         </div>
         <div className="flex gap-3 items-center">
-          <DateSelect value={selectedMonth} onChange={setSelectedMonth} />
           <Button 
             onClick={() => setOpenAddModal(true)} 
             className="bg-primary hover:bg-primary/90 text-white shadow-sm"

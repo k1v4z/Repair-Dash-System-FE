@@ -170,9 +170,10 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
                   {...register("user_description")}
                   placeholder="Thêm mô tả về bạn"
                   className="border-primary/20 focus-visible:ring-primary-royalBlue py-2 min-h-[150px] resize-none"
+                  
                 />
                 {errors.user_description && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-xs text-destructive">
                     {errors.user_description.message}
                   </p>
                 )}

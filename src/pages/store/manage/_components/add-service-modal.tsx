@@ -91,6 +91,7 @@ export function AddServiceModal({
                   id="service_alias"
                   {...register("service_alias")}
                   placeholder="Nhập mã dịch vụ"
+                  helperText={errors.service_alias?.message}
                 />
               </div>
               <div className="space-y-2">

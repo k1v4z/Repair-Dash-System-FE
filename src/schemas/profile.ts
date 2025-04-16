@@ -10,6 +10,7 @@ export const profileSchema = z.object({
     .regex(/^[0-9]{10}$/, "Số điện thoại không hợp lệ"),
   user_description: z
     .string()
+    .min(6, "Mô tả phải có ít nhất 6 ký tự")
     .max(500, "Mô tả không được vượt quá 500 ký tự")
     .optional(),
   user_street: z
