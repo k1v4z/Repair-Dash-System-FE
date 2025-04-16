@@ -130,9 +130,9 @@ export function EmployeeManagement() {
         };
 
         return (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 min-w-0 max-w-[200px]">
             <Avatar className={cn(
-              "border-2",
+              "border-2 flex-shrink-0",
               colorScheme.border
             )}>
               <AvatarImage src={row.original.employee_avatar_url || ""} />
@@ -146,7 +146,7 @@ export function EmployeeManagement() {
                 />
               </AvatarFallback>
             </Avatar>
-            <div className="font-medium text-gray-800">
+            <div className="font-medium text-gray-800 truncate" title={row.original.employee_full_name}>
               {row.original.employee_full_name}
             </div>
           </div>
@@ -157,9 +157,11 @@ export function EmployeeManagement() {
       accessorKey: "total_orders",
       header: "Số đơn hàng",
       cell: ({ row }) => (
-        <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-100">
-          {row.original.total_orders}
-        </span>
+        <div className="w-[50px]">
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-100">
+            {row.original.total_orders}
+          </span>
+        </div>
       ),
     },
     {
@@ -168,16 +170,18 @@ export function EmployeeManagement() {
       cell: ({ row }) => {
         const status = row.original.status;
         return (
-          <span
-            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
-              status
-                ? "bg-green-50 text-green-700 border border-green-100"
-                : "bg-primary-royalBlue/10 text-primary-royalBlue border"
-            }`}
-          >
-            <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${status ? "bg-green-500" : "bg-primary-royalBlue"}`}></span>
-            {status ? "Đang trong đơn hàng" : "Đang rảnh"}
-          </span>
+          <div className="w-[200px]">
+            <span
+              className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                status
+                  ? "bg-green-50 text-green-700 border border-green-100"
+                  : "bg-primary-royalBlue/10 text-primary-royalBlue border"
+              }`}
+            >
+              <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${status ? "bg-green-500" : "bg-primary-royalBlue"}`}></span>
+              {status ? "Đang trong đơn hàng" : "Đang rảnh"}
+            </span>
+          </div>
         );
       },
     },
@@ -190,11 +194,11 @@ export function EmployeeManagement() {
         const diffMonths = (now.getFullYear() - date.getFullYear()) * 12 + (now.getMonth() - date.getMonth());
         
         return (
-          <div className="flex flex-col">
-            <span className="text-gray-700 text-sm">
+          <div className="flex flex-col w-[120px]">
+            <span className="text-gray-700 text-sm truncate">
               {formatDate(date)}
             </span>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-gray-500 truncate">
               {diffMonths > 0 ? `${diffMonths} tháng trước` : "Mới"}
             </span>
           </div>
@@ -210,11 +214,11 @@ export function EmployeeManagement() {
         const diffMonths = (now.getFullYear() - date.getFullYear()) * 12 + (now.getMonth() - date.getMonth());
         
         return (
-          <div className="flex flex-col">
-            <span className="text-gray-700 text-sm">
+          <div className="flex flex-col w-[120px]">
+            <span className="text-gray-700 text-sm truncate">
               {formatDate(date)}
             </span>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-gray-500 truncate">
               {diffMonths > 0 ? `${diffMonths} tháng trước` : "Mới"}
             </span>
           </div>
@@ -226,28 +230,30 @@ export function EmployeeManagement() {
       header: "Thao tác",
       cell: ({ row }) => {
         return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                <span className="text-xl">⋮</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => handleUpdateClick(row.original)}>
-                <Icons glyph="edit" className="mr-2 h-4 w-4" />
-                <span>Cập nhật</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer text-red-600 flex items-center" onClick={() => {
-                setSelectedEmployee(row.original);
-                setIsDeleteDialogOpen(true);
-              }}>
-                <Icons glyph="delete" className="mr-2" />
-                <span>
-                  Xóa
-                </span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="w-[80px]">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                  <span className="text-xl">⋮</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => handleUpdateClick(row.original)}>
+                  <Icons glyph="edit" className="mr-2 h-4 w-4" />
+                  <span>Cập nhật</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer text-red-600 flex items-center" onClick={() => {
+                  setSelectedEmployee(row.original);
+                  setIsDeleteDialogOpen(true);
+                }}>
+                  <Icons glyph="delete" className="mr-2" />
+                  <span>
+                    Xóa
+                  </span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         );
       },
     },

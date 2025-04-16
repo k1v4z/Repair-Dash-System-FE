@@ -53,7 +53,7 @@ export function DataTable<TData>({
     },
     initialState: {
       pagination: {
-        pageSize: pagination?.pageSize || 10,
+        pageSize: pagination?.pageSize || 1000000000,
       },
     },
   });

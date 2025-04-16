@@ -5,6 +5,7 @@ import type { OrderByCustomer } from "@/features/order/types/orders.type";
 import { formatDate } from "@/utils/datetime/date";
 import type { ColumnDef } from "@tanstack/react-table";
 import Icon from "@/components/icons";
+import { TableCell } from "@/components/ui/table";
 
 interface OrderTableProps {
   data: OrderByCustomer[];
@@ -40,23 +41,15 @@ const columns = (onOrderUpdated?: () => void): ColumnDef<OrderByCustomer>[] => [
   {
     accessorKey: "service_name",
     header: "Dịch vụ",
-    size: 100,
+    size: 250,
     cell: ({ row }) => {
       const serviceName = row.getValue("service_name") as string;
       const description = row.original.service_description as string;
-      const orderId = row.original.order_id;
-  
-      const handleClick = () => {
-        window.open(`/booking-detail/${orderId}`, "_blank");
-      };
-  
+
       return (
-        <div
-          onClick={handleClick}
-          className="flex flex-col cursor-pointer hover:text-blue-600 transition-colors duration-200"
-        >
-          <span className="font-medium">{serviceName}</span>
-          <span className="text-sm text-gray-500">{description}</span>
+        <div className="flex flex-col cursor-pointer hover:text-blue-600 transition-colors duration-200 min-w-0 max-w-[250px]">
+          <span className="font-medium truncate w-full" title={serviceName}>{serviceName}</span>
+          <span className="text-sm text-gray-500 truncate w-full" title={description}>{description}</span>
         </div>
       );
     },
@@ -69,9 +62,9 @@ const columns = (onOrderUpdated?: () => void): ColumnDef<OrderByCustomer>[] => [
       const storeName = row.getValue("store_full_name") as string;
       const address = row.original.store_address as string;
       return (
-        <div className="flex flex-col">
-          <span className="font-medium">{storeName}</span>
-          <span className="text-sm text-gray-500">{address}</span>
+        <div className="flex flex-col min-w-0 max-w-[200px]">
+          <span className="font-medium truncate w-full" title={storeName}>{storeName}</span>
+          <span className="text-sm text-gray-500 truncate w-full" title={address}>{address}</span>
         </div>
       );
     },
@@ -82,8 +75,11 @@ const columns = (onOrderUpdated?: () => void): ColumnDef<OrderByCustomer>[] => [
     size: 150,
     cell: ({ row }) => {
       const employeeName = row.getValue("employee_full_name") as string | null;
+      const displayName = employeeName || "Chưa phân công";
       return (
-        <div className="font-medium">{employeeName || "Chưa phân công"}</div>
+        <div className="min-w-0 max-w-[150px]">
+          <span className="font-medium truncate w-full block" title={displayName}>{displayName}</span>
+        </div>
       );
     },
   },
@@ -96,17 +92,19 @@ const columns = (onOrderUpdated?: () => void): ColumnDef<OrderByCustomer>[] => [
       const phone = row.original.customer_phone_number as string;
       const address = row.original.customer_address as string;
       return (
-        <div className="flex flex-col">
-          <span className="font-medium">{customerName}</span>
-          <span className="text-sm text-gray-500">{phone}</span>
-          <span className="text-sm text-gray-500">{address}</span>
+        <div className="flex flex-col min-w-0 max-w-[200px]">
+          <span className="font-medium truncate w-full" title={customerName}>{customerName}</span>
+          <span className="text-sm text-gray-500 truncate w-full" title={phone}>{phone}</span>
+          <span className="text-sm text-gray-500 truncate w-full" title={address}>{address}</span>
         </div>
       );
     },
   },
   {
     accessorKey: "order_status",
-    header: "Trạng thái",
+    header: () => (
+      <div className="text-center w-full">Trạng thái</div>
+    ),
     size: 120,
     cell: ({ row }) => {
       const status = row.getValue("order_status") as string;
@@ -118,11 +116,16 @@ const columns = (onOrderUpdated?: () => void): ColumnDef<OrderByCustomer>[] => [
       };
 
       const defaultStatus = { label: "Không xác định", color: "bg-gray-500" };
-      const currentStatus =
-        statusMap[status] || defaultStatus;
+      const currentStatus = statusMap[status] || defaultStatus;
 
       return (
-        <Badge className={currentStatus.color}>{currentStatus.label}</Badge>
+        <TableCell className="text-center px-0">
+          <div className="flex justify-center w-full">
+            <Badge className={`${currentStatus.color} px-3`}>
+              {currentStatus.label}
+            </Badge>
+          </div>
+        </TableCell>
       );
     },
   },

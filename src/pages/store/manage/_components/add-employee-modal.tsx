@@ -85,12 +85,8 @@ export function AddEmployeeModal({
                 {...register("employee_full_name")}
                 placeholder="Nhập tên nhân viên"
                 className={errors.employee_full_name ? "border-red-500" : ""}
+                helperText={errors.employee_full_name?.message}
               />
-              {errors.employee_full_name && (
-                <p className="text-sm text-red-500 mt-1">
-                  {errors.employee_full_name.message}
-                </p>
-              )}
             </div>
           </div>
           <div className="flex flex-col items-center justify-center border rounded-lg p-6 bg-gray-50 mt-4">
