@@ -2,8 +2,10 @@ import type { Route } from "../types/routes.type";
 import { AuthRoute } from "./auth-route";
 import routePath from "../config/route";
 import { PrivateRoute } from "./private-route";
+import { AdminRoute } from "./admin-route";
 import MainLayout from "../layouts/main-layout";
 import AuthLayout from "../layouts/auth-layout";
+import AdminLayout from "@/layouts/admin-layout";
 import CreateOrder from "../pages/order/creation";
 import Login from "../pages/auth/login";
 import Home from "../pages/home";
@@ -18,6 +20,10 @@ import Profile from "../pages/user";
 import ServiceSearchPage from "../pages/service/search";
 import ServiceFavorite from "../pages/service/service-favorite";
 import OrderManagement from "../pages/order/manage";
+import ManageReport from "@/pages/admin/manage-report";
+import ManageUser from "@/pages/admin/manage-user";
+import Unauthorized from "@/pages/admin/unauthorized";
+
 const listRoute: Route[] = [
   {
     path: routePath.home,
@@ -120,6 +126,29 @@ const listRoute: Route[] = [
       </PrivateRoute>
     ),
     layout: MainLayout,
+  },
+  {
+    path: routePath.manageReport,
+    component: (
+      <AdminRoute>
+        <ManageReport />
+      </AdminRoute>
+    ),
+    layout: AdminLayout,
+  },
+  {
+    path: routePath.manageUser,
+    component: (
+      <AdminRoute>
+        <ManageUser />
+      </AdminRoute>
+    ),
+    layout: AdminLayout,
+  },
+  {
+    path: routePath.unauthorized,
+    component: <Unauthorized />,
+    layout: null,
   },
 ];
 
