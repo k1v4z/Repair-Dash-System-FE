@@ -85,6 +85,8 @@ export type Order = {
   customer_cancelled_description: string | null;
   store_cancelled_description: string | null;
   completed_description: string | null;
+  order_rtc_session_id?: string;
+  store_name?: string;
 };
 export type OrderByCustomer = {
   order_id: number;

@@ -7,6 +7,7 @@ import OrderActions from "./_components/order-actions";
 import StoreOrderActions from "./_components/store-order-actions";
 import ResourceNotFound from "@/components/common/resource-not-found";
 import OrderSkeleton from "./_components/order-skeleton";
+import { ChatBubble } from "@/pages/order/tracking/_components/chat-bubble";
 import { useOrder } from "@/features/order/hooks/useOrder";
 import { useAuthStore } from "@/stores/auth";
 import type { Role } from "@/types/globals.type";
@@ -46,8 +47,15 @@ export default function OrderTracking() {
     );
   }
 
+  const chatRecipientName = isStore
+    ? order.customer_full_name
+    : order.store_name || "Cửa hàng";
+
+  // Check if RTC session ID exists, otherwise fallback to order ID
+  const chatSessionId = order.order_rtc_session_id || order.order_id.toString();
+
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="container mx-auto px-4 py-6 relative">
       <div className="mb-6">
         <h1 className="text-2xl font-bold mb-2">
           Chi tiết đơn đặt dịch vụ #{order.order_id}
@@ -73,6 +81,7 @@ export default function OrderTracking() {
         <CustomerInformation order={order} onOrderUpdated={onUpdateOrder} />
         <ServiceInformation order={order} />
       </div>
+      <ChatBubble sessionId={chatSessionId} recipientName={chatRecipientName} />
     </div>
   );
 }

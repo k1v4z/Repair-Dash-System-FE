@@ -44,6 +44,10 @@ import { Loading } from "./loading";
 import { Clock } from "./clock";
 import { Close } from "./close";
 import { OrderList } from "./order-list";
+import Send from "./send";
+import { Minus } from "./minus";
+import { Messenger } from "./messenger";
+
 export const glyphs = {
   alertCircle: AlertCircle,
   checkCircle: CheckCircle,
@@ -91,6 +95,9 @@ export const glyphs = {
   clock: Clock,
   close: Close,
   orderList: OrderList,
+  send: Send,
+  minus: Minus,
+  messenger: Messenger,
 };
 
 export type Glyph = {
