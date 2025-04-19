@@ -38,7 +38,7 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
     defaultValues: {
       user_full_name: profile.user_full_name,
       user_phone_number: profile.user_phone_number,
-      user_description: profile.user_description || "",
+      user_description: profile.user_description === null ? undefined : profile.user_description,
       user_street: profile.user_street,
       user_ward: profile.user_ward,
       user_district: profile.user_district,
@@ -83,16 +83,16 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
       const updateData = {
         user_full_name: data.user_full_name,
         user_phone_number: data.user_phone_number,
-        user_description: data.user_description,
         user_street: data.user_street,
         user_ward: data.user_ward,
         user_district: data.user_district,
         user_city: data.user_city,
+        ...(isStore ? { user_description: data.user_description } : {})
       };
 
       await onProfileChange(updateData, true);
     } catch {
-      // Không cần xử lý lỗi ở đây vì đã được xử lý trong hook
+      // Handle error silently
     }
   };
 
@@ -100,7 +100,7 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
     reset({
       user_full_name: profile.user_full_name,
       user_phone_number: profile.user_phone_number,
-      user_description: profile.user_description || "",
+      user_description: profile.user_description === null ? undefined : profile.user_description,
       user_street: profile.user_street,
       user_ward: profile.user_ward,
       user_district: profile.user_district,
@@ -119,7 +119,7 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="space-y-6 pt-6">
           <div className="grid gap-4">
-            <div className="grid gap-2">
+            <div className="grid gap-2 mb-6">
               <Label htmlFor="user_full_name">
                 Họ và tên
                 <span className="text-destructive ml-1">*</span>
@@ -130,14 +130,9 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
                 className="border-primary/20 focus-visible:ring-primary-royalBlue py-2"
                 helperText={errors.user_full_name?.message}
               />
-              {errors.user_full_name && (
-                <p className="text-sm text-destructive">
-                  {errors.user_full_name.message}
-                </p>
-              )}
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4 mb-6">
               <div className="grid gap-2">
                 <Label htmlFor="user_phone_number">
                   Số điện thoại
@@ -163,14 +158,13 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
             </div>
 
             {isStore && (
-              <div className="grid gap-2 mt-4">
+              <div className="grid gap-2 mt-4 mb-6">
                 <Label htmlFor="user_description">Mô tả</Label>
                 <Textarea
                   id="user_description"
                   {...register("user_description")}
                   placeholder="Thêm mô tả về bạn"
                   className="border-primary/20 focus-visible:ring-primary-royalBlue py-2 min-h-[150px] resize-none"
-                  
                 />
                 {errors.user_description && (
                   <p className="text-xs text-destructive">
@@ -190,18 +184,18 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
             </div>
 
             <div className="grid gap-4">
-              <div className="grid gap-2">
+              <div className="grid gap-2 mb-6">
                 <Label htmlFor="user_street">Đường</Label>
                 <Input
                   id="user_street"
                   {...register("user_street")}
-                  className="border-primary/20 focus-visible:ring-primary-royalBlue py-2 "
+                  className="border-primary/20 focus-visible:ring-primary-royalBlue py-2"
                   helperText={errors.user_street?.message}
                 />
               </div>
 
               <div className="grid md:grid-cols-3 gap-4">
-                <div className="grid gap-2">
+                <div className="grid gap-2 mb-6">
                   <Label htmlFor="user_city">Thành phố</Label>
                   <SelectField
                     placeholder="Chọn thành phố"
@@ -213,7 +207,7 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
                   />
                 </div>
 
-                <div className="grid gap-2">
+                <div className="grid gap-2 mb-6">
                   <Label htmlFor="user_district">Quận/Huyện</Label>
                   <SelectField
                     placeholder="Chọn quận/huyện"
@@ -226,7 +220,7 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
                   />
                 </div>
 
-                <div className="grid gap-2">
+                <div className="grid gap-2 mb-6">
                   <Label htmlFor="user_ward">Phường/Xã</Label>
                   <SelectField
                     placeholder="Chọn phường/xã"
@@ -253,7 +247,7 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
             </Button>
             <Button
               type="submit"
-              className="bg-primary-royalBlue/10 hover:bg-primary-royalBlue/10 text-primary-royalBlue border-primary-royalBlue border"
+              className="bg-primary-royalBlue/10 hover:bg-primary-royalBlue/10 text-primary-royalBlue border-primary-royalBlue border"            
             >
               Lưu thay đổi
             </Button>

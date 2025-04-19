@@ -10,8 +10,8 @@ export const profileSchema = z.object({
     .regex(/^[0-9]{10}$/, "Số điện thoại không hợp lệ"),
   user_description: z
     .string()
-    .min(6, "Mô tả phải có ít nhất 6 ký tự")
     .max(500, "Mô tả không được vượt quá 500 ký tự")
+    .transform(val => val.trim() === "" ? undefined : val)
     .optional(),
   user_street: z
     .string()
@@ -26,7 +26,6 @@ export const profileSchema = z.object({
   user_city: z
     .string()
     .min(1, "Vui lòng chọn thành phố"),
-
 });
 
 export type ProfileFormData = z.infer<typeof profileSchema>; 
