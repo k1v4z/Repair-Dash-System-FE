@@ -23,6 +23,7 @@ import OrderManagement from "../pages/order/manage";
 import ManageReport from "@/pages/admin/manage-report";
 import ManageUser from "@/pages/admin/manage-user";
 import Unauthorized from "@/pages/admin/unauthorized";
+import Subscription from "@/pages/subscription";
 
 const listRoute: Route[] = [
   {
@@ -149,6 +150,11 @@ const listRoute: Route[] = [
     path: routePath.unauthorized,
     component: <Unauthorized />,
     layout: null,
+  },
+  {
+    path: routePath.subscription,
+    component: <Subscription />,
+    layout: MainLayout,
   },
 ];
 
