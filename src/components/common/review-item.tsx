@@ -1,12 +1,17 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import type { Review } from "@/features/store-detail/types/store-detail.type";
+import type { Review } from "@/features/store/types/store-detail.type";
 import Rating from "@/components/common/rating";
+import { useState } from "react";
 
 interface ReviewProps {
   review: Review;
 }
 
+const TEXT_LIMIT = 150; 
+
 const ReviewItem = ({ review }: ReviewProps) => {
+  const [isExpanded, setIsExpanded] = useState(false); 
+
   return (
     <div className="flex gap-4 border-b pb-4 last:border-0">
       <Avatar>
@@ -21,7 +26,19 @@ const ReviewItem = ({ review }: ReviewProps) => {
             <Rating number={review.order_rating} />
           </div>
         </div>
-        <p className="text-gray-600">{review.order_feedback}</p>
+        <div>
+          <p className={`text-gray-600 w-full break-all ${!isExpanded ? 'line-clamp-2' : ''}`}>
+          {review.order_feedback}
+          </p>
+          {review.order_feedback.length > TEXT_LIMIT && (
+            <button 
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="text-blue-600 hover:text-blue-800 text-sm mt-1"
+            >
+              {isExpanded ? 'Thu gọn' : 'Hiển thị thêm'}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

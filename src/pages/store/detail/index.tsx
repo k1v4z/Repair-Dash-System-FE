@@ -2,7 +2,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import StoreInformation from "@/pages/store/detail/components/store-infomation";
 import StoreDescription from "@/pages/store/detail/components/store-description";
-import StoreReview from "@/pages/store/detail/components/store-review";
 import SwitchableTabs from "@/components/common/switch-tab";
 import StoreService from "@/pages/store/detail/components/store-service";
 import ResourceNotFound from "@/components/common/resource-not-found";
@@ -16,7 +15,6 @@ const TABS = [
     label: "Mô tả cửa hàng",
     content: <StoreDescription />,
   },
-  { value: "reivew", label: "Đánh giá", content: <StoreReview /> },
 ];
 
 const StoreDetails = () => {

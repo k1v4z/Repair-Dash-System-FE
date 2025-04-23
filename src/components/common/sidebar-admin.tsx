@@ -3,6 +3,7 @@ import routePath from "@/config/route";
 import { cn } from "@/lib/utils";
 import type { Glyph } from "../icons/glyphs";
 import Icons from "../icons";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 const SIDEBAR_ITEMS: {
   icon: Glyph["glyph"];
@@ -11,7 +12,7 @@ const SIDEBAR_ITEMS: {
 }[] = [
   {
     icon: "chart",
-    label: "Quản lý report",
+    label: "Quản lý phản hồi",
     href: routePath.manageReport,
   },
   {
@@ -22,6 +23,7 @@ const SIDEBAR_ITEMS: {
 ];
 
 function SidebarAdmin({ isOpen }: { isOpen: boolean }) {
+  const { logout } = useAuth();
   return (
     <aside
       className={cn(
@@ -67,6 +69,7 @@ function SidebarAdmin({ isOpen }: { isOpen: boolean }) {
             "relative py-2 cursor-pointer",
             isOpen ? "px-0" : "px-5"
           )}
+          onClick={() => logout()}
         >
           <div
             className={cn(
