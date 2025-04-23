@@ -15,6 +15,7 @@ const routePath = {
   manageReport: "/admin/manage-report",
   manageUser: "/admin/manage-user",
   unauthorized: "/unauthorized",
+  subscription: "/subscription",
 };
 
 export default routePath;

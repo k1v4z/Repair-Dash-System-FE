@@ -1,0 +1,58 @@
+import type { PricingPlan } from "../types/plan-pricing.type";
+
+export const PLANS: PricingPlan[] = [
+  {
+    id: "free",
+    name: "Miễn Phí",
+    price: "0đ",
+    description: "Gói cơ bản cho người bắt đầu",
+    features: [
+      { text: "Nhận tối đa 20 đơn từ khách mỗi tháng", included: true },
+      {
+        text: "Không được ưu tiên hiển thị trong kết quả tìm kiếm",
+        included: false,
+      },
+      {
+        text: "Không có hỗ trợ từ đội ngũ admin (chỉ hỗ trợ qua email, chậm hơn)",
+        included: false,
+      },
+    ],
+    buttonText: "Bắt Đầu Miễn Phí",
+    type: "FREE",
+  },
+  {
+    id: "monthly",
+    name: "Hàng Tháng",
+    price: "599.000đ",
+    description: "Mở khóa tất cả tính năng cao cấp",
+    features: [
+      { text: "Không giới hạn số đơn", included: true },
+      {
+        text: "Ưu tiên hiển thị trên đầu trang khi khách tìm kiếm dịch vụ",
+        included: true,
+      },
+      { text: "Được đội ngũ admin hỗ trợ trực tiếp", included: true },
+    ],
+    buttonText: "Nâng Cấp Ngay",
+    popular: true,
+    type: "MONTHLY",
+  },
+  {
+    id: "yearly",
+    name: "Hàng Năm",
+    price: "5.990.000đ",
+    description: "Tiết kiệm 2 tháng phí",
+    features: [
+      { text: "Không giới hạn số đơn", included: true },
+      {
+        text: "Ưu tiên hiển thị trên đầu trang khi khách tìm kiếm dịch vụ",
+        included: true,
+      },
+      { text: "Được đội ngũ admin hỗ trợ trực tiếp", included: true },
+    ],
+    buttonText: "Tiết Kiệm Ngay",
+    badge: "10 tháng",
+    annualDiscount: "Tiết kiệm 20%",
+    type: "YEARLY",
+  },
+];
