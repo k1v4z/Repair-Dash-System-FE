@@ -29,6 +29,7 @@ interface ServiceTableProps {
   isLoading?: boolean;
   pageSize?: number;
   onPageSizeChange?: (size: number) => void;
+  monthly_report?: Record<string, number>;
 }
 
 export function ServiceTable({ 
@@ -38,7 +39,8 @@ export function ServiceTable({
   onPageChange,
   isLoading = false,
   pageSize = 10,
-  onPageSizeChange
+  onPageSizeChange,
+  monthly_report
 }: ServiceTableProps) {
   const [selectedService, setSelectedService] = useState<ServiceReportItem | null>(null);
 
@@ -232,6 +234,7 @@ export function ServiceTable({
         isOpen={!!selectedService}
         onClose={() => setSelectedService(null)}
         service={selectedService}
+        monthly_report={monthly_report}
       />
     </>
   );

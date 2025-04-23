@@ -81,6 +81,12 @@ export const storeUpdateOrderSchema = z
     }
   );
 
+export const feedbackSchema = z.object({
+  rating: z.number().min(1, "Vui lòng chọn số sao đánh giá").max(5),
+  content: z.string().min(1, "Nội dung đánh giá phải có ít nhất 1 ký tự").max(500, "Nội dung đánh giá không được vượt quá 500 ký tự"),
+});
+
 export type OrderFormData = z.infer<typeof orderFormSchema>;
 export type OrderUpdateData = z.infer<typeof orderUpdateSchema>;
 export type StoreOrderUpdateData = z.infer<typeof storeUpdateOrderSchema>;
+export type FeedbackFormData = z.infer<typeof feedbackSchema>;

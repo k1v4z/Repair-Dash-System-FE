@@ -7,10 +7,10 @@ import {
 import type { ServiceReportItem } from "@/features/store/types/store-manage.type";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Icons from "@/components/icons";
-import { formatDate } from "@/utils/datetime/date";
+import { format } from "date-fns";
 import type { OrderStatus } from "@/features/order/types/orders.type";
 import { useReport } from "@/features/store/hooks/useReport";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -35,16 +35,15 @@ interface ServiceDetailsDialogProps {
   isOpen: boolean;
   onClose: () => void;
   service: ServiceReportItem | null;
+  monthly_report?: Record<string, number>;
 }
-
 const ORDER_STATUS_MAP: Record<OrderStatus, { label: string; color: string }> = {
   COMPLETED: { label: "Hoàn thành", color: "bg-green-100 text-green-700" },
   PROCESSING: { label: "Đang xử lý", color: "bg-blue-100 text-blue-700" },
   PENDING: { label: "Chờ xử lý", color: "bg-yellow-100 text-yellow-700" },
   CANCELED: { label: "Đã hủy", color: "bg-red-100 text-red-700" },
 };
-
-export function ServiceDetailsDialog({ isOpen, onClose, service }: ServiceDetailsDialogProps) {
+export function ServiceDetailsDialog({ isOpen, onClose, service, monthly_report }: ServiceDetailsDialogProps) {
   const { 
     orders, 
     isLoadingOrders, 
@@ -53,13 +52,21 @@ export function ServiceDetailsDialog({ isOpen, onClose, service }: ServiceDetail
     getOrdersByService 
   } = useReport();
 
+  const [selectedMonth, setSelectedMonth] = useState<string>("ALL");
+
   useEffect(() => {
     if (isOpen && service) {
       getOrdersByService(service.service.service_id.toString());
     }
-  }, [isOpen, service, selectedStatus]);
+  }, [isOpen, service, selectedStatus, selectedMonth]);
 
   if (!service) return null;
+
+  const filteredOrders = orders.filter(order => {
+    if (selectedMonth === "ALL") return true;
+    const orderMonth = format(new Date(order.created_at), "MM/yyyy");
+    return orderMonth === selectedMonth;
+  });
 
   const stats: StatItem[] = [
     {
@@ -140,7 +147,7 @@ export function ServiceDetailsDialog({ isOpen, onClose, service }: ServiceDetail
                   <span>•</span>
                   <span className="flex items-center gap-1">
                     <Icons glyph="calendar" className="w-4 h-4" />
-                    Cập nhật {formatDate(new Date(service.service.updated_at))}
+                    Cập nhật {format(new Date(service.service.updated_at), "dd/MM/yyyy")}
                   </span>
                 </div>
               </div>
@@ -198,6 +205,30 @@ export function ServiceDetailsDialog({ isOpen, onClose, service }: ServiceDetail
                 <h4 className="font-semibold text-gray-900">Danh sách đơn hàng</h4>
                 <div className="flex items-center gap-2">
                   <Select 
+                    value={selectedMonth} 
+                    onValueChange={setSelectedMonth}
+                  >
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Chọn tháng">
+                        {selectedMonth === "ALL" ? "Tất cả tháng" : selectedMonth}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ALL" className="text-gray-700 py-2 text-base">
+                        Tất cả tháng
+                      </SelectItem>
+                      {Object.keys(monthly_report || {}).map((month) => (
+                        <SelectItem 
+                          key={month} 
+                          value={month}
+                          className="text-gray-700 py-2 text-base"
+                        >
+                          {month}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Select 
                     value={selectedStatus} 
                     onValueChange={(value: "ALL" | OrderStatus) => setSelectedStatus(value)}
                   >
@@ -252,14 +283,14 @@ export function ServiceDetailsDialog({ isOpen, onClose, service }: ServiceDetail
                             </div>
                           </TableCell>
                         </TableRow>
-                      ) : orders.length === 0 ? (
+                      ) : filteredOrders.length === 0 ? (
                         <TableRow>
                           <TableCell colSpan={7} className="text-center py-8 text-gray-500 text-base">
                             Chưa có đơn hàng nào
                           </TableCell>
                         </TableRow>
                       ) : (
-                        orders.map((order) => (
+                        filteredOrders.map((order) => (
                           <TableRow key={order.order_id}>
                             <TableCell className="py-4 text-base">#{order.order_id}</TableCell>
                             <TableCell className="font-medium py-4 text-base">{order.customer_full_name}</TableCell>
@@ -285,7 +316,7 @@ export function ServiceDetailsDialog({ isOpen, onClose, service }: ServiceDetail
                               )}
                             </TableCell>
                             <TableCell className="py-4 text-base">
-                              {formatDate(new Date(order.created_at))}
+                              {format(new Date(order.created_at), "dd/MM/yyyy")}
                             </TableCell>
                             <TableCell className="py-4 text-base text-center">
                               <Button

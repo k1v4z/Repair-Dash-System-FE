@@ -168,6 +168,7 @@ export const storeManageApi = {
       );
       return {
         orders: response.data.service.orders || [],
+        monthly_report: response.data.monthly_report,
         total_pages: response.data.total_pages,
         current_page: response.data.current_page,
         limit: limit

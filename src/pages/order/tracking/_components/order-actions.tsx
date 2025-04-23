@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 
 import type { Order, OrderStatus } from "@/features/order/types/orders.type";
 import type { DialogContent } from "@/types/globals.type";
+import FeedbackOrder from "./feedback-order";
+import type { FeedbackFormData } from "@/schemas/order";
 
 interface OrderActionsProps {
   orderId: number;
@@ -23,9 +25,8 @@ export default function OrderActions({
   onOrderUpdated,
 }: OrderActionsProps) {
   const navigate = useNavigate();
-  const [dialogActions, setDialogActions] = useState<DialogContent | null>(
-    null
-  );
+  const [dialogActions, setDialogActions] = useState<DialogContent | null>(null);
+  const [showFeedback, setShowFeedback] = useState(false);
   const { updateOrder, isLoading } = useOrder();
 
   const handleCancelOrder = async (reason?: string) => {
@@ -50,8 +51,22 @@ export default function OrderActions({
       toast.success("Đơn hàng đã được đánh dấu hoàn thành thành công");
       setDialogActions(null);
       onOrderUpdated(updatedOrder);
+      setShowFeedback(true);
     } catch {
       toast.error("Có lỗi xảy ra khi đánh dấu hoàn thành đơn hàng");
+    }
+  };
+
+  const handleFeedbackSubmit = async (data: FeedbackFormData) => {
+    try {
+      await updateOrder(orderId.toString(), {
+        order_feedback: data.content,
+        order_rating: data.rating,
+      });
+      toast.success("Cảm ơn bạn đã gửi đánh giá!");
+      setShowFeedback(false);
+    } catch {
+      toast.error("Có lỗi xảy ra khi gửi đánh giá");
     }
   };
 
@@ -112,6 +127,12 @@ export default function OrderActions({
         onConfirm={dialogActions?.onConfirm || (() => {})}
         reasonRequired={dialogActions?.reasonRequired ?? false}
         reasonLabel={dialogActions?.reasonLabel ?? "Lý do"}
+      />
+      <FeedbackOrder
+        orderId={orderId}
+        isOpen={showFeedback}
+        onClose={() => setShowFeedback(false)}
+        onFeedbackSubmit={handleFeedbackSubmit}
       />
     </div>
   );
