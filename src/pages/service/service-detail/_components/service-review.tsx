@@ -1,4 +1,4 @@
-import type { Review } from "@/features/store-detail/types/store-detail.type";
+import type { Review } from "@/features/store/types/store-detail.type";
 import ReviewItem from "@/components/common/review-item";
 import Icons from "@/components/icons";
 
