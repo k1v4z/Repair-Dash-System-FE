@@ -17,7 +17,7 @@ interface UseReportReturn {
   getOrdersByService: (serviceId: string) => Promise<void>;
 }
 
-export const useReport = (pageSize: number = 10): UseReportReturn => {
+export const useReport = (pageSize: number = 100000000000): UseReportReturn => {
   const [reportData, setReportData] = useState<ReportResponse | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);

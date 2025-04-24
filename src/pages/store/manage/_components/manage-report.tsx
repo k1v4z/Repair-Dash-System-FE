@@ -41,6 +41,7 @@ export function ReportManagement() {
         isLoading={isLoading}
         pageSize={pageSize}
         onPageSizeChange={setPageSize}
+        monthly_report={reportData?.monthly_report}
       />
     </div>
   );

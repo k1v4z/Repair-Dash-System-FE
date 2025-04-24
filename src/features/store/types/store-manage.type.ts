@@ -155,6 +155,7 @@ export type ServiceOrder = {
 
 export type ServiceOrderResponse = {
   orders: ServiceOrder[];
+  monthly_report: Record<string, number>;
   limit: number;
   current_page: number;
   total_pages: number;
@@ -178,6 +179,7 @@ export type ServiceReportItem = {
   total_processing_orders: number;
   total_favorites: number;
   orders?: ServiceOrder[];
+  monthly_report: Record<string, number>;
 }
 
 export type ReportResponse = {
@@ -192,4 +194,5 @@ export type ReportResponse = {
     total_processing_orders: number;
     total_favorites: number;
   };
+  monthly_report: Record<string, number>;
 }
