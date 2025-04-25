@@ -50,6 +50,8 @@ import { Messenger } from "./messenger";
 import { Dashboard } from "./dashboard";
 import { ManageUser } from "./manage-user";
 import { Menu } from "./menu";
+import { Home } from "./home";
+import { Refresh } from "./refresh";
 
 export const glyphs = {
   alertCircle: AlertCircle,
@@ -104,6 +106,8 @@ export const glyphs = {
   dashboard: Dashboard,
   manageUser: ManageUser,
   menu: Menu,
+  home: Home,
+  refresh: Refresh,
 };
 
 export type Glyph = {
