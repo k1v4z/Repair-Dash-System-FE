@@ -24,6 +24,7 @@ import ManageReport from "@/pages/admin/manage-report";
 import ManageUser from "@/pages/admin/manage-user";
 import Unauthorized from "@/pages/admin/unauthorized";
 import Subscription from "@/pages/subscription";
+import PaymentSuccess from "@/pages/payment-success";
 
 const listRoute: Route[] = [
   {
@@ -154,6 +155,11 @@ const listRoute: Route[] = [
   {
     path: routePath.subscription,
     component: <Subscription />,
+    layout: MainLayout,
+  },
+  {
+    path: routePath.paymentSuccess,
+    component: <PaymentSuccess />,
     layout: MainLayout,
   },
 ];

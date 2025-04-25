@@ -11,16 +11,40 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Icon from "@/components/icons";
 import type { PricingPlan } from "@/features/subscriptions/types/plan-pricing.type";
+import { useZaloPayCheckout } from "@/features/subscriptions/hooks/useZaloPayCheckout";
+import { toast } from "react-toastify";
+
+interface SubscriptionItemProps {
+  plan: PricingPlan;
+}
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 };
 
-const SubscriptionItem = ({ plan }: { plan: PricingPlan }) => {
+const SubscriptionItem = ({ plan }: SubscriptionItemProps) => {
+  const { isLoading, error, initiatePayment } = useZaloPayCheckout();
+
+  const handleSubscribe = async () => {
+    if (plan.type === "FREE") {
+      return;
+    }
+
+    try {
+      await initiatePayment(plan.type);
+    } catch (error) {
+      alert("Không thể kết nối tới cổng thanh toán");
+      console.error("Failed to create payment:", error);
+    }
+  };
+
+  if (error) {
+    toast.error("Không thể kết nối tới cổng thanh toán");
+  }
+
   return (
     <motion.div
-      key={plan.id}
       variants={fadeInUp}
       whileHover={{ scale: 1.03, y: -5 }}
       transition={{ type: "spring", stiffness: 300 }}
@@ -92,6 +116,10 @@ const SubscriptionItem = ({ plan }: { plan: PricingPlan }) => {
             className="w-full transition-all duration-300"
             variant={plan.id === "free" ? "outline" : "default"}
             size="lg"
+            onClick={handleSubscribe}
+            isLoading={isLoading}
+            loadingText="Đang xử lý..."
+            disabled={plan.id === "free"}
           >
             {plan.buttonText}
           </Button>

@@ -23,7 +23,7 @@ export const PLANS: PricingPlan[] = [
   {
     id: "monthly",
     name: "Hàng Tháng",
-    price: "599.000đ",
+    price: "80.000đ",
     description: "Mở khóa tất cả tính năng cao cấp",
     features: [
       { text: "Không giới hạn số đơn", included: true },
@@ -40,7 +40,7 @@ export const PLANS: PricingPlan[] = [
   {
     id: "yearly",
     name: "Hàng Năm",
-    price: "5.990.000đ",
+    price: "800.000đ",
     description: "Tiết kiệm 2 tháng phí",
     features: [
       { text: "Không giới hạn số đơn", included: true },
@@ -50,7 +50,7 @@ export const PLANS: PricingPlan[] = [
       },
       { text: "Được đội ngũ admin hỗ trợ trực tiếp", included: true },
     ],
-    buttonText: "Tiết Kiệm Ngay",
+    buttonText: "Nâng Cấp Ngay",
     badge: "10 tháng",
     annualDiscount: "Tiết kiệm 20%",
     type: "YEARLY",
