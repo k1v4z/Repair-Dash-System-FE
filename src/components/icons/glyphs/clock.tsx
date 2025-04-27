@@ -17,4 +17,4 @@ export const Clock = ({ className = "", ...props }: GlyphIcon) => {
       <polyline points="12 6 12 12 16 14" />
     </svg>
   );
-}; 
+};
