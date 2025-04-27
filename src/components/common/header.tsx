@@ -11,22 +11,33 @@ import Icon from "../icons";
 import routePath from "@/config/route";
 import { cn } from "@/lib/utils";
 import { isLinkActive } from "@/utils/headerActive";
+import { useMemo } from "react";
+import { useUserStore } from "@/stores/user";
 
 const NAVIGATION_LINKS = [
   { name: "Trang chủ", href: "/" },
-  { name: "Dịch vụ", href: "/services" },
+  { name: "Gói dịch vụ", href: "/subscription" },
   { name: "Cửa hàng", href: "/store" },
   { name: "Tìm kiếm", href: "/services/search" },
   { name: "Liên hệ", href: "/contact" },
 ];
 
 export default function Header() {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, user } = useAuth();
+  const { reset } = useUserStore();
+
   const navigate = useNavigate();
+  const navigationLinksConverted = useMemo(() => {
+    if (user?.role !== "STORE") {
+      return NAVIGATION_LINKS.filter((item) => item.name !== "Gói dịch vụ");
+    }
+    return NAVIGATION_LINKS;
+  }, [user]);
 
   const handleLogout = async () => {
     try {
       await logout();
+      reset();
     } catch (error) {
       (error as Error).message = "Failed to logout";
       console.error("Logout failed:", error);
@@ -45,7 +56,7 @@ export default function Header() {
           </Link>
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-              {NAVIGATION_LINKS.map((item) => (
+              {navigationLinksConverted.map((item) => (
                 <Button key={item.name} asChild variant="link">
                   <Link
                     to={{ pathname: item.href }}

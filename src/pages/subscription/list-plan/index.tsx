@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
@@ -22,10 +21,6 @@ const staggerContainer = {
 };
 
 const SubscriptionPage = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <div className="container mx-auto px-4 py-16">
       <motion.div

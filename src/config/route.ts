@@ -16,7 +16,7 @@ const routePath = {
   manageUser: "/admin/manage-user",
   unauthorized: "/unauthorized",
   subscription: "/subscription",
-  paymentSuccess: "/payment-success",
+  paymentResult: "/payment-result",
 };
 
 export default routePath;

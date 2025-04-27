@@ -23,8 +23,9 @@ import OrderManagement from "../pages/order/manage";
 import ManageReport from "@/pages/admin/manage-report";
 import ManageUser from "@/pages/admin/manage-user";
 import Unauthorized from "@/pages/admin/unauthorized";
-import Subscription from "@/pages/subscription";
-import PaymentSuccess from "@/pages/payment-success";
+import Subscription from "@/pages/subscription/list-plan";
+import PaymentResult from "@/pages/subscription/payment-result";
+import { StoreRoute } from "./store-route";
 
 const listRoute: Route[] = [
   {
@@ -154,12 +155,20 @@ const listRoute: Route[] = [
   },
   {
     path: routePath.subscription,
-    component: <Subscription />,
+    component: (
+      <StoreRoute>
+        <Subscription />
+      </StoreRoute>
+    ),
     layout: MainLayout,
   },
   {
-    path: routePath.paymentSuccess,
-    component: <PaymentSuccess />,
+    path: routePath.paymentResult,
+    component: (
+      <PrivateRoute>
+        <PaymentResult />
+      </PrivateRoute>
+    ),
     layout: MainLayout,
   },
 ];

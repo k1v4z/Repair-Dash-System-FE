@@ -13,6 +13,8 @@ import Icon from "@/components/icons";
 import type { PricingPlan } from "@/features/subscriptions/types/plan-pricing.type";
 import { useZaloPayCheckout } from "@/features/subscriptions/hooks/useZaloPayCheckout";
 import { toast } from "react-toastify";
+import { useUser } from "@/features/user/hooks/useUser";
+import { SubscriptionPlan } from "@/features/user/types/user.types";
 
 interface SubscriptionItemProps {
   plan: PricingPlan;
@@ -23,8 +25,32 @@ const fadeInUp = {
   visible: { opacity: 1, y: 0 },
 };
 
+const getCurrentPlan = (priority: number, planType: string) => {
+  if (planType === "free" && priority === SubscriptionPlan.FREE) {
+    return "Gói hiện tại";
+  }
+  if (planType === "monthly" && priority === SubscriptionPlan.MONTHLY) {
+    return "Gói hiện tại";
+  }
+  if (planType === "yearly" && priority === SubscriptionPlan.YEARLY) {
+    return "Gói hiện tại";
+  }
+  return null;
+};
+
+const alreadyHavePlan = (priority: number) => {
+  if (
+    priority === SubscriptionPlan.MONTHLY ||
+    priority === SubscriptionPlan.YEARLY
+  ) {
+    return true;
+  }
+  return false;
+};
+
 const SubscriptionItem = ({ plan }: SubscriptionItemProps) => {
   const { isLoading, error, initiatePayment } = useZaloPayCheckout();
+  const { user } = useUser();
 
   const handleSubscribe = async () => {
     if (plan.type === "FREE") {
@@ -119,9 +145,13 @@ const SubscriptionItem = ({ plan }: SubscriptionItemProps) => {
             onClick={handleSubscribe}
             isLoading={isLoading}
             loadingText="Đang xử lý..."
-            disabled={plan.id === "free"}
+            disabled={
+              plan.id === "free" ||
+              alreadyHavePlan(user?.user_priority as SubscriptionPlan)
+            }
           >
-            {plan.buttonText}
+            {getCurrentPlan(user?.user_priority as SubscriptionPlan, plan.id) ||
+              plan.buttonText}
           </Button>
         </CardFooter>
       </Card>
