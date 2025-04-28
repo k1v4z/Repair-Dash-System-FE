@@ -9,6 +9,12 @@ import { profileService } from "@/features/user/service/profile.service";
 import { convertToBase64 } from "@/utils/file";
 import { toast } from "react-toastify";
 import { Input } from "@/components/ui/input";
+import {
+  getSubscriptionPlanName,
+  calculateRemainingDays,
+} from "@/features/subscriptions/utils/subscription";
+import { Badge } from "@/components/ui/badge";
+
 interface ProfileSidebarProps {
   profile: ProfileResponse;
   onProfileChange: (profile: ProfileResponse) => void;
@@ -28,6 +34,12 @@ export function ProfileSidebar({
         year: "numeric",
       })
     : "";
+
+  const subscriptionPlan = getSubscriptionPlanName(profile.user_priority);
+  const remainingDays = calculateRemainingDays(
+    profile.created_at,
+    profile.user_priority
+  );
 
   const handleUploadClick = () => {
     fileInputRef.current?.click();
@@ -101,9 +113,7 @@ export function ProfileSidebar({
             Thay đổi ảnh
           </Button>
         </div>
-
         <Separator className="my-6 bg-primary/20" />
-
         <div className="space-y-4">
           {isStore && (
             <div className="flex items-center space-x-2">
@@ -115,6 +125,31 @@ export function ProfileSidebar({
             <Icon glyph="calendar" className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm">Tham gia từ {joinDate}</span>
           </div>
+          {isStore && (
+            <div className="flex items-center space-x-2">
+              <Icon
+                glyph="checkCircle2"
+                className="w-4 h-4 text-muted-foreground"
+              />
+              <span className="text-sm">
+                Gói hiện tại:{" "}
+                <Badge variant="outline" className="ml-1 font-normal">
+                  {subscriptionPlan}
+                </Badge>
+              </span>
+            </div>
+          )}
+          {profile.user_priority > 0 && remainingDays > 0 && (
+            <div className="flex items-center space-x-2">
+              <Icon glyph="clock" className="w-4 h-4 text-muted-foreground" />
+              <span className="text-sm">
+                Còn lại:{" "}
+                <Badge variant="outline" className="ml-1 font-normal">
+                  {remainingDays} ngày
+                </Badge>
+              </span>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

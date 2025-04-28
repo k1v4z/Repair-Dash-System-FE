@@ -4,16 +4,18 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/icons";
 import { zalopayApi } from "@/features/subscriptions/api/zalopay-api";
+import { useUserStore } from "@/stores/user";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 };
 
-const PaymentSuccessPage = () => {
+const PaymentResultPage = () => {
   const [isVerifying, setIsVerifying] = useState(true);
   const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { updateUser } = useUserStore();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -36,6 +38,7 @@ const PaymentSuccessPage = () => {
         // Check if the payment was successful
         if (response.code === 1 && response.return_code === 1) {
           setIsVerified(true);
+          updateUser();
         } else {
           setError(response.return_message || "Không thể xác thực giao dịch");
         }
@@ -48,6 +51,7 @@ const PaymentSuccessPage = () => {
     };
 
     verifyPayment();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]);
 
   return (
@@ -130,4 +134,4 @@ const PaymentSuccessPage = () => {
   );
 };
 
-export default PaymentSuccessPage;
+export default PaymentResultPage;

@@ -7,7 +7,7 @@ export const PLANS: PricingPlan[] = [
     price: "0đ",
     description: "Gói cơ bản cho người bắt đầu",
     features: [
-      { text: "Nhận tối đa 20 đơn từ khách mỗi tháng", included: true },
+      { text: "Tối đa 20 đơn được hoàn thành", included: true },
       {
         text: "Không được ưu tiên hiển thị trong kết quả tìm kiếm",
         included: false,
@@ -26,7 +26,7 @@ export const PLANS: PricingPlan[] = [
     price: "80.000đ",
     description: "Mở khóa tất cả tính năng cao cấp",
     features: [
-      { text: "Không giới hạn số đơn", included: true },
+      { text: "Tối đa 100 đơn được hoàn thành", included: true },
       {
         text: "Ưu tiên hiển thị trên đầu trang khi khách tìm kiếm dịch vụ",
         included: true,
@@ -43,7 +43,7 @@ export const PLANS: PricingPlan[] = [
     price: "800.000đ",
     description: "Tiết kiệm 2 tháng phí",
     features: [
-      { text: "Không giới hạn số đơn", included: true },
+      { text: "Tối đa 100 đơn được hoàn thành mỗi tháng", included: true },
       {
         text: "Ưu tiên hiển thị trên đầu trang khi khách tìm kiếm dịch vụ",
         included: true,
@@ -52,7 +52,7 @@ export const PLANS: PricingPlan[] = [
     ],
     buttonText: "Nâng Cấp Ngay",
     badge: "10 tháng",
-    annualDiscount: "Tiết kiệm 20%",
+    annualDiscount: "Tiết kiệm 16%",
     type: "YEARLY",
   },
 ];
