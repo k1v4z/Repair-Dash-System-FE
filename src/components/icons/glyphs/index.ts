@@ -56,6 +56,7 @@ import { Lock } from "./lock";
 import { Unlock } from "./unlock";
 import { UserRound } from "./user-round";
 import { Admin } from "./admin";
+import Feedback from "./feedback";
 
 export const glyphs = {
   alertCircle: AlertCircle,
@@ -116,6 +117,7 @@ export const glyphs = {
   unlock: Unlock,
   userRound: UserRound,
   admin: Admin,
+  feedback: Feedback,
 };
 
 export type Glyph = {

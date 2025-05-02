@@ -25,6 +25,7 @@ import ManageUser from "@/pages/admin/manage-user";
 import Unauthorized from "@/pages/admin/unauthorized";
 import Subscription from "@/pages/subscription/list-plan";
 import PaymentResult from "@/pages/subscription/payment-result";
+import ResetPassword from "@/pages/auth/reset-password/_components";
 import { StoreRoute } from "./store-route";
 
 const listRoute: Route[] = [
@@ -170,6 +171,15 @@ const listRoute: Route[] = [
       </PrivateRoute>
     ),
     layout: MainLayout,
+  },
+  {
+    path: routePath.resetPassword,
+    component:(
+      <AuthRoute>
+        <ResetPassword/>,
+      </AuthRoute>
+    ), 
+    layout: AuthLayout,
   },
 ];
 
