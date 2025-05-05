@@ -14,13 +14,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ROLE_OPTIONS } from "@/constants/role";
 import { toast } from "react-toastify";
+import type { AddUserInput } from "@/features/admin/types/manage-user.type";
+import manageUserServices from "@/features/admin/services/manage-user.service";
 
 interface AddUserModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  fetchUsers: () => void;
 }
 
-export function AddUserModal({ open, onOpenChange }: AddUserModalProps) {
+export function AddUserModal({
+  open,
+  onOpenChange,
+  fetchUsers,
+}: AddUserModalProps) {
   const {
     selectedProvince,
     selectedDistrict,
@@ -52,42 +59,60 @@ export function AddUserModal({ open, onOpenChange }: AddUserModalProps) {
 
   const handleProvinceChange = (value: string) => {
     provinceChangeHandler(value);
-    setValue("province", value, { shouldValidate: true });
-    setValue("district", "", { shouldValidate: true });
-    setValue("ward", "", { shouldValidate: true });
+    setValue("province", value, { shouldValidate: !!value });
+    setValue("district", "", { shouldValidate: false });
+    setValue("ward", "", { shouldValidate: false });
   };
 
   const handleDistrictChange = (value: string) => {
     districtChangeHandler(value);
-    setValue("district", value, { shouldValidate: true });
-    setValue("ward", "", { shouldValidate: true });
+    setValue("district", value, { shouldValidate: !!value });
+    setValue("ward", "", { shouldValidate: false });
   };
 
   const handleWardChange = (value: string) => {
     wardChangeHandler(value);
-    setValue("ward", value, { shouldValidate: true });
+    setValue("ward", value, { shouldValidate: !!value });
   };
 
   const onSubmit = async (data: SignupFormSchema) => {
     try {
-      console.log("Form data:", data);
-      onOpenChange(false);
-
-      reset({
-        name: "",
-        phoneNumber: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        role: "CUSTOMER",
-        address: "",
-        province: "",
-        district: "",
-        ward: "",
-      });
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const addUserData: AddUserInput = {
+        identifier_email: data.email,
+        password: data.password,
+        role: data.role as "STORE" | "CUSTOMER" | "ADMIN",
+        user_full_name: data.name,
+        user_phone_number: data.phoneNumber,
+        user_street: data.address,
+        user_ward: data.ward,
+        user_district: data.district,
+        user_city: data.province,
+      };
+      const response = await manageUserServices.addUser(addUserData);
+      if (response.status === 201) {
+        toast.success("Thêm người dùng thành công");
+        fetchUsers();
+        onOpenChange(false);
+        reset({
+          name: "",
+          phoneNumber: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          role: "CUSTOMER",
+          address: "",
+          province: "",
+          district: "",
+          ward: "",
+        });
+        handleProvinceChange("");
+        handleDistrictChange("");
+        handleWardChange("");
+      }
     } catch (error) {
-      toast.error("Không thể thêm người dùng. Vui lòng thử lại");
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     }
   };
 
@@ -100,7 +125,7 @@ export function AddUserModal({ open, onOpenChange }: AddUserModalProps) {
         <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6 py-4">
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <div className="grid gap-2">
+              <div className="grid gap-2 pb-2">
                 <Label htmlFor="fullName">Họ và tên</Label>
                 <Input
                   id="fullName"
@@ -110,7 +135,7 @@ export function AddUserModal({ open, onOpenChange }: AddUserModalProps) {
                   helperText={errors.name?.message}
                 />
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 pb-2">
                 <Label htmlFor="phone">Số điện thoại</Label>
                 <Input
                   id="phone"
@@ -122,7 +147,7 @@ export function AddUserModal({ open, onOpenChange }: AddUserModalProps) {
               </div>
             </div>
 
-            <div className="grid gap-2">
+            <div className="grid gap-2 pb-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
@@ -135,7 +160,7 @@ export function AddUserModal({ open, onOpenChange }: AddUserModalProps) {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="grid gap-2">
+              <div className="grid gap-2 pb-2">
                 <Label htmlFor="password">Mật khẩu</Label>
                 <Input
                   id="password"
@@ -146,7 +171,7 @@ export function AddUserModal({ open, onOpenChange }: AddUserModalProps) {
                   helperText={errors.password?.message}
                 />
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 pb-2">
                 <Label htmlFor="confirmPassword">Xác nhận mật khẩu</Label>
                 <Input
                   id="confirmPassword"
@@ -176,7 +201,7 @@ export function AddUserModal({ open, onOpenChange }: AddUserModalProps) {
 
           <div className="space-y-4">
             <div className="grid gap-4">
-              <div className="grid gap-2">
+              <div className="grid gap-2 pb-2">
                 <Label htmlFor="address">Địa chỉ</Label>
                 <Input
                   id="address"

@@ -13,13 +13,13 @@ import SelectField from "@/components/common/select-field";
 import { useSelectLocation } from "@/hooks/useSelectLocation";
 import { signupSchema, type SignupFormSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UserInfo } from "@/types/human";
 import { ROLE_OPTIONS } from "@/constants/role";
+import { User } from "@/features/admin/types/manage-user.type";
 
 interface UpdateUserModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  user: UserInfo | null;
+  user: User | null;
 }
 
 export function UpdateUserModal({
@@ -64,14 +64,23 @@ export function UpdateUserModal({
       reset({
         name: user.user_full_name,
         phoneNumber: user.user_phone_number,
-        role: user.role,
-        address: user.user_description,
-        province: "",
-        district: "",
-        ward: "",
+        role: user.authentication.role,
+        address: user.user_street,
+        province: user.user_city,
+        district: user.user_district,
+        ward: user.user_ward,
       });
+      if (user.user_city) {
+        provinceChangeHandler(user.user_city);
+      }
+      if (user.user_district) {
+        districtChangeHandler(user.user_district);
+      }
+      if (user.user_ward) {
+        wardChangeHandler(user.user_ward);
+      }
     }
-  }, [user]);
+  }, [user, open]);
 
   const handleProvinceChange = (value: string) => {
     provinceChangeHandler(value);

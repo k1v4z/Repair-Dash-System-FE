@@ -1,14 +1,18 @@
 import { axiosInstance } from "@/config/axios";
+import type { ReportResponse } from "../types/report.type";
 
-const ADMIN_ENDPOINTS = {
+const REPORT_ENDPOINTS = {
   GET_ALL_REPORTS: "/report/admin",
 };
 
 const reportApi = {
-  getAllReports: async (limit: number, index: number) => {
+  getAllReports: async (
+    limit: number,
+    index: number
+  ): Promise<ReportResponse> => {
     try {
       const response = await axiosInstance.get(
-        ADMIN_ENDPOINTS.GET_ALL_REPORTS,
+        REPORT_ENDPOINTS.GET_ALL_REPORTS,
         {
           params: {
             limit,
