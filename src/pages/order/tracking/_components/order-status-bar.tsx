@@ -62,16 +62,16 @@ export default function OrderStatusBar({
 }: OrderStatusBarProps) {
   const { color, label, description } = getStatusConfig(status, role);
   const CANCEL_DESCRIPTION = {
-    STORE: order?.customer_cancelled_description,
-    CUSTOMER: order?.store_cancelled_description,
+    STORE: order?.customer_canceled_description,
+    CUSTOMER: order?.store_canceled_description,
   };
 
   // Determine if the cancellation reason should be shown
   const showCancelReason =
     status === "CANCELED" &&
     order &&
-    ((role !== "STORE" && order.store_cancelled_description) ||
-      (role === "STORE" && order.customer_cancelled_description));
+    ((role !== "STORE" && order.store_canceled_description) ||
+      (role === "STORE" && order.customer_canceled_description));
 
   // Determine if the completion note should be shown
   const showCompletionNote =
