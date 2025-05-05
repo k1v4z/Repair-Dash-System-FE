@@ -26,6 +26,7 @@ export interface SearchServiceItem {
   avg_rating: number;
   order_times: number;
   distance: number;
+  time: string;
   priority: number;
 }
 

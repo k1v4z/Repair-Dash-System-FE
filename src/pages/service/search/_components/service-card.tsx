@@ -65,7 +65,9 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
                   glyph="location"
                   className="w-4 h-4 text-blue-500 fill-none mr-1"
                 />
-                <span>Cách {service.distance?.toFixed(1)} km</span>
+                <span>
+                  {service.time.charAt(0).toUpperCase() + service.time.slice(1)}
+                </span>
               </Badge>
               <Badge className="text-xs bg-green-100 text-gray-800 hover:bg-green-200">
                 <Icon

@@ -111,6 +111,17 @@ export default function Header() {
                       <span>Đơn hàng</span>
                     </Link>
                   </DropdownMenuItem>
+                  {user?.role === "STORE" && (
+                    <DropdownMenuItem>
+                      <Link
+                        to={routePath.manageStore}
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700"
+                      >
+                        <Icon glyph="store" className="size-5 fill-black" />
+                        <span>Quản lý cửa hàng</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem
                     className="cursor-pointer"
                     onSelect={() => navigate(routePath.serviceFavorite)}
@@ -119,15 +130,6 @@ export default function Header() {
                       <Icon glyph="bookMark" className="size-5 fill-black" />
                       <span>Dịch vụ yêu thích</span>
                     </p>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <a
-                      href="#settings"
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700"
-                    >
-                      <Icon glyph="setting" className="size-5" />
-                      <span>Cài đặt</span>
-                    </a>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <button

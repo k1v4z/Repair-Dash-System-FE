@@ -82,8 +82,8 @@ export type Order = {
   service: OrderService;
   customer: OrderCustomer;
   created_description: string | null;
-  customer_cancelled_description: string | null;
-  store_cancelled_description: string | null;
+  customer_canceled_description: string | null;
+  store_canceled_description: string | null;
   completed_description: string | null;
   order_rtc_session_id?: string;
   store_name?: string;
@@ -113,8 +113,8 @@ export type OrderByCustomer = {
   service: OrderService;
   customer: OrderCustomer;
   created_description: string | null;
-  customer_cancelled_description: string | null;
-  store_cancelled_description: string | null;
+  customer_canceled_description: string | null;
+  store_canceled_description: string | null;
   completed_description: string | null;
 };
 
