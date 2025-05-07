@@ -27,7 +27,7 @@ function SidebarAdmin({ isOpen }: { isOpen: boolean }) {
   return (
     <aside
       className={cn(
-        "fixed top-0 w-64 h-screen border-r border-border flex flex-col",
+        "fixed top-0 w-64 h-screen border-r border-border flex flex-col bg-white z-10 transition-all duration-300",
         isOpen ? "w-16" : "w-64"
       )}
     >

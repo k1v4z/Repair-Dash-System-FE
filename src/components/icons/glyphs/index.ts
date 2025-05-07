@@ -52,6 +52,10 @@ import { ManageUser } from "./manage-user";
 import { Menu } from "./menu";
 import { Home } from "./home";
 import { Refresh } from "./refresh";
+import { Lock } from "./lock";
+import { Unlock } from "./unlock";
+import { UserRound } from "./user-round";
+import { Admin } from "./admin";
 
 export const glyphs = {
   alertCircle: AlertCircle,
@@ -108,6 +112,10 @@ export const glyphs = {
   menu: Menu,
   home: Home,
   refresh: Refresh,
+  lock: Lock,
+  unlock: Unlock,
+  userRound: UserRound,
+  admin: Admin,
 };
 
 export type Glyph = {
