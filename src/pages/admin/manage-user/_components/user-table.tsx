@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -51,6 +51,12 @@ export default function UserTable({
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isLockDialogOpen, setIsLockDialogOpen] = useState(false);
+  const [tableUsers, setTableUsers] = useState<User[]>(users);
+
+  // Update local users state when props change
+  useEffect(() => {
+    setTableUsers(users);
+  }, [users]);
 
   const handleEdit = (user: User) => {
     setSelectedUser(user);
@@ -65,6 +71,13 @@ export default function UserTable({
   const handleLockUser = (user: User) => {
     setSelectedUser(user);
     setIsLockDialogOpen(true);
+  };
+
+  const updateUserInList = (updatedUser: User) => {
+    const newUsers = tableUsers.map((user) =>
+      user.user_id === updatedUser.user_id ? updatedUser : user
+    );
+    setTableUsers(newUsers);
   };
 
   const confirmDelete = async () => {
@@ -119,7 +132,11 @@ export default function UserTable({
 
   return (
     <div className="space-y-5">
-      <Button onClick={() => setIsAddModalOpen(true)}>Thêm người dùng</Button>
+      <div className="flex justify-between mb-4">
+        <h1 className="text-2xl font-semibold">Quản lý người dùng</h1>
+        <Button onClick={() => setIsAddModalOpen(true)}>Thêm người dùng</Button>
+      </div>
+
       <div className="border rounded-[14px] border-[#D5D5D5] overflow-hidden">
         <Table className="w-full">
           <TableHeader className="bg-[#FCFDFD]">
@@ -142,7 +159,7 @@ export default function UserTable({
             </TableRow>
           </TableHeader>
           <TableBody className="bg-white">
-            {users.map((user) => (
+            {tableUsers.map((user) => (
               <TableRow
                 key={user.user_id}
                 className="border-b hover:bg-gray-50 transition h-[65px] "
@@ -236,6 +253,7 @@ export default function UserTable({
         open={isUpdateModalOpen}
         onOpenChange={setIsUpdateModalOpen}
         user={selectedUser}
+        updateUserInList={updateUserInList}
       />
 
       <ConfirmDialog

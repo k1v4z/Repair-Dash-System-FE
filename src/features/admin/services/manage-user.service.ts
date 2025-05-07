@@ -1,5 +1,9 @@
 import manageUserApi from "../api/manage-user";
-import type { ManageUserResponse } from "../types/manage-user.type";
+import type {
+  ManageUserResponse,
+  UpdateUserInput,
+  UpdateUserResponse,
+} from "../types/manage-user.type";
 import { AddUserInput } from "../types/manage-user.type";
 import { AddUserResponse } from "../types/manage-user.type";
 import { DeleteUserResponse } from "../types/manage-user.type";
@@ -28,6 +32,19 @@ const manageUserServices = {
   },
   deleteUser: async (userId: string): Promise<DeleteUserResponse> => {
     const response = await manageUserApi.deleteUser(userId);
+    return response;
+  },
+  updateUser: async (
+    data: UpdateUserInput,
+    userId: number
+  ): Promise<UpdateUserResponse> => {
+    const convertedData = { ...data };
+    Object.keys(data).forEach((key) => {
+      if (key === "password" && !data.password.length) {
+        delete convertedData[key as keyof UpdateUserInput];
+      }
+    });
+    const response = await manageUserApi.updateUser(convertedData, userId);
     return response;
   },
 };

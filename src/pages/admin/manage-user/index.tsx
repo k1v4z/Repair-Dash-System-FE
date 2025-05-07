@@ -8,8 +8,8 @@ const LIMIT = 7;
 
 const ManageUser = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [identifierEmail, setIdentifierEmail] = useState<string>("");
-  const [userFullName, setUserFullName] = useState<string>("");
+  const [identifierEmail] = useState<string>("");
+  const [userFullName] = useState<string>("");
 
   const { users, totalPages, statistics, fetchUsers } = useFetchUsers(
     LIMIT,

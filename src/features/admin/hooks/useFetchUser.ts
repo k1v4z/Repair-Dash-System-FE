@@ -14,8 +14,6 @@ const useFetchUsers = (
   const [totalPages, setTotalPages] = useState(0);
   const [statistics, setStatistics] = useState<Statistics | null>(null);
 
-  console.log(statistics);
-
   const fetchUsers = async () => {
     try {
       const response = await manageUserServices.getAllUsers(
@@ -25,7 +23,6 @@ const useFetchUsers = (
         userFullName
       );
       setUsers(response.users);
-      console.log(response.total_users);
 
       setStatistics({
         total_users: response.total_users,
@@ -44,6 +41,7 @@ const useFetchUsers = (
 
   useEffect(() => {
     fetchUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, identifierEmail, userFullName]);
 
   return {

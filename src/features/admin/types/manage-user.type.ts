@@ -1,4 +1,5 @@
 import { SubscriptionPlan } from "@/features/user/types/user.types";
+import type { Role } from "@/types/globals.type";
 
 export interface Authentication {
   authentication_id: number;
@@ -63,4 +64,44 @@ export type Statistics = {
   total_store_users: number;
   total_customer_users: number;
   total_admin_users: number;
+};
+
+export type UpdateUserInput = {
+  user_full_name: string;
+  password: string;
+  user_phone_number: string;
+  user_street: string;
+  user_ward: string;
+  user_district: string;
+  user_city: string;
+  user_priority: SubscriptionPlan;
+  role: Role;
+};
+
+export type UpdateUserResponse = {
+  message: string;
+  user_id: number;
+  user_full_name: string;
+  user_avatar_url: string | null;
+  user_alias: string;
+  user_description: string | null;
+  user_phone_number: string;
+  user_street: string;
+  user_ward: string;
+  user_district: string;
+  user_city: string;
+  user_priority: SubscriptionPlan;
+  delete_flag: boolean;
+  authentication_id: number;
+  created_at: string;
+  updated_at: string;
+  authentication: {
+    authentication_id: number;
+    identifier_email: string;
+    password: string;
+    role: string;
+    delete_flag: boolean;
+    created_at: string;
+    updated_at: string;
+  };
 };

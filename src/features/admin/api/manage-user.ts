@@ -1,6 +1,10 @@
 import { axiosInstance } from "@/config/axios";
-import type { ManageUserResponse } from "../types/manage-user.type";
-import type { AddUserInput } from "../types/manage-user.type";
+import type {
+  ManageUserResponse,
+  AddUserInput,
+  UpdateUserInput,
+  UpdateUserResponse,
+} from "../types/manage-user.type";
 import { AxiosError } from "axios";
 import { AddUserResponse } from "../types/manage-user.type";
 import { DeleteUserResponse } from "../types/manage-user.type";
@@ -10,6 +14,7 @@ const USER_ENDPOINTS = {
   LOCK_USER: "/users/:id/lock",
   ADD_USER: "/users",
   DELETE_USER: "/users",
+  UPDATE_USER: "/users/",
 };
 
 const manageUserApi = {
@@ -88,6 +93,16 @@ const manageUserApi = {
       }
       throw error;
     }
+  },
+  updateUser: async (
+    data: UpdateUserInput,
+    id: number
+  ): Promise<UpdateUserResponse> => {
+    const response = await axiosInstance.put(
+      `${USER_ENDPOINTS.UPDATE_USER}/${id}`,
+      data
+    );
+    return response.data;
   },
 };
 
