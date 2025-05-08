@@ -1,22 +1,32 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import UserTable from "./_components/user-table";
 import Icons from "@/components/icons";
 import StatsCard from "./_components/stats-card";
 import useFetchUsers from "@/features/admin/hooks/useFetchUser";
+import UserFilter from "./_components/user-filter";
 
 const LIMIT = 7;
 
 const ManageUser = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [identifierEmail] = useState<string>("");
-  const [userFullName] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(2);
+  const [identifierEmail, setIdentifierEmail] = useState<string>("");
+  const [userFullName, setUserFullName] = useState<string>("");
 
-  const { users, totalPages, statistics, fetchUsers } = useFetchUsers(
-    LIMIT,
-    currentPage,
-    identifierEmail,
-    userFullName
+  const { users, totalPages, statistics, fetchUsers, isLoading } =
+    useFetchUsers(LIMIT, currentPage, identifierEmail, userFullName);
+
+  const handleFilter = useCallback(
+    (filters: { identifierEmail: string; userFullName: string }) => {
+      setIdentifierEmail(filters.identifierEmail);
+      setUserFullName(filters.userFullName);
+      setCurrentPage(1); // Reset to first page when applying filters
+    },
+    []
   );
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const stats = [
     {
@@ -72,13 +82,17 @@ const ManageUser = () => {
           ))}
         </div>
       </div>
-
+      <UserFilter
+        onFilter={handleFilter}
+        initialFilters={{ identifierEmail, userFullName }}
+      />
       <UserTable
         users={users}
         currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
+        setCurrentPage={handlePageChange}
         totalPages={totalPages}
         fetchUsers={fetchUsers}
+        isLoading={isLoading}
       />
     </div>
   );

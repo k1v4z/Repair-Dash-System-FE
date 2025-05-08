@@ -37,6 +37,7 @@ interface UserTableProps {
   setCurrentPage: (page: number) => void;
   totalPages: number;
   fetchUsers: () => Promise<void>;
+  isLoading?: boolean;
 }
 
 export default function UserTable({
@@ -45,6 +46,7 @@ export default function UserTable({
   setCurrentPage,
   totalPages,
   fetchUsers,
+  isLoading = false,
 }: UserTableProps) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -159,80 +161,108 @@ export default function UserTable({
             </TableRow>
           </TableHeader>
           <TableBody className="bg-white">
-            {tableUsers.map((user) => (
-              <TableRow
-                key={user.user_id}
-                className="border-b hover:bg-gray-50 transition h-[65px] "
-              >
-                <TableCell className="py-3 pl-6 text-sm text-gray-800">
-                  {user.user_id}
-                </TableCell>
-                <TableCell className="py-3 pl-6 text-sm text-gray-800 w">
-                  <p className="line-clamp-1 w-[250px] break-all">
-                    {user.user_full_name}
-                  </p>
-                </TableCell>
-                <TableCell className="py-3 pl-6 text-sm text-gray-800">
-                  <p className="line-clamp-1 w-[250px] break-all">
-                    {user.authentication.identifier_email}
-                  </p>
-                </TableCell>
-                <TableCell className="py-3 pl-6 text-sm text-gray-800">
-                  {user.user_phone_number}
-                </TableCell>
-                <TableCell className="py-3 pl-6 text-sm text-gray-800">
-                  <Badge
-                    className={`min-w-[80px] px-2 py-1 text-xs justify-center rounded-md ${
-                      ROLE_COLORS[
-                        user.authentication.role as keyof typeof ROLE_COLORS
-                      ]
-                    }`}
-                  >
-                    {
-                      ROLE_TRANSLATIONS[
-                        user.authentication
-                          .role as keyof typeof ROLE_TRANSLATIONS
-                      ]
-                    }
-                  </Badge>
-                </TableCell>
-                <TableCell className="py-3 pl-6 text-sm text-gray-800">
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="h-8 w-8 p-0"
-                      onClick={() => handleEdit(user)}
-                    >
-                      <Icons glyph="edit" className="size-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
-                      onClick={() => handleDelete(user)}
-                    >
-                      <Icons glyph="trash" className="size-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className={`h-8 w-8 p-0 ${
-                        user.is_locked
-                          ? "text-red-600 hover:text-red-600"
-                          : "text-gray-600 hover:text-gray-600"
-                      }`}
-                      onClick={() => handleLockUser(user)}
-                    >
-                      <Icons
-                        glyph={user.is_locked ? "lock" : "unlock"}
-                        className="size-4"
-                      />
-                    </Button>
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={6} className="h-[300px] text-center">
+                  <div className="flex flex-col items-center justify-center h-full">
+                    <Icons
+                      glyph="loader"
+                      className="animate-spin h-10 w-10 text-gray-400 mb-4"
+                    />
+                    <p className="text-gray-500">Đang tải dữ liệu...</p>
                   </div>
                 </TableCell>
               </TableRow>
-            ))}
+            ) : tableUsers.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={6} className="h-[300px] text-center">
+                  <div className="flex flex-col items-center justify-center h-full">
+                    <Icons
+                      glyph="search"
+                      className="h-10 w-10 text-gray-400 mb-4"
+                    />
+                    <p className="text-gray-500">
+                      Không tìm thấy người dùng nào
+                    </p>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ) : (
+              tableUsers.map((user) => (
+                <TableRow
+                  key={user.user_id}
+                  className="border-b hover:bg-gray-50 transition h-[65px] "
+                >
+                  <TableCell className="py-3 pl-6 text-sm text-gray-800">
+                    {user.user_id}
+                  </TableCell>
+                  <TableCell className="py-3 pl-6 text-sm text-gray-800 w">
+                    <p className="line-clamp-1 w-[250px] break-all">
+                      {user.user_full_name}
+                    </p>
+                  </TableCell>
+                  <TableCell className="py-3 pl-6 text-sm text-gray-800">
+                    <p className="line-clamp-1 w-[250px] break-all">
+                      {user.authentication.identifier_email}
+                    </p>
+                  </TableCell>
+                  <TableCell className="py-3 pl-6 text-sm text-gray-800">
+                    {user.user_phone_number}
+                  </TableCell>
+                  <TableCell className="py-3 pl-6 text-sm text-gray-800">
+                    <Badge
+                      className={`min-w-[80px] px-2 py-1 text-xs justify-center rounded-md ${
+                        ROLE_COLORS[
+                          user.authentication.role as keyof typeof ROLE_COLORS
+                        ]
+                      }`}
+                    >
+                      {
+                        ROLE_TRANSLATIONS[
+                          user.authentication
+                            .role as keyof typeof ROLE_TRANSLATIONS
+                        ]
+                      }
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="py-3 pl-6 text-sm text-gray-800">
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 w-8 p-0"
+                        onClick={() => handleEdit(user)}
+                      >
+                        <Icons glyph="edit" className="size-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+                        onClick={() => handleDelete(user)}
+                      >
+                        <Icons glyph="trash" className="size-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className={`h-8 w-8 p-0 ${
+                          user.is_locked
+                            ? "text-red-600 hover:text-red-600"
+                            : "text-gray-600 hover:text-gray-600"
+                        }`}
+                        onClick={() => handleLockUser(user)}
+                      >
+                        <Icons
+                          glyph={user.is_locked ? "lock" : "unlock"}
+                          className="size-4"
+                        />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </div>
