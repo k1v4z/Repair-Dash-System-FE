@@ -13,8 +13,10 @@ const useFetchUsers = (
   const [users, setUsers] = useState<User[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const [statistics, setStatistics] = useState<Statistics | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchUsers = async () => {
+    setIsLoading(true);
     try {
       const response = await manageUserServices.getAllUsers(
         currentPage,
@@ -31,11 +33,12 @@ const useFetchUsers = (
         total_admin_users: response.total_admin_users,
       });
       setTotalPages(response.total_page);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
+    } catch {
       toast.error(
         "Đã có lỗi xảy ra khi lấy danh sách người dùng. Vui lòng thử lại"
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -49,6 +52,7 @@ const useFetchUsers = (
     totalPages,
     fetchUsers,
     statistics,
+    isLoading,
   };
 };
 
