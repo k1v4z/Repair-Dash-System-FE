@@ -55,3 +55,9 @@ export interface RegisterInput {
   user_district: string;
   user_city: string;
 }
+export interface ResetPasswordState {
+  loading: boolean;
+  otpSent: boolean;
+  otpVerified: boolean;
+  success: boolean;
+}
