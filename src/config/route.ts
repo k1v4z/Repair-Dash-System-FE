@@ -17,6 +17,7 @@ const routePath = {
   unauthorized: "/unauthorized",
   subscription: "/subscription",
   paymentResult: "/payment-result",
+  resetPassword: "/reset-password",
 };
 
 export default routePath;

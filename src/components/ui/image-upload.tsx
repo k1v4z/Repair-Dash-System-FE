@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useRef } from "react";
 import { Button } from "./button";
 import Icon from "@/components/icons";
 interface ImageUploadProps {
@@ -9,6 +9,7 @@ interface ImageUploadProps {
 
 export function ImageUpload({ onImageChange, defaultImage, className = "" }: ImageUploadProps) {
   const [preview, setPreview] = useState<string>(defaultImage || "");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -54,11 +55,12 @@ export function ImageUpload({ onImageChange, defaultImage, className = "" }: Ima
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           onChange={handleImageChange}
           accept="image/*"
+          ref={fileInputRef}
         />
       </div>
       <Button 
         type="button"
-        onClick={() => (document.querySelector('input[type="file"]') as HTMLInputElement)?.click()}
+        onClick={() => fileInputRef.current?.click()}
         className="bg-gray-500 hover:bg-gray-600 text-white"
         >
           Tải ảnh

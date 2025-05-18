@@ -3,8 +3,9 @@ import { z } from "zod";
 const baseProfileSchema = {
   user_full_name: z
     .string()
-    .min(6, "Họ tên phải có ít nhất 6 ký tự")
-    .max(50, "Họ tên không được vượt quá 200 ký tự"),
+    .min(4, "Họ tên phải có ít nhất 4 ký tự")
+    .max(50, "Họ tên không được vượt quá 200 ký tự")
+    .regex(/^[a-zA-ZÀ-ỹẠ-ỹ\s]+$/, "Họ tên không hợp lệ"),
   user_phone_number: z
     .string()
     .regex(/^[0-9]{10}$/, "Số điện thoại không hợp lệ"),

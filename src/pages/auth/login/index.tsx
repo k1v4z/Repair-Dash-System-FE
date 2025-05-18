@@ -66,6 +66,14 @@ const Login = () => {
               </p>
             )}
           </div>
+          <div className="flex justify-end">
+            <Link
+              to={routePath.resetPassword}
+              className="text-sm text-primary-royalBlue hover:text-primary-goldenTainoi"
+            >
+              Quên mật khẩu?
+            </Link>
+          </div>
         </div>
 
         {error && (
