@@ -13,6 +13,15 @@ export const loginSchema = z.object({
   password: passwordValidation(),
 });
 
+export const resetPasswordSchema = z.object({
+  email: emailValidation,
+  newPassword: z.string().min(1, "Vui lòng nhập mật khẩu").refine((data) => data.length >= 6, "Mật khẩu phải có ít nhất 6 ký tự").refine((data) => data.length <= 20, "Mật khẩu không được quá 20 ký tự"), 
+  confirmPassword: confirmPasswordValidation,
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  path: ["confirmPassword"],
+  message: "Mật khẩu không khớp",
+});
+
 export const signupSchema = z
   .object({
     email: emailValidation,
@@ -33,3 +42,4 @@ export const signupSchema = z
 
 export type LoginFormSchema = z.infer<typeof loginSchema>;
 export type SignupFormSchema = z.infer<typeof signupSchema>;
+export type ResetPasswordFormSchema = z.infer<typeof resetPasswordSchema>;

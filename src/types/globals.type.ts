@@ -45,3 +45,18 @@ export type StatItem = {
   description: string;
 };
 
+export type OtpInputProps = {
+  value: string;
+  onChange: (otp: string) => void;
+  length?: number;
+  disabled?: boolean;
+}
+
+export type UseCountdownReturn = {
+  timeLeft: number;
+  isExpired: boolean;
+  formattedTime: string;
+  startCountdown: () => void;
+  stopCountdown: () => void;
+  resetCountdown: () => void;
+}

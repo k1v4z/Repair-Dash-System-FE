@@ -12,6 +12,9 @@ const AUTH_ENDPOINTS = {
   REGISTER: "/auth/register",
   STATUS: "/auth/status",
   REFRESH: "/auth/refresh",
+  SEND_OTP: "/auth/send_link",
+  VERIFY_OTP: "/auth/otp",
+  RESET_PASSWORD: "/auth/reset_pass"
 };
 
 export const authApi = {
@@ -74,6 +77,39 @@ export const authApi = {
           throw new Error("Đăng ký thất bại. Vui lòng thử lại.");
         }
       }
+      throw error;
+    }
+  },
+  
+  sendOtp: async (email: string): Promise<{ message: string; code: number }> => {
+    try {
+      const response = await axiosInstance.post(AUTH_ENDPOINTS.SEND_OTP, { email });
+      return response.data;
+    } catch (error) {
+      console.error("Send OTP error:", error);
+      throw error;
+    }
+  },
+
+  verifyOtp: async (email: string, otp: string): Promise<{ message: string }> => {
+    try {
+      const response = await axiosInstance.post(`${AUTH_ENDPOINTS.VERIFY_OTP}?email=${email}`, { otp });
+      return response.data;
+    } catch (error) {
+      console.error("Verify OTP error:", error);
+      throw error;
+    }
+  },
+
+  resetPassword: async (email: string, password: string): Promise<string> => {
+    try {
+      const response = await axiosInstance.post(`${AUTH_ENDPOINTS.RESET_PASSWORD}?email=${email}`, { 
+        password,
+        identifier_email: email
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Reset password error:", error);
       throw error;
     }
   },

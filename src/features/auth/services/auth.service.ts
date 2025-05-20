@@ -47,4 +47,20 @@ export const authService = {
     }
     return response;
   },
+
+  async sendOtp(email: string): Promise<{ message: string; code: number }> {
+    const response = await authApi.sendOtp(email);
+    return response;
+  },
+
+  async verifyOtp(email: string, otp: string): Promise<{ message: string }> {
+    const response = await authApi.verifyOtp(email, otp);
+    return response;
+  },
+
+  async resetPassword(email: string, new_password: string): Promise<string> {
+    const response = await authApi.resetPassword(email, new_password);
+    return response;
+  },
+  
 };
