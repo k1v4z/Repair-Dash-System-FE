@@ -1,9 +1,10 @@
 import { useCallback, useEffect } from "react";
 import { useAuthStore } from "@/stores/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const useAuth = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     user,
     isAuthenticated,
@@ -21,15 +22,20 @@ export const useAuth = () => {
 
   // Handle login with navigation
   const handleLogin = useCallback(
-    async (email: string, password: string) => {
+    async (email: string, password: string, redirectPath?: string) => {
       try {
         await login(email, password);
-        navigate("/");
+        // If redirectPath is provided, navigate to it, otherwise use the location state or default to "/"
+        const from =
+          redirectPath ||
+          (location.state as { from?: { pathname: string } })?.from?.pathname ||
+          "/";
+        navigate(from);
       } catch {
         // Error is already handled in the store
       }
     },
-    [login, navigate]
+    [login, navigate, location.state]
   );
 
   // Handle logout with navigation

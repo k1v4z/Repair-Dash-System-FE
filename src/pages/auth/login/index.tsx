@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -9,6 +9,7 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import { loginSchema, type LoginFormSchema } from "@/schemas/auth";
 
 const Login = () => {
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -27,6 +28,11 @@ const Login = () => {
   return (
     <div className="p-12">
       <h2 className="text-black text-3xl text-center font-bold">Đăng nhập</h2>
+      {location.state?.from && (
+        <p className="text-center mt-2 text-sm text-gray-600">
+          Vui lòng đăng nhập để tiếp tục
+        </p>
+      )}
       <form
         className="mt-12 flex flex-col gap-5"
         onSubmit={handleSubmit(onSubmit)}
