@@ -13,7 +13,6 @@ const ORDER_ENDPOINTS = {
   CREATE: "/orders",
   GET_ORDER: "/orders/",
   UPDATE_ORDER: "/orders/",
-  
 };
 
 export const orderApi = {
@@ -33,16 +32,11 @@ export const orderApi = {
   createOrder: async (
     data: CreateOrderRequest
   ): Promise<CreateOrderResponse> => {
-    try {
-      const response = await axiosInstance.post(ORDER_ENDPOINTS.CREATE, data);
-      return {
-        message: response.data.message,
-        order_id: response.data.order_id,
-      };
-    } catch (error) {
-      console.error("Create order error");
-      throw error;
-    }
+    const response = await axiosInstance.post(ORDER_ENDPOINTS.CREATE, data);
+    return {
+      message: response.data.message,
+      order_id: response.data.order_id,
+    };
   },
 
   getOrder: async (orderId: string): Promise<Order> => {
@@ -73,7 +67,7 @@ export const orderApi = {
     }
   },
 
-  getOrderByOwner: async (): Promise<Order[]> => { 
+  getOrderByOwner: async (): Promise<Order[]> => {
     try {
       const response = await axiosInstance.get(ORDER_ENDPOINTS.GET_ORDER);
       // Ensure response.data.orders exists and is an array

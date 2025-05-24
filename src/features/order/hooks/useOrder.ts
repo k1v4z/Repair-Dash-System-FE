@@ -13,9 +13,6 @@ export const useOrder = () => {
     try {
       const response = await orderServices.createOrder(data);
       return response;
-    } catch {
-      setError("Error creating order");
-      return null;
     } finally {
       setIsLoading(false);
     }
