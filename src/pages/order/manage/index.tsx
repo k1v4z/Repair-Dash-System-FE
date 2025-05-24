@@ -21,15 +21,17 @@ export default function OrderManagement() {
 
   return (
     <div className="container mx-auto py-10 space-y-8">
-      <h2 className="text-3xl font-bold tracking-tight">Quản lý đơn hàng</h2>
-      
+      <h2 className="text-3xl font-bold tracking-tight">Lịch sử đơn hàng</h2>
+
       <OrderStats stats={stats} />
-      
+
       <div className="space-y-4">
-        <OrderFilter orders={orders as OrderByCustomer[]} onFilter={setFilteredOrders} />
+        <OrderFilter
+          orders={orders as OrderByCustomer[]}
+          onFilter={setFilteredOrders}
+        />
         <OrderTable data={filteredOrders || []} isLoading={isLoading} />
       </div>
     </div>
   );
 }
-    

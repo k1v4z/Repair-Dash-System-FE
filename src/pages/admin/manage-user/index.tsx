@@ -8,7 +8,7 @@ import UserFilter from "./_components/user-filter";
 const LIMIT = 7;
 
 const ManageUser = () => {
-  const [currentPage, setCurrentPage] = useState(2);
+  const [currentPage, setCurrentPage] = useState(1);
   const [identifierEmail, setIdentifierEmail] = useState<string>("");
   const [userFullName, setUserFullName] = useState<string>("");
 

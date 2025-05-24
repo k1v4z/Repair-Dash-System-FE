@@ -11,14 +11,14 @@ const SIDEBAR_ITEMS: {
   href: string;
 }[] = [
   {
-    icon: "chart",
-    label: "Quản lý phản hồi",
-    href: routePath.manageReport,
-  },
-  {
     icon: "manageUser",
     label: "Quản lý người dùng",
     href: routePath.manageUser,
+  },
+  {
+    icon: "manageFeedback",
+    label: "Danh sách phản hồi",
+    href: routePath.manageReport,
   },
 ];
 

@@ -13,6 +13,8 @@ import { cn } from "@/lib/utils";
 import { isLinkActive } from "@/utils/headerActive";
 import { useMemo } from "react";
 import { useUserStore } from "@/stores/user";
+import { NotificationItem } from "./notification-item";
+import useNotification from "@/features/notification/hooks/useNotification";
 
 const NAVIGATION_LINKS = [
   { name: "Trang chủ", href: "/" },
@@ -24,9 +26,10 @@ const NAVIGATION_LINKS = [
 
 export default function Header() {
   const { isAuthenticated, logout, user } = useAuth();
+  const { notifications, unreadCount } = useNotification();
   const { reset } = useUserStore();
-
   const navigate = useNavigate();
+
   const navigationLinksConverted = useMemo(() => {
     if (user?.role !== "STORE") {
       return NAVIGATION_LINKS.filter((item) => item.name !== "Gói dịch vụ");
@@ -77,7 +80,45 @@ export default function Header() {
             </div>
           </div>
 
-          <div className="ml-4 flex items-center">
+          <div className="ml-4 flex items-center gap-2">
+            {isAuthenticated && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="relative focus-visible:ring-0 focus-visible:ring-transparent"
+                  >
+                    <Icon glyph="bell" className="h-5 w-5" />
+                    {unreadCount > 0 && (
+                      <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-[10px] font-medium text-white flex items-center justify-center">
+                        {unreadCount}
+                      </span>
+                    )}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-[380px]">
+                  <div className="flex items-center justify-between p-2 border-b">
+                    <h4 className="font-medium">Thông báo</h4>
+                  </div>
+                  <div className="max-h-[400px] overflow-y-auto">
+                    {notifications.length > 0 ? (
+                      notifications.map((notification, index) => (
+                        <NotificationItem
+                          key={`${notification.time}-${index}`}
+                          notification={notification}
+                        />
+                      ))
+                    ) : (
+                      <div className="p-4 text-center text-gray-500">
+                        Không có thông báo mới
+                      </div>
+                    )}
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+
             {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger
@@ -108,7 +149,7 @@ export default function Header() {
                       className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700"
                     >
                       <Icon glyph="orderList" className="size-5 fill-black" />
-                      <span>Đơn hàng</span>
+                      <span>Lịch sử đơn hàng</span>
                     </Link>
                   </DropdownMenuItem>
                   {user?.role === "STORE" && (
@@ -131,6 +172,19 @@ export default function Header() {
                       <span>Dịch vụ yêu thích</span>
                     </p>
                   </DropdownMenuItem>
+
+                  {user?.role === "ADMIN" && (
+                    <DropdownMenuItem>
+                      <Link
+                        to={routePath.manageUser}
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700"
+                      >
+                        <Icon glyph="admin" className="size-5" />
+                        <span>Quản trị viên</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+
                   <DropdownMenuItem>
                     <button
                       onClick={handleLogout}

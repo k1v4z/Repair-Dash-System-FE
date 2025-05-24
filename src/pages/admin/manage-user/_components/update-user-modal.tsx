@@ -101,6 +101,27 @@ export function UpdateUserModal({
     setValue("user_ward", value, { shouldValidate: true });
   };
 
+  const handleCancel = () => {
+    if (user) {
+      reset({
+        name: user.user_full_name,
+        phoneNumber: user.user_phone_number,
+        role: user.authentication.role,
+        address: user.user_street,
+        user_city: user.user_city,
+        user_district: user.user_district,
+        user_ward: user.user_ward,
+        user_priority: user.user_priority?.toString() || "0",
+        password: "",
+      });
+
+      provinceChangeHandler(user.user_city);
+      districtChangeHandler(user.user_district);
+      wardChangeHandler(user.user_ward);
+    }
+    onOpenChange(false);
+  };
+
   const onSubmit = async (data: UpdateUserFormSchema) => {
     if (!user) return;
 
@@ -191,7 +212,7 @@ export function UpdateUserModal({
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="grid gap-2">
+              <div className={`grid gap-2 ${watch("role") !== "STORE" ? "col-span-2" : ""}`}>
                 <Label>Vai trò</Label>
                 <SelectField
                   placeholder="Chọn vai trò"
@@ -204,19 +225,21 @@ export function UpdateUserModal({
                   {...register("role")}
                 />
               </div>
-              <div className="grid gap-2">
-                <Label>Gói đăng ký</Label>
-                <SelectField
-                  placeholder="Chọn gói đăng ký"
-                  options={SUBSCRIPTION_PLAN_OPTIONS}
-                  value={watch("user_priority")}
-                  onValueChange={(value) =>
-                    setValue("user_priority", value, { shouldValidate: true })
-                  }
-                  helperText={errors.user_priority?.message}
-                  {...register("user_priority")}
-                />
-              </div>
+              {watch("role") === "STORE" && (
+                <div className="grid gap-2">
+                  <Label>Gói đăng ký</Label>
+                  <SelectField
+                    placeholder="Chọn gói đăng ký"
+                    options={SUBSCRIPTION_PLAN_OPTIONS}
+                    value={watch("user_priority")}
+                    onValueChange={(value) =>
+                      setValue("user_priority", value, { shouldValidate: true })
+                    }
+                    helperText={errors.user_priority?.message}
+                    {...register("user_priority")}
+                  />
+                </div>
+              )}
             </div>
           </div>
 
@@ -287,7 +310,7 @@ export function UpdateUserModal({
             <Button
               type="button"
               variant="outline"
-              onClick={() => onOpenChange(false)}
+              onClick={handleCancel}
               disabled={isSubmitting}
             >
               Hủy

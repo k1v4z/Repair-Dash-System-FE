@@ -14,7 +14,7 @@ export const passwordValidation = (variants?: string) => {
   if (variants === "signup") {
     return base
       .min(6, "Mật khẩu phải có ít nhất 6 ký tự")
-      .max(50, "Mật khẩu không được quá 50 ký tự");
+      .max(20, "Mật khẩu không được quá 20 ký tự");
   }
 
   return base.min(1, "Vui lòng nhập mật khẩu");
