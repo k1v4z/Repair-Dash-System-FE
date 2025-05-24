@@ -18,6 +18,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Skeleton_Table } from "@/components/common/skeleton-table";
+import { SortableHeader } from "@/components/common/sortable-header";
 
 interface PaginationProps {
   currentPage: number;
@@ -68,12 +69,19 @@ export function DataTable<TData>({
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
+                      {header.isPlaceholder ? null : header.column.getCanSort() ? (
+                        <SortableHeader column={header.column}>
+                          {flexRender(
                             header.column.columnDef.header,
                             header.getContext()
                           )}
+                        </SortableHeader>
+                      ) : (
+                        flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )
+                      )}
                     </TableHead>
                   );
                 })}
