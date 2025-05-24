@@ -49,8 +49,13 @@ export default function ServiceBookingForm() {
         );
         toast.success("Đặt dịch vụ thành công!");
       }
-    } catch {
-      toast.error("Có lỗi xảy ra khi đặt dịch vụ. Vui lòng thử lại!");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.response.data.code === -5) {
+        toast.warning("Cửa hàng tạm thời không nhận thêm đơn hàng");
+      } else {
+        toast.error("Có lỗi xảy ra khi đặt dịch vụ. Vui lòng thử lại!");
+      }
     }
   };
 
