@@ -135,7 +135,7 @@ export default function UserTable({
   return (
     <div className="space-y-5">
       <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-semibold">Quản lý người dùng</h1>
+        <h1 className="text-2xl font-semibold">Danh sách người dùng</h1>
         <Button onClick={() => setIsAddModalOpen(true)}>Thêm người dùng</Button>
       </div>
 

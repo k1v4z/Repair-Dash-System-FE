@@ -27,21 +27,6 @@ const HeaderAdmin = ({ isOpen, setIsOpen }: HeaderAdminProps) => {
         </div>
 
         <div className="ml-auto flex items-center flex-1 justify-end">
-          {/* <div className="flex items-center gap-2">
-            <Avatar className="h-8 w-8 border border-border">
-              <img
-                src="https://images.unsplash.com/photo-1741017638661-dab7a153f925?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="avatar"
-                width={32}
-                height={32}
-                className="object-cover"
-              />
-            </Avatar>
-            <div className="hidden md:block">
-              <div className="text-sm font-medium">Moni Roy</div>
-              <div className="text-xs text-muted-foreground">Admin</div>
-            </div>
-          </div> */}
           <Button
             onClick={() => navigate(routePath.home)}
             className="flex gap-1"

@@ -59,6 +59,13 @@ import { Unlock } from "./unlock";
 import { UserRound } from "./user-round";
 import { Admin } from "./admin";
 import Feedback from "./feedback";
+import { ClipboardX } from "./clipboard-x";
+import { Bell } from "./bell";
+import { ClipboardCheck } from "./clipboard-check";
+import { ClipboardPen } from "./clipboard-pen";
+import { Clipboard } from "./clipboard";
+import { MessageSquare } from "./message-square";
+import { ManageFeedback } from "./manage-feedback";
 
 export const glyphs = {
   alertCircle: AlertCircle,
@@ -122,6 +129,13 @@ export const glyphs = {
   userRound: UserRound,
   admin: Admin,
   feedback: Feedback,
+  clipboardX: ClipboardX,
+  clipboardCheck: ClipboardCheck,
+  clipboardPen: ClipboardPen,
+  clipboard: Clipboard,
+  bell: Bell,
+  messageSquare: MessageSquare,
+  manageFeedback: ManageFeedback,
 };
 
 export type Glyph = {
