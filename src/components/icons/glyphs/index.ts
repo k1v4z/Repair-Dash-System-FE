@@ -7,6 +7,8 @@ import { Logout } from "./logout";
 import { Setting } from "./setting";
 import { Search } from "./search";
 import { Arrow } from "./arrow";
+import { ArrowUp } from "./arrow-up";
+import { ArrowDown } from "./arrow-down";
 import { Heart } from "./heart";
 import { Chevron } from "./chevron";
 import { Store } from "./store";
@@ -74,6 +76,8 @@ export const glyphs = {
   setting: Setting,
   search: Search,
   arrow: Arrow,
+  arrowUp: ArrowUp,
+  arrowDown: ArrowDown,
   heart: Heart,
   chevron: Chevron,
   store: Store,

@@ -19,15 +19,14 @@ interface ActionCellProps {
 }
 
 const ActionCell = ({ order }: ActionCellProps) => {
-
   const handleView = () => {
     window.open(`/booking-detail/${order.order_id}`, "_blank");
   };
 
   return (
     <>
-      <Button 
-        variant="ghost" 
+      <Button
+        variant="ghost"
         className="h-8 w-8 p-0"
         onClick={() => handleView()}
       >
@@ -42,29 +41,55 @@ const columns = (onOrderUpdated?: () => void): ColumnDef<OrderByCustomer>[] => [
     accessorKey: "service_name",
     header: "Dịch vụ",
     size: 250,
+    enableSorting: true,
+    sortingFn: (rowA, rowB) => {
+      const a = rowA.getValue("service_name") as string;
+      const b = rowB.getValue("service_name") as string;
+      return a.localeCompare(b, "vi", { sensitivity: "base" });
+    },
     cell: ({ row }) => {
       const serviceName = row.getValue("service_name") as string;
       const description = row.original.service_description as string;
 
       return (
         <div className="flex flex-col cursor-pointer hover:text-blue-600 transition-colors duration-200 min-w-0 max-w-[250px]">
-          <span className="font-medium truncate w-full" title={serviceName}>{serviceName}</span>
-          <span className="text-sm text-gray-500 truncate w-full" title={description}>{description}</span>
+          <span className="font-medium truncate w-full" title={serviceName}>
+            {serviceName}
+          </span>
+          <span
+            className="text-sm text-gray-500 truncate w-full"
+            title={description}
+          >
+            {description}
+          </span>
         </div>
       );
     },
-  },  
+  },
   {
     accessorKey: "store_full_name",
     header: "Cửa hàng",
     size: 200,
+    enableSorting: true,
+    sortingFn: (rowA, rowB) => {
+      const a = rowA.getValue("store_full_name") as string;
+      const b = rowB.getValue("store_full_name") as string;
+      return a.localeCompare(b, "vi", { sensitivity: "base" });
+    },
     cell: ({ row }) => {
       const storeName = row.getValue("store_full_name") as string;
       const address = row.original.store_address as string;
       return (
         <div className="flex flex-col min-w-0 max-w-[200px]">
-          <span className="font-medium truncate w-full" title={storeName}>{storeName}</span>
-          <span className="text-sm text-gray-500 truncate w-full" title={address}>{address}</span>
+          <span className="font-medium truncate w-full" title={storeName}>
+            {storeName}
+          </span>
+          <span
+            className="text-sm text-gray-500 truncate w-full"
+            title={address}
+          >
+            {address}
+          </span>
         </div>
       );
     },
@@ -73,12 +98,29 @@ const columns = (onOrderUpdated?: () => void): ColumnDef<OrderByCustomer>[] => [
     accessorKey: "employee_full_name",
     header: "Nhân viên",
     size: 150,
+    enableSorting: true,
+    sortingFn: (rowA, rowB) => {
+      const a = rowA.getValue("employee_full_name") as string | null;
+      const b = rowB.getValue("employee_full_name") as string | null;
+
+      // Handle null values - put "Chưa phân công" at the end
+      if (!a && !b) return 0;
+      if (!a) return 1;
+      if (!b) return -1;
+
+      return a.localeCompare(b, "vi", { sensitivity: "base" });
+    },
     cell: ({ row }) => {
       const employeeName = row.getValue("employee_full_name") as string | null;
       const displayName = employeeName || "Chưa phân công";
       return (
         <div className="min-w-0 max-w-[150px]">
-          <span className="font-medium truncate w-full block" title={displayName}>{displayName}</span>
+          <span
+            className="font-medium truncate w-full block"
+            title={displayName}
+          >
+            {displayName}
+          </span>
         </div>
       );
     },
@@ -87,25 +129,55 @@ const columns = (onOrderUpdated?: () => void): ColumnDef<OrderByCustomer>[] => [
     accessorKey: "customer_full_name",
     header: "Khách hàng",
     size: 200,
+    enableSorting: true,
+    sortingFn: (rowA, rowB) => {
+      const a = rowA.getValue("customer_full_name") as string;
+      const b = rowB.getValue("customer_full_name") as string;
+      return a.localeCompare(b, "vi", { sensitivity: "base" });
+    },
     cell: ({ row }) => {
       const customerName = row.getValue("customer_full_name") as string;
       const phone = row.original.customer_phone_number as string;
       const address = row.original.customer_address as string;
       return (
         <div className="flex flex-col min-w-0 max-w-[200px]">
-          <span className="font-medium truncate w-full" title={customerName}>{customerName}</span>
-          <span className="text-sm text-gray-500 truncate w-full" title={phone}>{phone}</span>
-          <span className="text-sm text-gray-500 truncate w-full" title={address}>{address}</span>
+          <span className="font-medium truncate w-full" title={customerName}>
+            {customerName}
+          </span>
+          <span className="text-sm text-gray-500 truncate w-full" title={phone}>
+            {phone}
+          </span>
+          <span
+            className="text-sm text-gray-500 truncate w-full"
+            title={address}
+          >
+            {address}
+          </span>
         </div>
       );
     },
   },
   {
     accessorKey: "order_status",
-    header: () => (
-      <div className="text-center w-full">Trạng thái</div>
-    ),
+    header: "Trạng thái",
     size: 120,
+    enableSorting: true,
+    sortingFn: (rowA, rowB) => {
+      const statusOrder = {
+        PENDING: 1,
+        PROCESSING: 2,
+        COMPLETED: 3,
+        CANCELED: 4,
+      };
+
+      const a = rowA.getValue("order_status") as string;
+      const b = rowB.getValue("order_status") as string;
+
+      return (
+        (statusOrder[a as keyof typeof statusOrder] || 5) -
+        (statusOrder[b as keyof typeof statusOrder] || 5)
+      );
+    },
     cell: ({ row }) => {
       const status = row.getValue("order_status") as string;
       const statusMap: Record<string, { label: string; color: string }> = {
@@ -133,6 +205,12 @@ const columns = (onOrderUpdated?: () => void): ColumnDef<OrderByCustomer>[] => [
     accessorKey: "created_at",
     header: "Ngày tạo",
     size: 120,
+    enableSorting: true,
+    sortingFn: (rowA, rowB) => {
+      const a = new Date(rowA.getValue("created_at") as string);
+      const b = new Date(rowB.getValue("created_at") as string);
+      return a.getTime() - b.getTime();
+    },
     cell: ({ row }) => {
       const date = row.getValue("created_at") as string;
       return formatDate(new Date(date));
@@ -142,8 +220,11 @@ const columns = (onOrderUpdated?: () => void): ColumnDef<OrderByCustomer>[] => [
     id: "actions",
     header: "Hành động",
     size: 70,
+    enableSorting: false,
     cell: ({ row }) => {
-      return <ActionCell order={row.original} onOrderUpdated={onOrderUpdated} />;
+      return (
+        <ActionCell order={row.original} onOrderUpdated={onOrderUpdated} />
+      );
     },
   },
 ];

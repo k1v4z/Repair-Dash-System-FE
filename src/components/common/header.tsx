@@ -122,6 +122,17 @@ export default function Header() {
                       </Link>
                     </DropdownMenuItem>
                   )}
+                  {user?.role === "ADMIN" && (
+                    <DropdownMenuItem>
+                      <Link
+                        to={routePath.manageReport}
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700"
+                      >
+                        <Icon glyph="admin" className="size-5" />
+                        <span>Quản trị hệ thống</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem
                     className="cursor-pointer"
                     onSelect={() => navigate(routePath.serviceFavorite)}
