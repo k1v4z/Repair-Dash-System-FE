@@ -48,7 +48,7 @@ const UserFilter = ({ onFilter, initialFilters }: UserFilterProps) => {
       } mb-6`}
     >
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
           <div>
             <Input
               type="text"
@@ -59,7 +59,7 @@ const UserFilter = ({ onFilter, initialFilters }: UserFilterProps) => {
               className="h-12"
             />
           </div>
-          <div>
+          {/* <div>
             <Input
               type="text"
               placeholder="Tìm kiếm theo tên người dùng"
@@ -68,7 +68,7 @@ const UserFilter = ({ onFilter, initialFilters }: UserFilterProps) => {
               startIcon="profile"
               className="h-12"
             />
-          </div>
+          </div> */}
         </div>
         <div className="flex justify-end mt-4 gap-2">
           {isFiltering && (

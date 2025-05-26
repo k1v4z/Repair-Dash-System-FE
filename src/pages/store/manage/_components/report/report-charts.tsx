@@ -1,7 +1,17 @@
 import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { ReportResponse } from "@/features/store/types/store-manage.type";
-import { PieChart, BarChart, ResponsiveContainer, Pie, Bar, YAxis, Tooltip, Legend, Cell } from 'recharts';
+import {
+  PieChart,
+  BarChart,
+  ResponsiveContainer,
+  Pie,
+  Bar,
+  YAxis,
+  Tooltip,
+  Legend,
+  Cell,
+} from "recharts";
 
 interface ReportChartsProps {
   data: ReportResponse | null;
@@ -9,20 +19,37 @@ interface ReportChartsProps {
 
 export function ReportCharts({ data }: ReportChartsProps) {
   const pieData = [
-    { name: 'Hoàn thành', value: data?.total.total_completed_orders ?? 0, color: '#22C55E' },
-    { name: 'Đang xử lý', value: data?.total.total_processing_orders ?? 0, color: '#3B82F6' },
-    { name: 'Chờ xử lý', value: data?.total.total_pending_orders ?? 0, color: '#EAB308' },
-    { name: 'Đã hủy', value: data?.total.total_canceled_orders ?? 0, color: '#EF4444' },
+    {
+      name: "Hoàn thành",
+      value: data?.total.total_completed_orders ?? 0,
+      color: "#22C55E",
+    },
+    {
+      name: "Đang xử lý",
+      value: data?.total.total_processing_orders ?? 0,
+      color: "#3B82F6",
+    },
+    {
+      name: "Chờ xử lý",
+      value: data?.total.total_pending_orders ?? 0,
+      color: "#EAB308",
+    },
+    {
+      name: "Đã hủy",
+      value: data?.total.total_canceled_orders ?? 0,
+      color: "#EF4444",
+    },
   ];
 
-  const barData = useMemo(() => 
-    data?.services.map(service => ({
-      name: service.service.service_name,
-      'Hoàn thành': service.total_completed_orders,
-      'Đang xử lý': service.total_processing_orders,
-      'Chờ xử lý': service.total_pending_orders,
-      'Đã hủy': service.total_canceled_orders,
-    })) ?? [],
+  const barData = useMemo(
+    () =>
+      data?.services.map((service) => ({
+        serviceName: service.service.service_name,
+        "Hoàn thành": service.total_completed_orders,
+        "Đang xử lý": service.total_processing_orders,
+        "Chờ xử lý": service.total_pending_orders,
+        "Đã hủy": service.total_canceled_orders,
+      })) ?? [],
     [data?.services]
   );
 
@@ -45,13 +72,16 @@ export function ReportCharts({ data }: ReportChartsProps) {
                 outerRadius={120}
                 fill="#8884d8"
                 dataKey="value"
-                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                label={({ percent }) => {
+                  if (percent === 0) return "";
+                  return `${(percent * 100).toFixed(0)}%`;
+                }}
               >
                 {pieData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
-              <Tooltip />
+              <Tooltip formatter={(value, name) => [`${value} đơn`, name]} />
               <Legend />
             </PieChart>
           </ResponsiveContainer>
@@ -66,7 +96,13 @@ export function ReportCharts({ data }: ReportChartsProps) {
           <ResponsiveContainer width="100%" height={350}>
             <BarChart data={barData}>
               <YAxis />
-              <Tooltip />
+              <Tooltip
+                formatter={(value, name) => [`${value} đơn`, name]}
+                labelFormatter={(_, payload) => {
+                  if (!payload || !payload[0]?.payload) return "";
+                  return payload[0].payload.serviceName;
+                }}
+              />
               <Legend />
               <Bar dataKey="Hoàn thành" fill="#22C55E" stackId="stack" />
               <Bar dataKey="Đang xử lý" fill="#3B82F6" stackId="stack" />
@@ -78,4 +114,4 @@ export function ReportCharts({ data }: ReportChartsProps) {
       </Card>
     </>
   );
-} 
+}

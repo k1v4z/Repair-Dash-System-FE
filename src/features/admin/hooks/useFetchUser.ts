@@ -25,14 +25,15 @@ const useFetchUsers = (
         userFullName
       );
       setUsers(response.users);
+      setTotalPages(response.total_page);
 
+      // Update statistics based on search results
       setStatistics({
         total_users: response.total_users,
         total_store_users: response.total_store_users,
         total_customer_users: response.total_customer_users,
         total_admin_users: response.total_admin_users,
       });
-      setTotalPages(response.total_page);
     } catch {
       toast.error(
         "Đã có lỗi xảy ra khi lấy danh sách người dùng. Vui lòng thử lại"

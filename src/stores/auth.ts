@@ -25,9 +25,25 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     try {
       set({ isLoading: true, error: null });
       await authService.login(email, password);
-      set({ isAuthenticated: true });
+
+      // Check auth status after successful login
+      const status = await authService.checkAuthStatus();
+
+      if (!status.role) {
+        set({
+          error: "Tài khoản của bạn đã bị khoá",
+          isAuthenticated: false,
+        });
+        throw new Error("Account is locked");
+      }
+
+      set({
+        isAuthenticated: true,
+      });
     } catch (err) {
-      set({ error: "Login failed. Please check your credentials." });
+      if (!(err instanceof Error && err.message === "Account is locked")) {
+        set({ error: "Email hoặc mật khẩu không đúng. Vui lòng thử lại!" });
+      }
       throw err;
     } finally {
       set({ isLoading: false });

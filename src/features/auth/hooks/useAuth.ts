@@ -25,13 +25,15 @@ export const useAuth = () => {
     async (email: string, password: string, redirectPath?: string) => {
       try {
         await login(email, password);
-        // If redirectPath is provided, navigate to it, otherwise use the location state or default to "/"
+
+        // If login successful and role exists, proceed with navigation
         const from =
           redirectPath ||
           (location.state as { from?: { pathname: string } })?.from?.pathname ||
           "/";
         navigate(from);
-      } catch {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (error) {
         // Error is already handled in the store
       }
     },
