@@ -33,13 +33,15 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
 
         <div className="mt-5 absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col w-full gap-2 px-4">
           <div className="flex gap-2">
-            {service.average_rating !== null && (
+            {service.average_rating !== null ? (
               <div className="flex items-center gap-1">
-                <Icons glyph="star" color="#2563eb" className="size-4" />
+                <Icons glyph="star" className="size-4 text-yellow-400" />
                 <span className="text-lg font-semibold">
                   {service.average_rating}
                 </span>
               </div>
+            ) : (
+              <Badge className="hover:bg-primary hover:text-primary-foreground">Chưa có đánh giá</Badge>
             )}
             <Link
               to={routePath.serviceDetail.replace(":id", service.service_alias)}

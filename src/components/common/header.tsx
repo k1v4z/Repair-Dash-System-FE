@@ -166,7 +166,7 @@ export default function Header() {
                   {user?.role === "ADMIN" && (
                     <DropdownMenuItem>
                       <Link
-                        to={routePath.manageReport}
+                        to={routePath.manageUser}
                         className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700"
                       >
                         <Icon glyph="admin" className="size-5" />
@@ -183,18 +183,6 @@ export default function Header() {
                       <span>Dịch vụ yêu thích</span>
                     </p>
                   </DropdownMenuItem>
-
-                  {user?.role === "ADMIN" && (
-                    <DropdownMenuItem>
-                      <Link
-                        to={routePath.manageUser}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700"
-                      >
-                        <Icon glyph="admin" className="size-5" />
-                        <span>Quản trị viên</span>
-                      </Link>
-                    </DropdownMenuItem>
-                  )}
 
                   <DropdownMenuItem>
                     <button
