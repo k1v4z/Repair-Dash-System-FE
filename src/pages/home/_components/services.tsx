@@ -1,7 +1,14 @@
 import { motion } from "framer-motion";
 import { SERVICES } from "../constants/service";
+import { useNavigate } from "react-router-dom";
 
 export default function Services() {
+  const navigate = useNavigate();
+
+  const handleServiceClick = (serviceName: string, index: number) => {
+    navigate(`/services/search?keyword=${encodeURIComponent(serviceName)}&index=${index + 1}`);
+  };
+
   return (
     <section id="services" className="py-24 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,7 +30,8 @@ export default function Services() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ scale: 1.05 }}
-              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
+              onClick={() => handleServiceClick(service.name, index)}
             >
               <div className="p-6">
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">

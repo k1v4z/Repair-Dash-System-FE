@@ -19,7 +19,6 @@ import useNotification from "@/features/notification/hooks/useNotification";
 const NAVIGATION_LINKS = [
   { name: "Trang chủ", href: "/" },
   { name: "Gói dịch vụ", href: "/subscription" },
-  { name: "Cửa hàng", href: "/store" },
   { name: "Tìm kiếm", href: "/services/search" },
   { name: "Liên hệ", href: "/contact" },
 ];

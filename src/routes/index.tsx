@@ -27,6 +27,11 @@ import Subscription from "@/pages/subscription/list-plan";
 import PaymentResult from "@/pages/subscription/payment-result";
 import ResetPassword from "@/pages/auth/reset-password/_components";
 import { StoreRoute } from "./store-route";
+// Import footer pages
+import About from "@/pages/about";
+import FAQ from "@/pages/faq";
+import Terms from "@/pages/terms";
+import Privacy from "@/pages/privacy";
 
 const listRoute: Route[] = [
   {
@@ -180,6 +185,27 @@ const listRoute: Route[] = [
       </AuthRoute>
     ), 
     layout: AuthLayout,
+  },
+  // Footer routes
+  {
+    path: routePath.about,
+    component: <About />,
+    layout: MainLayout,
+  },
+  {
+    path: routePath.faq,
+    component: <FAQ />,
+    layout: MainLayout,
+  },
+  {
+    path: routePath.terms,
+    component: <Terms />,
+    layout: MainLayout,
+  },
+  {
+    path: routePath.privacy,
+    component: <Privacy />,
+    layout: MainLayout,
   },
 ];
 
