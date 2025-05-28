@@ -20,11 +20,12 @@ export default function OrderTracking() {
   const { user } = useAuthStore();
   const isCustomer = user?.user_id == order?.customer_id;
 
+  const fetchOrder = async () => {
+    const order = await getOrder(orderId as string);
+    setOrder(order);
+  };
+
   useEffect(() => {
-    const fetchOrder = async () => {
-      const order = await getOrder(orderId as string);
-      setOrder(order);
-    };
     fetchOrder();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]);
@@ -67,16 +68,17 @@ export default function OrderTracking() {
         />
       </div>
       {isCustomer ? (
-          <div className="mb-6">
+        <div className="mb-6">
           <OrderActions
             orderId={order.order_id}
             status={order.order_status}
             isFeedback={order.order_rating !== null}
             onOrderUpdated={onUpdateOrder}
+            fetchOrder={fetchOrder}
           />
         </div>
       ) : (
-          <StoreOrderActions order={order} onOrderUpdated={onUpdateOrder} />
+        <StoreOrderActions order={order} onOrderUpdated={onUpdateOrder} />
       )}
       <div className="grid md:grid-cols-2 gap-6 mb-6">
         <CustomerInformation order={order} onOrderUpdated={onUpdateOrder} />

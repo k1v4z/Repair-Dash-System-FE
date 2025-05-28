@@ -17,6 +17,7 @@ interface OrderActionsProps {
   orderId: number;
   status: OrderStatus;
   isFeedback: boolean;
+  fetchOrder: () => void;
   onOrderUpdated: (order: Order | null) => void;
 }
 
@@ -25,12 +26,15 @@ export default function OrderActions({
   status,
   isFeedback,
   onOrderUpdated,
+  fetchOrder,
 }: OrderActionsProps) {
   const navigate = useNavigate();
-  const [dialogActions, setDialogActions] = useState<DialogContent | null>(null);
+  const [dialogActions, setDialogActions] = useState<DialogContent | null>(
+    null
+  );
   const [showFeedback, setShowFeedback] = useState(false);
   const { updateOrder, isLoading } = useOrder();
-  
+
   const handleCancelOrder = async (reason?: string) => {
     try {
       const updatedOrder = await updateOrder(orderId.toString(), {
@@ -67,6 +71,7 @@ export default function OrderActions({
       });
       toast.success("Cảm ơn bạn đã gửi đánh giá!");
       setShowFeedback(false);
+      fetchOrder();
     } catch {
       toast.error("Có lỗi xảy ra khi gửi đánh giá");
     }
