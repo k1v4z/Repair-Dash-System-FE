@@ -56,13 +56,6 @@ export default function Hero() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-blue-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-blue-700 transition-colors"
-              >
-                Bắt Đầu Ngay
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
                 className="bg-white/10 backdrop-blur-sm text-white border-2 border-white/20 px-8 py-3 rounded-full text-lg font-semibold hover:bg-white/20 transition-colors"
                 onClick={() => navigate("/services/search")}
               >
