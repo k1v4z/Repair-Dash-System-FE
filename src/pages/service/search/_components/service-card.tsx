@@ -33,9 +33,17 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
       <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 p-4 h-full flex flex-col">
         <div className="flex gap-3 h-full">
           <div className="shrink-0">
-            <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-lg">
-              {service.service_name.charAt(0)}
-            </div>
+            {service.service_image ? (
+              <img
+                src={service.service_image}
+                alt={service.service_name}
+                className="w-12 h-12 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-lg">
+                {service.service_name.charAt(0)}
+              </div>
+            )}
           </div>
           <div className="flex-grow flex flex-col">
             <div className="flex justify-between items-start">

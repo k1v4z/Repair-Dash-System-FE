@@ -73,6 +73,8 @@ export default function OrderStatusBar({
     ((role !== "STORE" && order.store_canceled_description) ||
       (role === "STORE" && order.customer_canceled_description));
 
+  console.log(status, role)
+
   // Determine if the completion note should be shown
   const showCompletionNote =
     status === "COMPLETED" && order?.completed_description;

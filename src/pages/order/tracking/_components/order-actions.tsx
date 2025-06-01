@@ -16,16 +16,22 @@ import type { FeedbackFormData } from "@/schemas/order";
 interface OrderActionsProps {
   orderId: number;
   status: OrderStatus;
+  isFeedback: boolean;
+  fetchOrder: () => void;
   onOrderUpdated: (order: Order | null) => void;
 }
 
 export default function OrderActions({
   orderId,
   status,
+  isFeedback,
   onOrderUpdated,
+  fetchOrder,
 }: OrderActionsProps) {
   const navigate = useNavigate();
-  const [dialogActions, setDialogActions] = useState<DialogContent | null>(null);
+  const [dialogActions, setDialogActions] = useState<DialogContent | null>(
+    null
+  );
   const [showFeedback, setShowFeedback] = useState(false);
   const { updateOrder, isLoading } = useOrder();
 
@@ -65,6 +71,7 @@ export default function OrderActions({
       });
       toast.success("Cảm ơn bạn đã gửi đánh giá!");
       setShowFeedback(false);
+      fetchOrder();
     } catch {
       toast.error("Có lỗi xảy ra khi gửi đánh giá");
     }
@@ -109,6 +116,16 @@ export default function OrderActions({
           disabled={isLoading}
         >
           Xác nhận đã hoàn thành
+        </Button>
+      )}
+      {status === "COMPLETED" && !isFeedback && (
+        <Button
+          onClick={() => setShowFeedback(true)}
+          variant="outline"
+          className="border-yellow-500 text-yellow-600 hover:bg-yellow-50"
+          disabled={isLoading}
+        >
+          Đánh giá dịch vụ
         </Button>
       )}
       <Button onClick={handleBack} variant="outline">

@@ -18,13 +18,14 @@ export default function OrderTracking() {
   const { isLoading, error, getOrder } = useOrder();
   const [order, setOrder] = useState<Order | null>(null);
   const { user } = useAuthStore();
-  const isStore = user?.role === "STORE";
+  const isCustomer = user?.user_id == order?.customer_id;
+
+  const fetchOrder = async () => {
+    const order = await getOrder(orderId as string);
+    setOrder(order);
+  };
 
   useEffect(() => {
-    const fetchOrder = async () => {
-      const order = await getOrder(orderId as string);
-      setOrder(order);
-    };
     fetchOrder();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]);
@@ -47,9 +48,9 @@ export default function OrderTracking() {
     );
   }
 
-  const chatRecipientName = isStore
-    ? order.customer_full_name
-    : order.store_name || "Cửa hàng";
+  const chatRecipientName = isCustomer
+    ? order.store_name || "Cửa hàng"
+    : order.customer_full_name;
 
   // Check if RTC session ID exists, otherwise fallback to order ID
   const chatSessionId = order.order_rtc_session_id || order.order_id.toString();
@@ -66,16 +67,18 @@ export default function OrderTracking() {
           order={order}
         />
       </div>
-      {isStore ? (
-        <StoreOrderActions order={order} onOrderUpdated={onUpdateOrder} />
-      ) : (
+      {isCustomer ? (
         <div className="mb-6">
           <OrderActions
             orderId={order.order_id}
             status={order.order_status}
+            isFeedback={order.order_rating !== null}
             onOrderUpdated={onUpdateOrder}
+            fetchOrder={fetchOrder}
           />
         </div>
+      ) : (
+        <StoreOrderActions order={order} onOrderUpdated={onUpdateOrder} />
       )}
       <div className="grid md:grid-cols-2 gap-6 mb-6">
         <CustomerInformation order={order} onOrderUpdated={onUpdateOrder} />

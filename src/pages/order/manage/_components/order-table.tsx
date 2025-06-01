@@ -6,37 +6,78 @@ import { formatDate } from "@/utils/datetime/date";
 import type { ColumnDef } from "@tanstack/react-table";
 import Icon from "@/components/icons";
 import { TableCell } from "@/components/ui/table";
+import { useNavigate } from "react-router-dom";
+import { Role } from "@/types/globals.type";
 
 interface OrderTableProps {
   data: OrderByCustomer[];
   isLoading?: boolean;
   onOrderUpdated?: () => void;
+  userRole?: Role;
+  currentStoreId?: string;
 }
-
 interface ActionCellProps {
   order: OrderByCustomer;
-  onOrderUpdated?: () => void;
 }
 
 const ActionCell = ({ order }: ActionCellProps) => {
-  const handleView = () => {
-    window.open(`/booking-detail/${order.order_id}`, "_blank");
+  const navigate = useNavigate();
+  
+  const handleClick = () => {
+    navigate(`/booking-detail/${order.order_id}`);
   };
 
   return (
-    <>
+    <div className="flex gap-2">
       <Button
         variant="ghost"
         className="h-8 w-8 p-0"
-        onClick={() => handleView()}
+        onClick={handleClick}
       >
-        <Icon glyph="eyeNonBorder" className="h-4 w-4" />
+        <Icon 
+          glyph="eyeNonBorder" 
+          className="h-4 w-4 text-gray-500" 
+        />
       </Button>
-    </>
+    </div>
   );
 };
 
-const columns = (onOrderUpdated?: () => void): ColumnDef<OrderByCustomer>[] => [
+const ServiceNameCell = ({ 
+  serviceName, 
+  description, 
+  orderId 
+}: { 
+  serviceName: string; 
+  description: string; 
+  orderId: number;
+}) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/booking-detail/${orderId}`);
+  };
+
+  return (
+    <div 
+      className="flex flex-col cursor-pointer hover:text-blue-600 transition-colors duration-200 min-w-0 max-w-[250px]"
+      onClick={handleClick}
+    >
+      <span className="font-medium truncate w-full" title={serviceName}>
+        {serviceName}
+      </span>
+      <span
+        className="text-sm text-gray-500 truncate w-full"
+        title={description}
+      >
+        {description}
+      </span>
+    </div>
+  );
+};
+
+const columns = (
+): ColumnDef<OrderByCustomer>[] => [
   {
     accessorKey: "service_name",
     header: "Dịch vụ",
@@ -50,19 +91,13 @@ const columns = (onOrderUpdated?: () => void): ColumnDef<OrderByCustomer>[] => [
     cell: ({ row }) => {
       const serviceName = row.getValue("service_name") as string;
       const description = row.original.service_description as string;
-
+      
       return (
-        <div className="flex flex-col cursor-pointer hover:text-blue-600 transition-colors duration-200 min-w-0 max-w-[250px]">
-          <span className="font-medium truncate w-full" title={serviceName}>
-            {serviceName}
-          </span>
-          <span
-            className="text-sm text-gray-500 truncate w-full"
-            title={description}
-          >
-            {description}
-          </span>
-        </div>
+        <ServiceNameCell 
+          serviceName={serviceName}
+          description={description}
+          orderId={row.original.order_id}
+        />
       );
     },
   },
@@ -223,7 +258,9 @@ const columns = (onOrderUpdated?: () => void): ColumnDef<OrderByCustomer>[] => [
     enableSorting: false,
     cell: ({ row }) => {
       return (
-        <ActionCell order={row.original} onOrderUpdated={onOrderUpdated} />
+        <ActionCell 
+          order={row.original} 
+        />
       );
     },
   },
@@ -232,11 +269,12 @@ const columns = (onOrderUpdated?: () => void): ColumnDef<OrderByCustomer>[] => [
 export function OrderTable({
   data,
   isLoading = false,
-  onOrderUpdated,
 }: OrderTableProps) {
+  const tableColumns = columns();
+  
   return (
     <DataTable
-      columns={columns(onOrderUpdated)}
+      columns={tableColumns}
       data={data}
       loading={isLoading}
     />

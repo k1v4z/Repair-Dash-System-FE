@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
-import { Button } from "@/components/ui/button";
-import Icon from "@/components/icons";
+// import { Button } from "@/components/ui/button";
+// import Icon from "@/components/icons";
 import { PLANS } from "@/features/subscriptions/constants/pricing-plan";
 import SubscriptionItem from "./_components/subscription-item";
 
@@ -44,7 +44,7 @@ const SubscriptionPage = () => {
           <SubscriptionItem key={plan.id} plan={plan} />
         ))}
       </motion.div>
-      <motion.div
+      {/* <motion.div
         variants={fadeInUp}
         initial="hidden"
         animate="visible"
@@ -59,7 +59,7 @@ const SubscriptionPage = () => {
           <Icon glyph="message" className="mr-2 group-hover:animate-bounce" />
           Liên Hệ Hỗ Trợ
         </Button>
-      </motion.div>
+      </motion.div> */}
     </div>
   );
 };

@@ -30,7 +30,10 @@ export default function OrderManagement() {
           orders={orders as OrderByCustomer[]}
           onFilter={setFilteredOrders}
         />
-        <OrderTable data={filteredOrders || []} isLoading={isLoading} />
+        <OrderTable 
+          data={filteredOrders || []} 
+          isLoading={isLoading} 
+        />
       </div>
     </div>
   );

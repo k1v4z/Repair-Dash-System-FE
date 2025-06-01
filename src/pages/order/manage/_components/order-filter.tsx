@@ -184,7 +184,9 @@ export function OrderFilter({ orders = [], onFilter }: OrderFilterProps) {
       <Card className="shadow-lg border-0 bg-white overflow-hidden">
         <CardContent className="p-0">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-100">
+          <div className="flex items-center justify-between p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-100"                 
+          onClick={() => setIsExpanded(!isExpanded)}
+          >
             <div className="flex items-center gap-4">
               <motion.div
                 className="flex items-center justify-center w-12 h-12 bg-white rounded-xl shadow-sm"
@@ -223,7 +225,6 @@ export function OrderFilter({ orders = [], onFilter }: OrderFilterProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setIsExpanded(!isExpanded)}
                 className="text-gray-500 hover:text-gray-700 hover:bg-white/50 rounded-lg h-10 w-10 p-0"
               >
                 <Icon

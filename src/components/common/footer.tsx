@@ -1,12 +1,11 @@
 import Icons from "../icons";
-
+import routePath from "@/config/route";
 const NAVIGATION_LINKS = {
   main: [
-    { name: "Giới Thiệu", href: "#" },
-    { name: "Liên Hệ", href: "#" },
-    { name: "Câu Hỏi Thường Gặp", href: "#" },
-    { name: "Điều Khoản", href: "#" },
-    { name: "Bảo Mật", href: "#" },
+    { name: "Giới Thiệu", href: routePath.about },
+    { name: "Câu Hỏi Thường Gặp", href: routePath.faq },
+    { name: "Điều Khoản", href: routePath.terms },
+    { name: "Bảo Mật", href: routePath.privacy },
   ],
   social: [
     {

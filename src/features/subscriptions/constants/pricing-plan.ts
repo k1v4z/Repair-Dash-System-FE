@@ -26,7 +26,7 @@ export const PLANS: PricingPlan[] = [
     price: "80.000đ",
     description: "Mở khóa tất cả tính năng cao cấp",
     features: [
-      { text: "Tối đa 100 đơn được hoàn thành", included: true },
+      { text: "Tối đa 100 đơn được hoàn thành mỗi tháng", included: true },
       {
         text: "Ưu tiên hiển thị trên đầu trang khi khách tìm kiếm dịch vụ",
         included: true,
@@ -43,7 +43,7 @@ export const PLANS: PricingPlan[] = [
     price: "800.000đ",
     description: "Tiết kiệm 2 tháng phí",
     features: [
-      { text: "Tối đa 100 đơn được hoàn thành mỗi tháng", included: true },
+      { text: "Không giới hạn số đơn được hoàn thành", included: true },
       {
         text: "Ưu tiên hiển thị trên đầu trang khi khách tìm kiếm dịch vụ",
         included: true,

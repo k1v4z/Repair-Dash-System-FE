@@ -25,7 +25,7 @@ export interface AxiosResponse<T = undefined> {
   data?: T;
 }
 
-export type Role = "STORE" | "USER" | "ADMIN";
+export type Role = "STORE" | "CUSTOMER" | "ADMIN";
 
 export type DialogContent = {
   isOpen: boolean;

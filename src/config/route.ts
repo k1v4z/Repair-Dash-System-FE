@@ -18,6 +18,11 @@ const routePath = {
   subscription: "/subscription",
   paymentResult: "/payment-result",
   resetPassword: "/reset-password",
+  // Footer pages
+  about: "/about",
+  faq: "/faq",
+  terms: "/terms",
+  privacy: "/privacy",
 };
 
 export default routePath;
