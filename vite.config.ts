@@ -12,13 +12,5 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    proxy: {
-      "/api/v1": {
-        target: "http://192.168.1.86:5000",
-        changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/api\/v1/, "/api/v1"),
-      },
-    },
   },
 });
