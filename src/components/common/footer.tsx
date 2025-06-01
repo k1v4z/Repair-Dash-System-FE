@@ -1,12 +1,11 @@
 import Icons from "../icons";
-
+import routePath from "@/config/route";
 const NAVIGATION_LINKS = {
   main: [
-    { name: "About", href: "#" },
-    { name: "Contact", href: "#" },
-    { name: "FAQ", href: "#" },
-    { name: "Terms", href: "#" },
-    { name: "Privacy", href: "#" },
+    { name: "Giới Thiệu", href: routePath.about },
+    { name: "Câu Hỏi Thường Gặp", href: routePath.faq },
+    { name: "Điều Khoản", href: routePath.terms },
+    { name: "Bảo Mật", href: routePath.privacy },
   ],
   social: [
     {
@@ -59,7 +58,7 @@ const Footer = () => {
           ))}
         </div>
         <p className="mt-8 text-center text-base text-gray-400">
-          &copy; 2025 Repair Dash, Inc. All rights reserved.
+          &copy; 2025 Repair Dash. Đã đăng ký bản quyền.
         </p>
       </div>
     </footer>

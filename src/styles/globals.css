@@ -2,8 +2,6 @@
 @import url("./component.css");
 @import url("./utilities.css");
 
-@layer base {}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -12,3 +10,4 @@
     @apply bg-background text-foreground;
   }
 }
+
