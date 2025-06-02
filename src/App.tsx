@@ -2,6 +2,8 @@ import { Fragment } from "react/jsx-runtime";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import listRoute from "./routes";
 
+console.log("asdasdasd");
+
 function App() {
   return (
     <Router>
